@@ -1,6 +1,7 @@
 import pygame
 import json
 import os
+from components.pieces_cls import Pieces
 from components.pawns_cls import WhitePawns, BlackPawns
 from components.bishops_cls import Bishops
 from components.rooks_cls import Rooks
@@ -140,14 +141,10 @@ def main():
                         L_Rook_black, R_Rook_black, L_Knight_black, R_Knight_black,
                         L_Bishop_black, R_Bishop_black, Queen_black, King_black                        
                      ]
+    
+    
 
-    occupied_tiles = []
-
-    # DOENST WORK QUIET YET !!!!!!!!!!! 
-
-
-
-    # round_int = 0 
+    occupied_tiles = [] 
 
     while go:
 
@@ -156,7 +153,7 @@ def main():
 
         occupied_tiles.clear()
 
-        for piece in all_pieces_list:
+        for piece in Pieces.all_pieces_list:
             occupied_tiles.append((piece.x, piece.y))
 
         json_file = open(os.getcwd()+r"\components\constants.json", "r")
@@ -189,7 +186,7 @@ def main():
             pygame.draw.rect(screen, (247, 87, 87), [King_black.x, King_black.y, tile_size, tile_size])
 
         #draw all the pieces
-        for pieces in all_pieces_list:
+        for pieces in Pieces.all_pieces_list:
             pieces.draw()
 
         pygame.display.update()
@@ -213,27 +210,27 @@ def main():
                 mouse_pos = pygame.mouse.get_pos()
 
                 #checking if a Piece stands on the clicked tile
-                for piece in all_pieces_list:
+                for piece in Pieces.all_pieces_list:
                     if mouse_pos[0] >= piece.x and mouse_pos[1] >=piece.y:
                         if mouse_pos[0] < piece.x+tile_size and mouse_pos[1] < piece.y+tile_size:
 
                             if round_int % 2 == 1 and piece.farbe == (0,0,0) or round_int % 2 == 0 and piece.farbe == (255, 255, 255):
 
                                 if (white_is_checked or black_is_checked) and str(type(piece)) == "<class 'components.pieces_cls.Kings'>":
-                                    piece.move(occupied_tiles=occupied_tiles, all_pieces_list = all_pieces_list)
+                                    piece.move(occupied_tiles=occupied_tiles)
 
                                 elif (white_is_checked or black_is_checked) and str(type(piece)) != "<class 'components.pieces_cls.Kings'>":
                                     print('You have to deny check')
 
                                 else:
-                                    piece.move(occupied_tiles=occupied_tiles, all_pieces_list = all_pieces_list)
+                                    piece.move(occupied_tiles=occupied_tiles)
 
 
                                 for white_king in all_pieces_list:
                                     if str(type(white_king)) == "<class 'components.pieces_cls.Kings'>" and white_king.farbe == (255, 255, 255):
                                         for piece in all_pieces_list:
                                             if piece != white_king and piece.farbe != white_king.farbe:
-                                                if (white_king.x, white_king.y) in piece.attacted_tiles(all_pieces_list = all_pieces_list):
+                                                if (white_king.x, white_king.y) in piece.attacted_tiles():
                                                     white_is_checked = True
                                                     # checking_piece = piece
                                                     break
@@ -245,7 +242,7 @@ def main():
                                     if str(type(black_king)) == "<class 'components.pieces_cls.Kings'>" and black_king.farbe == (0, 0, 0):
                                         for piece in all_pieces_list:
                                             if piece != black_king and piece.farbe != black_king.farbe:
-                                                if (black_king.x, black_king.y) in piece.attacted_tiles(all_pieces_list = all_pieces_list):
+                                                if (black_king.x, black_king.y) in piece.attacted_tiles():
                                                     black_is_checked = True
                                                     checking_piece = piece
                                                     break

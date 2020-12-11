@@ -16,7 +16,7 @@ class Kings(Pieces):
     def __init__(self, master, name, tile_x, tile_y, farbe, image):
         super().__init__(master, name, tile_x, tile_y, farbe, image)
     
-    def getPossible_Moves(self, all_pieces_list):
+    def getPossible_Moves(self):
         possible_moves_unfiltered = [(self.x-tile_size, self.y+tile_size),
                                     (self.x-tile_size, self.y),
                                     (self.x-tile_size, self.y-tile_size),
@@ -32,7 +32,7 @@ class Kings(Pieces):
         possible = True
 
         for move in possible_moves_unfiltered:
-            for piece in all_pieces_list:
+            for piece in Pieces.all_pieces_list:
                 bool1 = bool(move[0] == piece.x)
                 bool2 = bool(move[1] == piece.y)
                 bool3 = bool(self.farbe == piece.farbe)
@@ -52,9 +52,9 @@ class Kings(Pieces):
         possible_moves_filtered = []
         
         for move in possible_moves_unfiltered:
-            for piece in all_pieces_list:
+            for piece in Pieces.all_pieces_list:
                 if piece.farbe != self.farbe and not 'King' in piece.name:
-                    piece_attacted_tiles_arr = piece.attacted_tiles(all_pieces_list = all_pieces_list)
+                    piece_attacted_tiles_arr = piece.attacted_tiles()
                     bool4 = bool(move in piece_attacted_tiles_arr)
                     if bool4:
                         possible = False

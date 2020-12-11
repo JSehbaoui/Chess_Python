@@ -12,6 +12,9 @@ json_file.close()
 
 
 class Pieces:
+
+    all_pieces_list = []
+
     def __init__(self, master, name, tile_x, tile_y, farbe, image):
         self.x = tile_x*tile_size
         self.y = tile_y*tile_size
@@ -24,6 +27,8 @@ class Pieces:
         elif farbe == 'weiss':
             self.farbe = (255,255,255)
         Pieces.draw(self)
+        Pieces.all_pieces_list.append(self)
+
 
     @staticmethod
     def round_increment():
@@ -36,9 +41,9 @@ class Pieces:
         json_file = open(os.getcwd()+r"\components\constants.json", "w")
         json_file.writelines(json.dumps(json_content))
         json_file.close()
-        round_int = json_content["round_int"] 
+        # round_int = json_content["round_int"] 
 
-        
+
 
         
 
@@ -48,13 +53,13 @@ class Pieces:
         self.master.blit(self.image, (self.x+10, self.y+10))
 
     
-    def move(self, occupied_tiles, all_pieces_list):
+    def move(self, occupied_tiles):
     
         go = True
         ok = True
         while go:
 
-            for tile in self.getPossible_Moves(all_pieces_list = all_pieces_list):
+            for tile in self.getPossible_Moves():
                 pygame.draw.rect(self.master, (152, 186, 0), [tile[0], tile[1], tile_size, tile_size])
 
                 fac1 = tile[0]/tile_size
@@ -67,7 +72,7 @@ class Pieces:
 
                 pygame.draw.rect(self.master, color , [tile[0]+10, tile[1]+10, tile_size-20, tile_size-20])
             
-            for pieces in all_pieces_list:
+            for pieces in Pieces.all_pieces_list:
                 pieces.draw()
 
             pygame.display.update()
@@ -87,10 +92,10 @@ class Pieces:
                     
                     
                     # create bool var
-                    for possible_move in self.getPossible_Moves(all_pieces_list=all_pieces_list):
+                    for possible_move in self.getPossible_Moves():
                         if mouse_pos[0] >= possible_move[0] and mouse_pos[1] >=possible_move[1]:
                             if mouse_pos[0] < possible_move[0]+tile_size and mouse_pos[1] < possible_move[1]+tile_size:
-                                for piece in all_pieces_list:
+                                for piece in Pieces.all_pieces_list:
                                     if mouse_pos[0] >= piece.x and mouse_pos[1] >= piece.y:
                                         if mouse_pos[0] < piece.x+tile_size and mouse_pos[1] < piece.y+tile_size:
                                             if self.farbe != piece.farbe:
@@ -104,14 +109,14 @@ class Pieces:
                                                 self.y = possible_move[1]
                                                 
                                                 Pieces.draw(self)
-                                                all_pieces_list.remove(piece)
+                                                Pieces.all_pieces_list.remove(piece)
 
                                                 if 'Pawn-B' in self.name and self.y == 490 or 'Pawn-W' in self.name and self.y == 0:
-                                                    self.promotion(all_pieces_list = all_pieces_list)
+                                                    self.promotion()
 
 
 
-                                                return all_pieces_list
+                                                
                                             else:
                                                 ok = False 
 
@@ -132,7 +137,7 @@ class Pieces:
                                     go = False
 
                                     if 'Pawn_B' in self.name and self.x == 350 or 'Pawn_W' in self.name and self.x == 0:
-                                        self.promotion(all_pieces_list = all_pieces_list)
+                                        self.promotion()
                             
                             else:
                                 go = False
@@ -141,15 +146,15 @@ class Pieces:
                     go = False
             
                 
-    def getPossible_Moves(self, all_pieces_list):
+    def getPossible_Moves(self):
         return ''
 
-    def promotion(self, all_pieces_list):
+    def promotion(self):
         pass
 
 
 
-    def check_row_tiles(self, current_moves, step_x, step_y, all_pieces_list, attacking):
+    def check_row_tiles(self, current_moves, step_x, step_y, attacking):
         free_bool = False
         go = True
         num = 0
@@ -157,7 +162,7 @@ class Pieces:
             num += 1
             testing_move = (self.x+step_x*num, self.y+step_y*num)
 
-            for piece in all_pieces_list:
+            for piece in Pieces.all_pieces_list:
                 if testing_move[0] == piece.x and testing_move[1] == piece.y:
                     go = False
                     if attacking:
@@ -179,8 +184,8 @@ class Pieces:
 
         return current_moves
 
-    def attacted_tiles(self, all_pieces_list):
-        attacted_tiles = self.getPossible_Moves(all_pieces_list=all_pieces_list)
+    def attacted_tiles(self):
+        attacted_tiles = self.getPossible_Moves()
 
         return attacted_tiles
 

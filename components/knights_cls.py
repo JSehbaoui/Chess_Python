@@ -16,7 +16,7 @@ class Knights(Pieces):
     def __init__(self, master, name, tile_x, tile_y, farbe, image):
         super().__init__(master, name, tile_x, tile_y, farbe, image)
     
-    def getPossible_Moves(self, all_pieces_list):
+    def getPossible_Moves(self):
         possible_moves = [(self.x-2*tile_size, self.y+tile_size),
                             (self.x-2*tile_size, self.y-tile_size),
                             (self.x-tile_size, self.y+2*tile_size),
@@ -32,7 +32,7 @@ class Knights(Pieces):
         lenght_array = len(possible_moves)
 
         for i in range(lenght_array):
-            for piece in all_pieces_list:
+            for piece in Pieces.all_pieces_list:
                 bool1 = bool(possible_moves[i][0] == piece.x)
                 bool2 = bool(possible_moves[i][1] == piece.y)
                 bool3 = bool(self.farbe == piece.farbe)

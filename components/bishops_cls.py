@@ -16,22 +16,22 @@ class Bishops(Pieces):
     def __init__(self, master, name, tile_x, tile_y, farbe, image):
         super().__init__(master, name, tile_x, tile_y, farbe, image)
     
-    def getPossible_Moves(self, all_pieces_list):
+    def getPossible_Moves(self):
         possible_moves = []
         
-        self.check_row_tiles(current_moves = possible_moves, step_x = tile_size, step_y = tile_size, all_pieces_list = all_pieces_list, attacking = False)
-        self.check_row_tiles(current_moves = possible_moves, step_x = tile_size*-1, step_y = tile_size, all_pieces_list = all_pieces_list, attacking = False)
-        self.check_row_tiles(current_moves = possible_moves, step_x = tile_size*-1, step_y = tile_size*-1, all_pieces_list = all_pieces_list, attacking = False)
-        self.check_row_tiles(current_moves = possible_moves, step_x = tile_size, step_y = tile_size*-1, all_pieces_list = all_pieces_list, attacking = False)
+        self.check_row_tiles(current_moves = possible_moves, step_x = tile_size, step_y = tile_size,  attacking = False)
+        self.check_row_tiles(current_moves = possible_moves, step_x = tile_size*-1, step_y = tile_size,  attacking = False)
+        self.check_row_tiles(current_moves = possible_moves, step_x = tile_size*-1, step_y = tile_size*-1,  attacking = False)
+        self.check_row_tiles(current_moves = possible_moves, step_x = tile_size, step_y = tile_size*-1,  attacking = False)
 
         return possible_moves
 
-    def attacted_tiles(self, all_pieces_list):
+    def attacted_tiles(self):
         possible_moves = []
         
-        self.check_row_tiles(current_moves = possible_moves, step_x = tile_size, step_y = tile_size, all_pieces_list = all_pieces_list, attacking = True)
-        self.check_row_tiles(current_moves = possible_moves, step_x = tile_size*-1, step_y = tile_size, all_pieces_list = all_pieces_list, attacking = True)
-        self.check_row_tiles(current_moves = possible_moves, step_x = tile_size*-1, step_y = tile_size*-1, all_pieces_list = all_pieces_list, attacking = True)
-        self.check_row_tiles(current_moves = possible_moves, step_x = tile_size, step_y = tile_size*-1, all_pieces_list = all_pieces_list, attacking = True)
+        self.check_row_tiles(current_moves = possible_moves, step_x = tile_size, step_y = tile_size,  attacking = True)
+        self.check_row_tiles(current_moves = possible_moves, step_x = tile_size*-1, step_y = tile_size,  attacking = True)
+        self.check_row_tiles(current_moves = possible_moves, step_x = tile_size*-1, step_y = tile_size*-1,  attacking = True)
+        self.check_row_tiles(current_moves = possible_moves, step_x = tile_size, step_y = tile_size*-1,  attacking = True)
 
         return possible_moves
