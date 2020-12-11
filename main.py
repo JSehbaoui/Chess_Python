@@ -8,6 +8,7 @@ from components.rooks_cls import Rooks
 from components.knights_cls import Knights
 from components.queens_cls import Queens
 from components.kings_cls import Kings
+from components.draw_board import draw_board
 
 json_file = open(r'components\constants.json', 'r')
 json_content = json.load(json_file)
@@ -17,7 +18,6 @@ json_file.close()
 json_file = open(r'components\constants.json', 'w')
 json_file.writelines(json.dumps(json_content))
 json_file.close()
-
 
 
 def main():
@@ -43,23 +43,11 @@ def main():
     clock = pygame.time.Clock()
 
     #creating the board
-    tile_dir_list = []
-    for y in range(8):
-        tile_dir_list.append([])
-        for x in range(8):
-            tile_dir_list[y].append((x*tile_size, y*tile_size))
-            if y % 2 == 0:
-                if x % 2 == 0:
-                    pygame.draw.rect(screen, (245, 216, 188), [x*tile_size, y*tile_size, tile_size, tile_size])
-                else:
-                    pygame.draw.rect(screen, (176, 142, 109), [x*tile_size, y*tile_size, tile_size, tile_size])
-            else:
-                if x % 2 == 0:
-                    pygame.draw.rect(screen, (176, 142, 109), [x*tile_size, y*tile_size, tile_size, tile_size])
-                else:
-                    pygame.draw.rect(screen, (245, 216, 188), [x*tile_size, y*tile_size, tile_size, tile_size])
+    
 
 
+
+    draw_board(screen = screen, tile_size = tile_size)
     #summoning the Pieces
 
     white_pawn_img = pygame.image.load(r'assets/white_pawn.png')
@@ -93,63 +81,47 @@ def main():
 
 
     # Keine magicnumbers (num_7 = 7)
-    A_Pawn_white =      WhitePawns(master = screen, name = 'A-Pawn-W', tile_x = 0, tile_y = 6, farbe = 'weiss', image = white_pawn_img)
-    B_Pawn_white =      WhitePawns(master = screen, name = 'B-Pawn-W', tile_x = 1, tile_y = 6, farbe = 'weiss', image = white_pawn_img)
-    C_Pawn_white =      WhitePawns(master = screen, name = 'C-Pawn-W', tile_x = 2, tile_y = 6, farbe = 'weiss', image = white_pawn_img)
-    D_Pawn_white =      WhitePawns(master = screen, name = 'D-Pawn-W', tile_x = 3, tile_y = 6, farbe = 'weiss', image = white_pawn_img)
-    E_Pawn_white =      WhitePawns(master = screen, name = 'E-Pawn-W', tile_x = 4, tile_y = 6, farbe = 'weiss', image = white_pawn_img)
-    F_Pawn_white =      WhitePawns(master = screen, name = 'F-Pawn-W', tile_x = 5, tile_y = 6, farbe = 'weiss', image = white_pawn_img)
-    G_Pawn_white =      WhitePawns(master = screen, name = 'G-Pawn-W', tile_x = 6, tile_y = 6, farbe = 'weiss', image = white_pawn_img)
-    H_Pawn_white =      WhitePawns(master = screen, name = 'H-Pawn-W', tile_x = 7, tile_y = 6, farbe = 'weiss', image = white_pawn_img)
-    L_Rook_white =      Rooks(master = screen, name = 'L-Rook-W', tile_x = 0, tile_y = 7, farbe = 'weiss', image = white_rook_img)
-    R_Rook_white =      Rooks(master = screen, name = 'R-Rook-W', tile_x = 7, tile_y = 7, farbe = 'weiss', image = white_rook_img)
-    L_Knight_white =    Knights(master = screen, name = 'L-Knight-W', tile_x = 6, tile_y = 7, farbe = 'weiss', image = white_knight_img)
-    R_Knight_white =    Knights(master = screen, name = 'R-Knight-W', tile_x = 1, tile_y = 7, farbe = 'weiss', image = white_knight_img)
-    L_Bishop_white =   Bishops(master = screen, name = 'L-Bishop-W', tile_x = 2, tile_y = 7, farbe = 'weiss', image = white_bishop_img)
-    R_Bishop_white =   Bishops(master = screen, name = 'R-Bishop-W', tile_x = 5, tile_y = 7, farbe = 'weiss', image = white_bishop_img)
-    Queen_white =       Queens(master = screen, name = 'Queen-W', tile_x = 3, tile_y = 7, farbe = 'weiss', image = white_queen_img)
-    King_white =        Kings(master = screen, name = 'King-W', tile_x = 4, tile_y = 7, farbe = 'weiss', image = white_king_img)
-    
-    
-
-    A_Pawn_black =      BlackPawns(master = screen, name = 'A-Pawn-B', tile_x = 0, tile_y = 1, farbe = 'schwarz', image = black_pawn_img)
-    B_Pawn_black =      BlackPawns(master = screen, name = 'B-Pawn-B', tile_x = 1, tile_y = 1, farbe = 'schwarz', image = black_pawn_img)
-    C_Pawn_black =      BlackPawns(master = screen, name = 'C-Pawn-B', tile_x = 2, tile_y = 1, farbe = 'schwarz', image = black_pawn_img)
-    D_Pawn_black =      BlackPawns(master = screen, name = 'D-Pawn-B', tile_x = 3, tile_y = 1, farbe = 'schwarz', image = black_pawn_img)
-    E_Pawn_black =      BlackPawns(master = screen, name = 'E-Pawn-B', tile_x = 4, tile_y = 1, farbe = 'schwarz', image = black_pawn_img)
-    F_Pawn_black =      BlackPawns(master = screen, name = 'F-Pawn-B', tile_x = 5, tile_y = 1, farbe = 'schwarz', image = black_pawn_img)
-    G_Pawn_black =      BlackPawns(master = screen, name = 'G-Pawn-B', tile_x = 6, tile_y = 1, farbe = 'schwarz', image = black_pawn_img)
-    H_Pawn_black =      BlackPawns(master = screen, name = 'H-Pawn-B', tile_x = 7, tile_y = 1, farbe = 'schwarz', image = black_pawn_img)
-    L_Rook_black =      Rooks(master = screen, name = 'L-Rook-B', tile_x = 0, tile_y = 0, farbe = 'schwarz', image = black_rook_img)
-    R_Rook_black =      Rooks(master = screen, name = 'R-Rook-B', tile_x = 7, tile_y = 0, farbe = 'schwarz', image = black_rook_img)
-    L_Knight_black =    Knights(master = screen, name = 'L-Knight-B', tile_x = 1, tile_y = 0, farbe = 'schwarz', image = black_knight_img)
-    R_Knight_black =    Knights(master = screen, name = 'R-Knight-B', tile_x = 6, tile_y = 0, farbe = 'schwarz', image = black_knight_img)
-    L_Bishop_black =   Bishops(master = screen, name = 'L-Bishop-B', tile_x = 2, tile_y = 0, farbe = 'schwarz', image = black_bishop_img)
-    R_Bishop_black =   Bishops(master = screen, name = 'R-Bishop-B', tile_x = 5, tile_y = 0, farbe = 'schwarz', image = black_bishop_img)
-    Queen_black =       Queens(master = screen, name = 'Queen-B', tile_x = 3, tile_y = 0, farbe = 'schwarz', image = black_queen_img)
-    King_black =        Kings(master = screen, name = 'King-B', tile_x = 4, tile_y = 0, farbe = 'schwarz', image = black_king_img)
-    
+    WhitePawns(master = screen, name = 'A-Pawn-W', tile_x = 0, tile_y = 6, farbe = 'weiss', image = white_pawn_img)
+    WhitePawns(master = screen, name = 'B-Pawn-W', tile_x = 1, tile_y = 6, farbe = 'weiss', image = white_pawn_img)
+    WhitePawns(master = screen, name = 'C-Pawn-W', tile_x = 2, tile_y = 6, farbe = 'weiss', image = white_pawn_img)
+    WhitePawns(master = screen, name = 'D-Pawn-W', tile_x = 3, tile_y = 6, farbe = 'weiss', image = white_pawn_img)
+    WhitePawns(master = screen, name = 'E-Pawn-W', tile_x = 4, tile_y = 6, farbe = 'weiss', image = white_pawn_img)
+    WhitePawns(master = screen, name = 'F-Pawn-W', tile_x = 5, tile_y = 6, farbe = 'weiss', image = white_pawn_img)
+    WhitePawns(master = screen, name = 'G-Pawn-W', tile_x = 6, tile_y = 6, farbe = 'weiss', image = white_pawn_img)
+    WhitePawns(master = screen, name = 'H-Pawn-W', tile_x = 7, tile_y = 6, farbe = 'weiss', image = white_pawn_img)
+    Rooks(master = screen, name = 'L-Rook-W', tile_x = 0, tile_y = 7, farbe = 'weiss', image = white_rook_img)
+    Rooks(master = screen, name = 'R-Rook-W', tile_x = 7, tile_y = 7, farbe = 'weiss', image = white_rook_img)
+    Knights(master = screen, name = 'L-Knight-W', tile_x = 6, tile_y = 7, farbe = 'weiss', image = white_knight_img)
+    Knights(master = screen, name = 'R-Knight-W', tile_x = 1, tile_y = 7, farbe = 'weiss', image = white_knight_img)
+    Bishops(master = screen, name = 'L-Bishop-W', tile_x = 2, tile_y = 7, farbe = 'weiss', image = white_bishop_img)
+    Bishops(master = screen, name = 'R-Bishop-W', tile_x = 5, tile_y = 7, farbe = 'weiss', image = white_bishop_img)
+    Queens(master = screen, name = 'Queen-W', tile_x = 3, tile_y = 7, farbe = 'weiss', image = white_queen_img)
+    Kings(master = screen, name = 'King-W', tile_x = 4, tile_y = 7, farbe = 'weiss', image = white_king_img)
+    BlackPawns(master = screen, name = 'A-Pawn-B', tile_x = 0, tile_y = 1, farbe = 'schwarz', image = black_pawn_img)
+    BlackPawns(master = screen, name = 'B-Pawn-B', tile_x = 1, tile_y = 1, farbe = 'schwarz', image = black_pawn_img)
+    BlackPawns(master = screen, name = 'C-Pawn-B', tile_x = 2, tile_y = 1, farbe = 'schwarz', image = black_pawn_img)
+    BlackPawns(master = screen, name = 'D-Pawn-B', tile_x = 3, tile_y = 1, farbe = 'schwarz', image = black_pawn_img)
+    BlackPawns(master = screen, name = 'E-Pawn-B', tile_x = 4, tile_y = 1, farbe = 'schwarz', image = black_pawn_img)
+    BlackPawns(master = screen, name = 'F-Pawn-B', tile_x = 5, tile_y = 1, farbe = 'schwarz', image = black_pawn_img)
+    BlackPawns(master = screen, name = 'G-Pawn-B', tile_x = 6, tile_y = 1, farbe = 'schwarz', image = black_pawn_img)
+    BlackPawns(master = screen, name = 'H-Pawn-B', tile_x = 7, tile_y = 1, farbe = 'schwarz', image = black_pawn_img)
+    Rooks(master = screen, name = 'L-Rook-B', tile_x = 0, tile_y = 0, farbe = 'schwarz', image = black_rook_img)
+    Rooks(master = screen, name = 'R-Rook-B', tile_x = 7, tile_y = 0, farbe = 'schwarz', image = black_rook_img)
+    Knights(master = screen, name = 'L-Knight-B', tile_x = 1, tile_y = 0, farbe = 'schwarz', image = black_knight_img)
+    Knights(master = screen, name = 'R-Knight-B', tile_x = 6, tile_y = 0, farbe = 'schwarz', image = black_knight_img)
+    Bishops(master = screen, name = 'L-Bishop-B', tile_x = 2, tile_y = 0, farbe = 'schwarz', image = black_bishop_img)
+    Bishops(master = screen, name = 'R-Bishop-B', tile_x = 5, tile_y = 0, farbe = 'schwarz', image = black_bishop_img)
+    Queens(master = screen, name = 'Queen-B', tile_x = 3, tile_y = 0, farbe = 'schwarz', image = black_queen_img)
+    Kings(master = screen, name = 'King-B', tile_x = 4, tile_y = 0, farbe = 'schwarz', image = black_king_img)
     
 
-    all_pieces_list =[
-                        A_Pawn_white, B_Pawn_white, C_Pawn_white, D_Pawn_white,
-                        E_Pawn_white, F_Pawn_white, G_Pawn_white, H_Pawn_white,
-                        L_Rook_white, R_Rook_white, L_Knight_white, R_Knight_white,
-                        L_Bishop_white, R_Bishop_white, Queen_white, King_white,
-                        A_Pawn_black, B_Pawn_black, C_Pawn_black, D_Pawn_black,
-                        E_Pawn_black, F_Pawn_black, G_Pawn_black, H_Pawn_black,
-                        L_Rook_black, R_Rook_black, L_Knight_black, R_Knight_black,
-                        L_Bishop_black, R_Bishop_black, Queen_black, King_black                        
-                     ]
-    
-    
 
     occupied_tiles = [] 
 
     while go:
 
         #Frames
-        clock.tick(30)
+        clock.tick(60)
 
         occupied_tiles.clear()
 
@@ -226,9 +198,9 @@ def main():
                                     piece.move(occupied_tiles=occupied_tiles)
 
 
-                                for white_king in all_pieces_list:
+                                for white_king in Pieces.all_pieces_list:
                                     if str(type(white_king)) == "<class 'components.pieces_cls.Kings'>" and white_king.farbe == (255, 255, 255):
-                                        for piece in all_pieces_list:
+                                        for piece in Pieces.all_pieces_list:
                                             if piece != white_king and piece.farbe != white_king.farbe:
                                                 if (white_king.x, white_king.y) in piece.attacted_tiles():
                                                     white_is_checked = True
@@ -238,9 +210,9 @@ def main():
                                                     white_is_checked = False
                                                     checking_piece = None
 
-                                for black_king in all_pieces_list:
+                                for black_king in Pieces.all_pieces_list:
                                     if str(type(black_king)) == "<class 'components.pieces_cls.Kings'>" and black_king.farbe == (0, 0, 0):
-                                        for piece in all_pieces_list:
+                                        for piece in Pieces.all_pieces_list:
                                             if piece != black_king and piece.farbe != black_king.farbe:
                                                 if (black_king.x, black_king.y) in piece.attacted_tiles():
                                                     black_is_checked = True

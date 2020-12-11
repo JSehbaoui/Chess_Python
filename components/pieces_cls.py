@@ -1,6 +1,7 @@
 import pygame
 import json
 import os
+from components.draw_board import draw_board
 
 json_file = open(os.getcwd()+r"\components\constants.json", "r")
 json_content = json.load(json_file)
@@ -43,8 +44,37 @@ class Pieces:
         json_file.close()
         # round_int = json_content["round_int"] 
 
+    def animate(self, start_pos_x, start_pos_y, stop_pos_x, stop_pos_y, time):
+        newx = 0
+        newy = 0
+        counter = 0
+        clocktick = 60
+        time = time* clocktick
+
+        clock = pygame.time.Clock()
+
+        while counter <= time:
+
+            clock.tick(clocktick)
+
+            dis_vec_x = stop_pos_x-start_pos_x
+            dis_vec_y = stop_pos_y-start_pos_y
+
+            speed_x = dis_vec_x/time
+            speed_y = dis_vec_y/time
 
 
+            draw_board(screen = self.master, tile_size = tile_size)
+            for piece in Pieces.all_pieces_list:
+                if piece != self:
+                    piece.draw()
+            self.master.blit(self.image, (self.x+10+newx, self.y+10+newy))
+
+            pygame.display.update()
+            newx+= speed_x
+            newy+= speed_y
+            counter += 1
+    
         
 
 
@@ -105,6 +135,8 @@ class Pieces:
 
                                                 Pieces.round_increment()
 
+                                                self.animate(self.x, self.y, possible_move[0], possible_move[1], 0.2)
+
                                                 self.x = possible_move[0]
                                                 self.y = possible_move[1]
                                                 
@@ -128,6 +160,8 @@ class Pieces:
                                         pass
                                     
                                 if ok: 
+
+                                    self.animate(self.x, self.y, possible_move[0], possible_move[1], 0.2)
                                 
                                     self.x = possible_move[0]
                                     self.y = possible_move[1]
