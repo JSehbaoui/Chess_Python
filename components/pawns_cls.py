@@ -1,5 +1,5 @@
 import pygame
-from pieces_cls import Pieces
+from .pieces_cls import Pieces
 
 class BlackPawns(Pieces):
     def __init__(self, master, name, tile_x, tile_y, farbe, image):

@@ -1,6 +1,12 @@
 import pygame
+import json
+import os
 
-round_int = 0
+json_file = open(os.getcwd()+r"\constants.json", "r")
+json_content = json.load(json_file)
+
+round_int = json_content["round_int"]
+print(round_int)
 tile_size = 120
 
 class Pieces:

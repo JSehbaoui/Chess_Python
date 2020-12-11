@@ -1,5 +1,11 @@
 import pygame
-from components.pieces_cls import *
+from components.pawns_cls import WhitePawns, BlackPawns
+from components.bishops_cls import Bishops
+from components.rooks_cls import Rooks
+from components.knights_cls import Knights
+from components.queens_cls import Queens
+from components.kings_cls import Kings
+
 
 tile_size = 120
 round_int = 0
