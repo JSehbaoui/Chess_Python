@@ -18,22 +18,23 @@ class Rooks(Pieces):
 
     def getPossible_Moves(self):
         possible_moves = []
-
         finite_moves = []
 
-    
+        # getting the regular moves for the x+, x-, y+, y- Axis
         self.check_row_tiles(current_moves = possible_moves, step_x = tile_size, step_y = 0,  attacking = False)
         self.check_row_tiles(current_moves = possible_moves, step_x= tile_size*-1, step_y = 0,  attacking = False)
         self.check_row_tiles(current_moves = possible_moves, step_x= 0, step_y = tile_size,  attacking = False)
         self.check_row_tiles(current_moves = possible_moves, step_x= 0, step_y = tile_size*-1,  attacking = False)
 
+        # if white or black is checked look if you can move at an attacked square, from the attacking piece
         if Pieces.white_is_checked or Pieces.black_is_checked:
             enemy_moves = Pieces.checking_piece.attacted_tiles()
             for possible_move in possible_moves:
                 for enemy_move in enemy_moves:
                     if enemy_move == possible_move:
                         finite_moves.append(possible_move)
-        
+
+        # else just pass the regular moves
         else:
             finite_moves = possible_moves
 
