@@ -34,8 +34,8 @@ def main():
     screen_size = (8*tile_size, 8*tile_size)
 
     go = True
-    white_is_checked = False
-    black_is_checked = False    
+    Pieces.white_is_checked = False
+    Pieces.black_is_checked = False    
 
     screen = pygame.display.set_mode(screen_size)
     pygame.display.set_caption("Chess")
@@ -137,25 +137,18 @@ def main():
         json_file.close()
 
         #creating the board
-        for y in range(8):
-            for x in range(8):
-                if y % 2 == 0:
-                    if x % 2 == 0:
-                        pygame.draw.rect(screen, (245, 216, 188), [x*tile_size, y*tile_size, tile_size, tile_size])
-                    else:
-                        pygame.draw.rect(screen, (176, 142, 109), [x*tile_size, y*tile_size, tile_size, tile_size])
-                else:
-                    if x % 2 == 0:
-                        pygame.draw.rect(screen, (176, 142, 109), [x*tile_size, y*tile_size, tile_size, tile_size])
-                    else:
-                        pygame.draw.rect(screen, (245, 216, 188), [x*tile_size, y*tile_size, tile_size, tile_size])
+        draw_board(screen = screen, tile_size = tile_size)
 
 
-        if white_is_checked:
-            pygame.draw.rect(screen, (247, 87, 87), [King_white.x, King_white.y, tile_size, tile_size])
+        if Pieces.white_is_checked:
+            for king in Pieces.all_pieces_list:
+                if isinstance(king, Kings):
+                    pygame.draw.rect(screen, (247, 87, 87), [king.x, king.y, tile_size, tile_size])
     
-        elif black_is_checked:
-            pygame.draw.rect(screen, (247, 87, 87), [King_black.x, King_black.y, tile_size, tile_size])
+        elif Pieces.black_is_checked:
+            for king in Pieces.all_pieces_list:
+                if isinstance(king, Kings):
+                    pygame.draw.rect(screen, (247, 87, 87), [King_black.x, King_black.y, tile_size, tile_size])
 
         #draw all the pieces
         for pieces in Pieces.all_pieces_list:
@@ -176,7 +169,7 @@ def main():
                 if event.key == pygame.K_ESCAPE:
                     pygame.event.post(pygame.event.Event(pygame.QUIT))
                 if event.key == pygame.K_DOWN:
-                    print(type(King_black))
+                    pass
             #Mouse-Inputs
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse_pos = pygame.mouse.get_pos()
@@ -188,41 +181,34 @@ def main():
 
                             if round_int % 2 == 1 and piece.farbe == (0,0,0) or round_int % 2 == 0 and piece.farbe == (255, 255, 255):
 
-                                if (white_is_checked or black_is_checked) and str(type(piece)) == "<class 'components.pieces_cls.Kings'>":
-                                    piece.move(occupied_tiles=occupied_tiles)
-
-                                elif (white_is_checked or black_is_checked) and str(type(piece)) != "<class 'components.pieces_cls.Kings'>":
-                                    print('You have to deny check')
-
-                                else:
-                                    piece.move(occupied_tiles=occupied_tiles)
+                                piece.move(occupied_tiles = occupied_tiles)
 
 
                                 for white_king in Pieces.all_pieces_list:
-                                    if str(type(white_king)) == "<class 'components.pieces_cls.Kings'>" and white_king.farbe == (255, 255, 255):
+                                    if isinstance(white_king, Kings) and white_king.farbe == (255, 255, 255):
                                         for piece in Pieces.all_pieces_list:
                                             if piece != white_king and piece.farbe != white_king.farbe:
                                                 if (white_king.x, white_king.y) in piece.attacted_tiles():
-                                                    white_is_checked = True
-                                                    # checking_piece = piece
+                                                    Pieces.white_is_checked = True
+                                                    Pieces.checking_piece = piece
                                                     break
                                                 else:
-                                                    white_is_checked = False
-                                                    checking_piece = None
+                                                    Pieces.white_is_checked = False
+                                                    Pieces.checking_piece = None
 
                                 for black_king in Pieces.all_pieces_list:
-                                    if str(type(black_king)) == "<class 'components.pieces_cls.Kings'>" and black_king.farbe == (0, 0, 0):
+                                    if type(black_king) == type(Kings) and black_king.farbe == (0, 0, 0):
                                         for piece in Pieces.all_pieces_list:
                                             if piece != black_king and piece.farbe != black_king.farbe:
                                                 if (black_king.x, black_king.y) in piece.attacted_tiles():
-                                                    black_is_checked = True
-                                                    checking_piece = piece
+                                                    Pieces.black_is_checked = True
+                                                    Pieces.checking_piece = piece
                                                     break
                                                 else:
-                                                    black_is_checked = False
-                                                    checking_piece = None
+                                                    Pieces.black_is_checked = False
+                                                    Pieces.checking_piece = None
 
-                                if white_is_checked or black_is_checked:
+                                if Pieces.white_is_checked or Pieces.black_is_checked:
                                     print('Someone is checked')
     
     json_file = open(r'components\constants.json', 'r')

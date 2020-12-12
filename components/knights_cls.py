@@ -46,6 +46,18 @@ class Knights(Pieces):
             #nasty shit
             for i in range(len(index_list)):
                 index_list[i] -= 1
+        
+        finite_moves = []
+
+        if Pieces.white_is_checked or Pieces.black_is_checked:
+            enemy_moves = Pieces.checking_piece.attacted_tiles()
+            for possible_move in possible_moves:
+                for enemy_move in enemy_moves:
+                    if enemy_move == possible_move:
+                        finite_moves.append(possible_move)
+
+        else:
+            finite_moves = possible_moves
 
 
-        return possible_moves
+        return finite_moves

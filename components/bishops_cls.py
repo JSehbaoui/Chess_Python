@@ -18,13 +18,24 @@ class Bishops(Pieces):
     
     def getPossible_Moves(self):
         possible_moves = []
+        finite_moves = []
         
         self.check_row_tiles(current_moves = possible_moves, step_x = tile_size, step_y = tile_size,  attacking = False)
         self.check_row_tiles(current_moves = possible_moves, step_x = tile_size*-1, step_y = tile_size,  attacking = False)
         self.check_row_tiles(current_moves = possible_moves, step_x = tile_size*-1, step_y = tile_size*-1,  attacking = False)
         self.check_row_tiles(current_moves = possible_moves, step_x = tile_size, step_y = tile_size*-1,  attacking = False)
 
-        return possible_moves
+        if Pieces.white_is_checked or Pieces.black_is_checked:
+            enemy_moves = Pieces.checking_piece.attacted_tiles()
+            for possible_move in possible_moves:
+                for enemy_move in enemy_moves:
+                    if enemy_move == possible_move:
+                        finite_moves.append(possible_move)
+
+        else:
+            finite_moves = possible_moves
+
+        return finite_moves
 
     def attacted_tiles(self):
         possible_moves = []

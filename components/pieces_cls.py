@@ -16,6 +16,11 @@ class Pieces:
 
     all_pieces_list = []
 
+    white_is_checked = False
+    black_is_checked = False
+
+    checking_piece = None
+
     def __init__(self, master, name, tile_x, tile_y, farbe, image):
         self.x = tile_x*tile_size
         self.y = tile_y*tile_size
@@ -87,6 +92,8 @@ class Pieces:
     
         go = True
         ok = True
+
+
         while go:
 
             for tile in self.getPossible_Moves():

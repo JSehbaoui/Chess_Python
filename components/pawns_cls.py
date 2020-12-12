@@ -18,9 +18,11 @@ class BlackPawns(Pieces):
         super().__init__(master, name, tile_x, tile_y, farbe, image)
     
     def getPossible_Moves(self):
-             
+
+        finite_moves = []     
         # the normal pawn move
         possible_moves = [(self.x, self.y+tile_size)]
+
         
         # if the pawn stands on its first square, the it can move two squares forward
         for piece in Pieces.all_pieces_list:
@@ -40,9 +42,19 @@ class BlackPawns(Pieces):
                 
             if self.x-tile_size == piece.x and self.y+tile_size == piece.y and self.farbe != piece.farbe:
                 possible_moves.append((self.x-tile_size, self.y+tile_size))
-                
+        
+        if Pieces.white_is_checked or Pieces.black_is_checked:
+            enemy_moves = Pieces.checking_piece.attacted_tiles()
+            for possible_move in possible_moves:
+                for enemy_move in enemy_moves:
+                    if enemy_move == possible_move:
+                        finite_moves.append(possible_move)
+        
+        else:
+            finite_moves = possible_moves 
 
-        return possible_moves
+
+        return finite_moves
         
 
     def promotion(self):
@@ -64,6 +76,8 @@ class WhitePawns(Pieces):
         super().__init__(master, name, tile_x, tile_y, farbe, image)
     
     def getPossible_Moves(self):
+
+        finite_moves = []
         # the normal pawn move
         possible_moves = [(self.x, self.y-tile_size)]
         
@@ -86,7 +100,17 @@ class WhitePawns(Pieces):
                 possible_moves.append((self.x-tile_size, self.y-tile_size))
                 break
 
-        return possible_moves
+        if Pieces.white_is_checked or Pieces.black_is_checked:
+            enemy_moves = Pieces.checking_piece.attacted_tiles()
+            for possible_move in possible_moves:
+                for enemy_move in enemy_moves:
+                    if enemy_move == possible_move:
+                        finite_moves.append(possible_move)
+        
+        else:
+            finite_moves = possible_moves 
+
+        return finite_moves
 
     def attacted_tiles(self):
         return [(self.x+tile_size, self.y-tile_size), (self.x-tile_size, self.y-tile_size)]
