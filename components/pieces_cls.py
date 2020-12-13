@@ -1,7 +1,6 @@
 import pygame
 import json
 import os
-from components.draw_board import draw_board
 
 json_file = open(os.getcwd()+r"\components\constants.json", "r")
 json_content = json.load(json_file)
@@ -49,7 +48,7 @@ class Pieces:
         json_file.close()
         # round_int = json_content["round_int"] 
 
-    def animate(self, start_pos_x, start_pos_y, stop_pos_x, stop_pos_y, time):
+    def animate(self, start_pos_x, start_pos_y, stop_pos_x, stop_pos_y, time, board):
         newx = 0
         newy = 0
         counter = 0
@@ -69,7 +68,7 @@ class Pieces:
             speed_y = dis_vec_y/time
 
 
-            draw_board(screen = self.master, tile_size = tile_size)
+            board.draw_board()
             for piece in Pieces.all_pieces_list:
                 if piece != self:
                     piece.draw()
@@ -88,7 +87,7 @@ class Pieces:
         self.master.blit(self.image, (self.x+10, self.y+10))
 
     
-    def move(self, occupied_tiles):
+    def move(self, occupied_tiles, board):
     
         go = True
         ok = True
@@ -97,17 +96,8 @@ class Pieces:
         while go:
 
             for tile in self.getPossible_Moves():
-                pygame.draw.rect(self.master, (152, 186, 0), [tile[0], tile[1], tile_size, tile_size])
-
-                fac1 = tile[0]/tile_size
-                fac2 = tile[1]/tile_size  
-                prod = fac1+fac2
-                if prod % 2 == 0:
-                    color = (245, 216, 188)
-                else:
-                    color = (176, 142, 109)
-
-                pygame.draw.rect(self.master, color , [tile[0]+10, tile[1]+10, tile_size-20, tile_size-20])
+                board.drawBorder(tile)
+                
             
             for pieces in Pieces.all_pieces_list:
                 pieces.draw()
@@ -142,7 +132,7 @@ class Pieces:
 
                                                 Pieces.round_increment()
 
-                                                self.animate(self.x, self.y, possible_move[0], possible_move[1], 0.2)
+                                                self.animate(self.x, self.y, possible_move[0], possible_move[1], 0.2, board = board)
 
                                                 self.x = possible_move[0]
                                                 self.y = possible_move[1]
@@ -168,7 +158,7 @@ class Pieces:
                                     
                                 if ok: 
 
-                                    self.animate(self.x, self.y, possible_move[0], possible_move[1], 0.2)
+                                    self.animate(self.x, self.y, possible_move[0], possible_move[1], 0.2, board = board)
                                 
                                     self.x = possible_move[0]
                                     self.y = possible_move[1]

@@ -8,7 +8,7 @@ from components.rooks_cls import Rooks
 from components.knights_cls import Knights
 from components.queens_cls import Queens
 from components.kings_cls import Kings
-from components.draw_board import draw_board
+from components.board_cls import Board
 
 json_file = open(r'components\constants.json', 'r')
 json_content = json.load(json_file)
@@ -44,10 +44,11 @@ def main():
 
     #creating the board
     
+    board = Board(master = screen, width = 8, height = 8, tile_size = tile_size, color_a = (245, 216, 188), color_b = (176, 142, 109))
 
+    board.draw_board()
 
-
-    draw_board(screen = screen, tile_size = tile_size)
+    
     #summoning the Pieces
 
     white_pawn_img = pygame.image.load(r'assets/white_pawn.png')
@@ -113,8 +114,6 @@ def main():
     Bishops(master = screen, name = 'R-Bishop-B', tile_x = 5, tile_y = 0, farbe = 'schwarz', image = black_bishop_img)
     Queens(master = screen, name = 'Queen-B', tile_x = 3, tile_y = 0, farbe = 'schwarz', image = black_queen_img)
     Kings(master = screen, name = 'King-B', tile_x = 4, tile_y = 0, farbe = 'schwarz', image = black_king_img)
-    
-
 
     occupied_tiles = [] 
 
@@ -137,7 +136,7 @@ def main():
         json_file.close()
 
         #creating the board
-        draw_board(screen = screen, tile_size = tile_size)
+        board.draw_board()
 
         if Pieces.white_is_checked:
             for king in Pieces.all_pieces_list:
@@ -180,7 +179,7 @@ def main():
 
                             if round_int % 2 == 1 and piece.farbe == (0,0,0) or round_int % 2 == 0 and piece.farbe == (255, 255, 255):
 
-                                piece.move(occupied_tiles = occupied_tiles)
+                                piece.move(occupied_tiles = occupied_tiles, board = board)
 
                                 # Had to invert the round_int bc after piece.move the round already increased
                                 if round_int % 2 == 1:
