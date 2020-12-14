@@ -141,12 +141,12 @@ def main():
         if Pieces.white_is_checked:
             for king in Pieces.all_pieces_list:
                 if isinstance(king, Kings) and king.farbe == (255,255,255):
-                    pygame.draw.rect(screen, (247, 87, 87), [king.x, king.y, tile_size, tile_size])
-    
+                    board.check(king_pos = (king.x, king.y))
+                    
         elif Pieces.black_is_checked:
             for king in Pieces.all_pieces_list:
                 if isinstance(king, Kings) and king.farbe == (0,0,0):
-                    pygame.draw.rect(screen, (247, 87, 87), [king.x, king.y, tile_size, tile_size])
+                    board.check(king_pos = (king.x, king.y))
 
         #draw all the pieces
         for pieces in Pieces.all_pieces_list:
@@ -179,6 +179,7 @@ def main():
 
                             if round_int % 2 == 1 and piece.farbe == (0,0,0) or round_int % 2 == 0 and piece.farbe == (255, 255, 255):
 
+                                    
                                 piece.move(occupied_tiles = occupied_tiles, board = board)
 
                                 # Had to invert the round_int bc after piece.move the round already increased
@@ -194,7 +195,6 @@ def main():
                                                         break
                                                     else:
                                                         Pieces.white_is_checked = False
-                                                        # Pieces.checking_piece = None
 
                                 elif round_int % 2 == 0:
 
@@ -208,21 +208,8 @@ def main():
                                                         break
                                                     else:
                                                         Pieces.black_is_checked = False
-                                                        # Pieces.checking_piece = None
 
-                                                        
 
-                                
-
-            if Pieces.white_is_checked:
-                for king in Pieces.all_pieces_list:
-                    if isinstance(king, Kings) and king.farbe == (255,255,255):
-                        pygame.draw.rect(screen, (247, 87, 87), [king.x, king.y, tile_size, tile_size])
-        
-            elif Pieces.black_is_checked:
-                for king in Pieces.all_pieces_list:
-                    if isinstance(king, Kings) and king.farbe == (0,0,0):
-                        pygame.draw.rect(screen, (247, 87, 87), [king.x, king.y, tile_size, tile_size])
     
     json_file = open(r'components\constants.json', 'r')
     json_content = json.load(json_file)

@@ -41,10 +41,10 @@ class Board:
 
     def changeTilecolor(self, tile, newColor):
         
-        x = self.convert_Tile_to_X_and_Y(tile)[0]
-        y = self.convert_Tile_to_X_and_Y(tile)[1]
+        x = tile[0]
+        y = tile[1]
 
-        pygame.draw.rect(self.master, newColor, [self.tile_size*x, self.tile_size*y, self.tile_size*x+self.tile_size, self.tile_size*y+self.tile_size])
+        pygame.draw.rect(self.master, newColor, [x, y, self.tile_size, self.tile_size])
 
     def drawBorder(self, tile):
         
@@ -62,3 +62,8 @@ class Board:
             color = self.color_b
 
         pygame.draw.rect(self.master, color , [x+10, y+10, self.tile_size-20, self.tile_size-20])
+
+    def check(self, king_pos):
+        self.changeTilecolor(tile = king_pos, newColor = (247, 87, 87))
+
+
