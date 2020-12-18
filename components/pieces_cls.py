@@ -114,6 +114,7 @@ class Pieces:
                 #Mouse-Inputs
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     mouse_pos = pygame.mouse.get_pos()
+                    mouse_pos = (mouse_pos[0], mouse_pos[1]-2*tile_size)
 
                     #if the clicked tile is a sqaure, where the pawn can go, move it
                     
