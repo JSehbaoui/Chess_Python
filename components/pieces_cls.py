@@ -31,7 +31,7 @@ class Pieces:
             self.farbe = (0,0,0)
         elif farbe == 'weiss':
             self.farbe = (255,255,255)
-        Pieces.draw(self)
+        # Pieces.draw(self)
         Pieces.all_pieces_list.append(self)
 
 
@@ -48,7 +48,7 @@ class Pieces:
         json_file.close()
         # round_int = json_content["round_int"] 
 
-    def animate(self, start_pos_x, start_pos_y, stop_pos_x, stop_pos_y, time, board):
+    def animate(self, screen, start_pos_x, start_pos_y, stop_pos_x, stop_pos_y, time, board):
         newx = 0
         newy = 0
         counter = 0
@@ -71,8 +71,9 @@ class Pieces:
             board.draw_board()
             for piece in Pieces.all_pieces_list:
                 if piece != self:
-                    piece.draw()
+                    piece.draw(screen)
             self.master.blit(self.image, (self.x+10+newx, self.y+10+newy))
+            screen.blit(self.master, (0, 2*tile_size))
 
             pygame.display.update()
             newx+= speed_x
@@ -82,12 +83,13 @@ class Pieces:
         
 
 
-    def draw(self):
+    def draw(self, screen):
         #pygame.draw.rect(self.master, self.farbe, [self.x+10, self.y+10, 30, 30])
         self.master.blit(self.image, (self.x+10, self.y+10))
+        screen.blit(self.master, (0, 2*tile_size))
 
     
-    def move(self, occupied_tiles, board):
+    def move(self, occupied_tiles, board, screen):
     
         go = True
         ok = True
@@ -96,11 +98,11 @@ class Pieces:
         while go:
 
             for tile in self.getPossible_Moves():
-                board.drawBorder(tile)
+                board.drawBorder(tile, screen)
                 
             
             for pieces in Pieces.all_pieces_list:
-                pieces.draw()
+                pieces.draw(screen)
 
             pygame.display.update()
 
@@ -133,12 +135,11 @@ class Pieces:
 
                                                 Pieces.round_increment()
 
-                                                self.animate(self.x, self.y, possible_move[0], possible_move[1], 0.2, board = board)
-
+                                                self.animate(screen = screen, start_pos_x = self.x, start_pos_y = self.y, stop_pos_x = possible_move[0], stop_pos_y = possible_move[1], time = 0.2, board = board)
                                                 self.x = possible_move[0]
                                                 self.y = possible_move[1]
                                                 
-                                                Pieces.draw(self)
+                                                Pieces.draw(self, screen)
                                                 Pieces.all_pieces_list.remove(piece)
 
                                                 if 'Pawn-B' in self.name and self.y == 490 or 'Pawn-W' in self.name and self.y == 0:
@@ -159,11 +160,11 @@ class Pieces:
                                     
                                 if ok: 
 
-                                    self.animate(self.x, self.y, possible_move[0], possible_move[1], 0.2, board = board)
+                                    self.animate(screen, self.x, self.y, possible_move[0], possible_move[1], 0.2, board = board)
                                 
                                     self.x = possible_move[0]
                                     self.y = possible_move[1]
-                                    Pieces.draw(self)
+                                    Pieces.draw(self, screen)
                                     print('Moved')
                                     Pieces.round_increment()
                                     go = False

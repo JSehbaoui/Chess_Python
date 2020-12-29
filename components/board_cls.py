@@ -46,7 +46,7 @@ class Board:
 
         pygame.draw.rect(self.master, newColor, [x, y, self.tile_size, self.tile_size])
 
-    def drawBorder(self, tile):
+    def drawBorder(self, tile, screen):
         
         x = tile[0]
         y = tile[1]
@@ -62,6 +62,7 @@ class Board:
             color = self.color_b
 
         pygame.draw.rect(self.master, color , [x+10, y+10, self.tile_size-20, self.tile_size-20])
+        screen.blit(self.master, (0, 2*self.tile_size))
 
     def check(self, king_pos):
         self.changeTilecolor(tile = king_pos, newColor = (247, 87, 87))

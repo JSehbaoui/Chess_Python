@@ -154,7 +154,7 @@ def main():
 
         #draw all the pieces
         for pieces in Pieces.all_pieces_list:
-            pieces.draw()
+            pieces.draw(screen)
 
         pygame.display.update()
 
@@ -187,7 +187,7 @@ def main():
                             if round_int % 2 == 1 and piece.farbe == (0,0,0) or round_int % 2 == 0 and piece.farbe == (255, 255, 255):
 
                                     
-                                piece.move(occupied_tiles = occupied_tiles, board = board)
+                                piece.move(occupied_tiles = occupied_tiles, board = board, screen = screen)
 
                                 # Had to invert the round_int bc after piece.move the round already increased
                                 if round_int % 2 == 1:
