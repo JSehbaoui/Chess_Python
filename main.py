@@ -31,7 +31,7 @@ def main():
 
     json_file.close()
 
-    screen_size = (8*tile_size, 10*tile_size)
+    screen_size = (9*tile_size, 10*tile_size)
 
     go = True
     Pieces.white_is_checked = False
@@ -42,17 +42,9 @@ def main():
     pygame.display.set_caption("Chess")
 
     clock = pygame.time.Clock()
-
-    
-
-    #creating the board
     
     board = Board(master = s, width = 8, height = 8, tile_size = tile_size, color_a = (245, 216, 188), color_b = (176, 142, 109))
-
     board.draw_board()
-
-    
-    #summoning the Pieces
 
     white_pawn_img = pygame.image.load(r'assets/white_pawn.png')
     white_rook_img = pygame.image.load(r'assets/white_rook.png')
@@ -229,6 +221,5 @@ def main():
 
 
 if __name__ == '__main__':
-
     main()
 

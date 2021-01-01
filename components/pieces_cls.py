@@ -79,15 +79,11 @@ class Pieces:
             newx+= speed_x
             newy+= speed_y
             counter += 1
-    
-        
-
 
     def draw(self, screen):
         #pygame.draw.rect(self.master, self.farbe, [self.x+10, self.y+10, 30, 30])
         self.master.blit(self.image, (self.x+10, self.y+10))
         screen.blit(self.master, (0, 2*tile_size))
-
     
     def move(self, occupied_tiles, board, screen):
     
@@ -176,16 +172,13 @@ class Pieces:
                                 go = False
                         else:
                             go = False        
-                    go = False
-            
+                    go = False     
                 
     def getPossible_Moves(self):
         return ''
 
     def promotion(self):
         pass
-
-
 
     def check_row_tiles(self, current_moves, step_x, step_y, attacking):
         free_bool = False
@@ -221,8 +214,3 @@ class Pieces:
         attacted_tiles = self.getPossible_Moves()
 
         return attacted_tiles
-
-
-
-
-
