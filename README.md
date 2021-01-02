@@ -29,9 +29,9 @@ Now by clicking at one of the pieces you can see where you can move it. By click
 You can exit the game by pressing ESC or by closing it as an usial window
 
 ## Bugs, I am aware of
-- There is a bug where the tile under the king stays red after the check were denied
+- There is a bug where the tile under the king stays red after the check were denied (FIXED)
 - If a knight check a king and the king wants to move, it ends in a recursive loop, and the game crashes.
-- Sometimes you can't take a piece that is checking the king
+- Sometimes you can't take a piece that is checking the king (FIXED)
 
 ## Missing features and rules
 - The ["castling"-rule](https://en.wikipedia.org/wiki/Castling) from chess is missing

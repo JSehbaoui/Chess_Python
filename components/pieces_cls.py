@@ -212,5 +212,6 @@ class Pieces:
 
     def attacted_tiles(self):
         attacted_tiles = self.getPossible_Moves()
+        attacted_tiles.append((self.x, self.y))
 
         return attacted_tiles

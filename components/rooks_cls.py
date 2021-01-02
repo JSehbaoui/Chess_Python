@@ -49,5 +49,7 @@ class Rooks(Pieces):
         self.check_row_tiles(current_moves = possible_moves, step_x= 0, step_y = tile_size,  attacking = True)
         self.check_row_tiles(current_moves = possible_moves, step_x= 0, step_y = tile_size*-1,  attacking = True)
 
+        possible_moves.append((self.x, self.y))
+
         return possible_moves
                     

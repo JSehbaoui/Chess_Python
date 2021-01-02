@@ -113,7 +113,7 @@ class WhitePawns(Pieces):
         return finite_moves
 
     def attacted_tiles(self):
-        return [(self.x+tile_size, self.y-tile_size), (self.x-tile_size, self.y-tile_size)]
+        return [(self.x+tile_size, self.y-tile_size), (self.x-tile_size, self.y-tile_size), (self.x, self.y)]
 
     def promotion(self):
 
