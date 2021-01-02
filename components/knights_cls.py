@@ -61,3 +61,15 @@ class Knights(Pieces):
 
 
         return finite_moves
+    
+    def attacted_tiles(self):
+        possible_moves = [(self.x-2*tile_size, self.y+tile_size),
+                            (self.x-2*tile_size, self.y-tile_size),
+                            (self.x-tile_size, self.y+2*tile_size),
+                            (self.x-tile_size, self.y-2*tile_size),
+                            (self.x+tile_size, self.y+2*tile_size),
+                            (self.x+tile_size, self.y-2*tile_size),
+                            (self.x+2*tile_size, self.y+tile_size),
+                            (self.x+2*tile_size, self.y-tile_size)
+                            ]
+        return possible_moves

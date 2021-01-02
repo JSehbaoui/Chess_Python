@@ -30,8 +30,10 @@ You can exit the game by pressing ESC or by closing it as an usial window
 
 ## Bugs, I am aware of
 - There is a bug where the tile under the king stays red after the check were denied (FIXED)
-- If a knight check a king and the king wants to move, it ends in a recursive loop, and the game crashes.
+- If a knight check a king and the king wants to move, it ends in a recursive loop, and the game crashes. (FIXED)
 - Sometimes you can't take a piece that is checking the king (FIXED)
+- King can move behind at a tile that is currently not attacked by any piece, because he himself is blocking it
+- The King can't take an attacking piece
 
 ## Missing features and rules
 - The ["castling"-rule](https://en.wikipedia.org/wiki/Castling) from chess is missing
