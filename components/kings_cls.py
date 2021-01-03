@@ -31,6 +31,7 @@ class Kings(Pieces):
 
         possible = True
 
+        # Filters the tiles, where allied pieces stand on
         for move in possible_moves_unfiltered:
             for piece in Pieces.all_pieces_list:
                 bool1 = bool(move[0] == piece.x)
@@ -47,16 +48,16 @@ class Kings(Pieces):
             if possible:
                 possible_moves_filtered.append(move)
 
+        # reset the lists for the next filter
         possible_moves_unfiltered = possible_moves_filtered
-
         possible_moves_filtered = []
         
+        # filters the tiles, that are currently attacked by the enemy
         for move in possible_moves_unfiltered:
             for piece in Pieces.all_pieces_list:
-                if piece.farbe != self.farbe and not 'King' in piece.name:
+                if piece.farbe != self.farbe:
                     piece_attacted_tiles_arr = piece.attacted_tiles()
-                    bool4 = bool(move in piece_attacted_tiles_arr)
-                    if bool4:
+                    if move in piece_attacted_tiles_arr and not move == (piece.x, piece.y):
                         possible = False
                         break
                     else:
@@ -65,3 +66,15 @@ class Kings(Pieces):
                 possible_moves_filtered.append(move)
 
         return possible_moves_filtered
+
+    def attacted_tiles(self):
+        possible_moves_unfiltered = [(self.x-tile_size, self.y+tile_size),
+                                    (self.x-tile_size, self.y),
+                                    (self.x-tile_size, self.y-tile_size),
+                                    (self.x, self.y+tile_size),
+                                    (self.x, self.y-tile_size),
+                                    (self.x+tile_size, self.y+tile_size),
+                                    (self.x+tile_size, self.y),
+                                    (self.x+tile_size, self.y-tile_size)
+                                    ]
+        return possible_moves_unfiltered
