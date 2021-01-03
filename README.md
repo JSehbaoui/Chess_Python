@@ -8,7 +8,7 @@ I wanted to create a project in python for my computer science class that should
 - This Chess game should be capable of any official chess rule by the end.
 - Two players at the same PC should be able to play against each other.
 - Implement a chess AI, rather by
-    -importing an already existing, very advanced one [Stockfish](https://stockfishchess.org/) or [AlphaZero](https://deepmind.com/blog/article/alphazero-shedding-new-light-grand-games-chess-shogi-and-go)
+    - importing an already existing, very advanced one [Stockfish](https://stockfishchess.org/) or [AlphaZero](https://deepmind.com/blog/article/alphazero-shedding-new-light-grand-games-chess-shogi-and-go)
     - making my own
 
 ## Realization of the Game
