@@ -40,6 +40,7 @@ You can exit the game by pressing ESC or by closing it as an usial window
 - The ["En passant"-rule](https://en.wikipedia.org/wiki/En_passant) from chess is missing
 - The Player vs. AI mode is not available 
 - The GUI features are not yet available
+- COMMENTING
 
 ## Contribute?
 It is currently not possible to collaborate on this project because the school requires a self made result
