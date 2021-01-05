@@ -18,7 +18,6 @@ class Queens(Pieces):
     
     def getPossible_Moves(self):
         possible_moves = []
-
         finite_moves = []
 
         self.check_row_tiles(current_moves = possible_moves, step_x = tile_size, step_y = tile_size,  attacking = False)

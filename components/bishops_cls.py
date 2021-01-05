@@ -40,10 +40,10 @@ class Bishops(Pieces):
     def attacted_tiles(self):
         possible_moves = []
         
-        self.check_row_tiles(current_moves = possible_moves, step_x = tile_size, step_y = tile_size,  attacking = True)
-        self.check_row_tiles(current_moves = possible_moves, step_x = tile_size*-1, step_y = tile_size,  attacking = True)
-        self.check_row_tiles(current_moves = possible_moves, step_x = tile_size*-1, step_y = tile_size*-1,  attacking = True)
-        self.check_row_tiles(current_moves = possible_moves, step_x = tile_size, step_y = tile_size*-1,  attacking = True)
+        self.check_row_tiles_wo_king(current_moves = possible_moves, step_x = tile_size, step_y = tile_size,  attacking = True)
+        self.check_row_tiles_wo_king(current_moves = possible_moves, step_x = tile_size*-1, step_y = tile_size,  attacking = True)
+        self.check_row_tiles_wo_king(current_moves = possible_moves, step_x = tile_size*-1, step_y = tile_size*-1,  attacking = True)
+        self.check_row_tiles_wo_king(current_moves = possible_moves, step_x = tile_size, step_y = tile_size*-1,  attacking = True)
 
         # Have to that, so the other recognize that tile as an option to deny check
         possible_moves.append((self.x, self.y))

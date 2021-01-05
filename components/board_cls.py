@@ -1,7 +1,7 @@
 import pygame
 
 class Board:
-    def __init__(self, master, width, height, tile_size, color_a, color_b, border_color = (152, 186, 0)):
+    def __init__(self, master, width, height, tile_size, color_a, color_b, anchor_point, border_color = (152, 186, 0)):
         self.master = master
         self.width = width
         self.height = height
@@ -9,6 +9,7 @@ class Board:
         self.color_a = color_a
         self.color_b = color_b
         self.borderColor = border_color
+        self.anchor_point = anchor_point
 
     def convert_Tile_to_X_and_Y(self, tile):
         x = 0
@@ -62,7 +63,7 @@ class Board:
             color = self.color_b
 
         pygame.draw.rect(self.master, color , [x+10, y+10, self.tile_size-20, self.tile_size-20])
-        screen.blit(self.master, (0, 2*self.tile_size))
+        screen.blit(self.master, self.anchor_point)
 
     def check(self, king_pos):
         self.changeTilecolor(tile = king_pos, newColor = (247, 87, 87))

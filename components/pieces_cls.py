@@ -7,6 +7,7 @@ json_content = json.load(json_file)
 
 round_int = json_content["round_int"]
 tile_size = json_content["tile_size"]
+anchor_point = (json_content["anchor_point_s_x"]*tile_size, json_content["anchor_point_s_y"]*tile_size)
 
 json_file.close()
 
@@ -73,7 +74,7 @@ class Pieces:
                 if piece != self:
                     piece.draw(screen)
             self.master.blit(self.image, (self.x+10+newx, self.y+10+newy))
-            screen.blit(self.master, (0, 2*tile_size))
+            screen.blit(self.master, anchor_point)
 
             pygame.display.update()
             newx+= speed_x
@@ -83,7 +84,7 @@ class Pieces:
     def draw(self, screen):
         #pygame.draw.rect(self.master, self.farbe, [self.x+10, self.y+10, 30, 30])
         self.master.blit(self.image, (self.x+10, self.y+10))
-        screen.blit(self.master, (0, 2*tile_size))
+        screen.blit(self.master, anchor_point)
     
     def move(self, occupied_tiles, board, screen):
     
@@ -112,7 +113,7 @@ class Pieces:
                 #Mouse-Inputs
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     mouse_pos = pygame.mouse.get_pos()
-                    mouse_pos = (mouse_pos[0], mouse_pos[1]-2*tile_size)
+                    mouse_pos = (mouse_pos[0]-anchor_point[0], mouse_pos[1]-anchor_point[1])
 
                     #if the clicked tile is a sqaure, where the pawn can go, move it
                     
@@ -201,6 +202,33 @@ class Pieces:
                         break
                 else:
                     free_bool = True
+
+            if free_bool:
+                current_moves.append(testing_move)
+                free_bool = False
+        
+    def check_row_tiles_wo_king(self, current_moves, step_x, step_y, attacking):
+        free_bool = False
+        go = True
+        num = 0
+        while go and num < 10:
+            num += 1
+            testing_move = (self.x+step_x*num, self.y+step_y*num)
+
+            for piece in Pieces.all_pieces_list:
+                if not (piece.name == "King-B" or piece.name == "King-W"):
+                    if testing_move[0] == piece.x and testing_move[1] == piece.y:
+                        go = False
+                        if attacking:
+                            free_bool = True
+                        else:
+                            if self.farbe == piece.farbe:
+                                free_bool = False
+                            else:
+                                free_bool = True
+                            break
+                    else:
+                        free_bool = True
 
             if free_bool:
                 current_moves.append(testing_move)

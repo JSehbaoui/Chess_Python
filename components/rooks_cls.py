@@ -44,10 +44,10 @@ class Rooks(Pieces):
     def attacted_tiles(self):
         possible_moves = []
 
-        self.check_row_tiles(current_moves = possible_moves, step_x = tile_size, step_y = 0,  attacking = True)
-        self.check_row_tiles(current_moves = possible_moves, step_x= tile_size*-1, step_y = 0,  attacking = True)
-        self.check_row_tiles(current_moves = possible_moves, step_x= 0, step_y = tile_size,  attacking = True)
-        self.check_row_tiles(current_moves = possible_moves, step_x= 0, step_y = tile_size*-1,  attacking = True)
+        self.check_row_tiles_wo_king(current_moves = possible_moves, step_x = tile_size, step_y = 0,  attacking = True)
+        self.check_row_tiles_wo_king(current_moves = possible_moves, step_x= tile_size*-1, step_y = 0,  attacking = True)
+        self.check_row_tiles_wo_king(current_moves = possible_moves, step_x= 0, step_y = tile_size,  attacking = True)
+        self.check_row_tiles_wo_king(current_moves = possible_moves, step_x= 0, step_y = tile_size*-1,  attacking = True)
 
         possible_moves.append((self.x, self.y))
 
