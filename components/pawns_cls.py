@@ -95,10 +95,10 @@ class WhitePawns(Pieces):
         for piece in Pieces.all_pieces_list:
             if self.x+tile_size == piece.x and self.y-tile_size == piece.y and self.farbe != piece.farbe:
                 possible_moves.append((self.x+tile_size, self.y-tile_size))
-                break
+                
             if self.x-tile_size == piece.x and self.y-tile_size == piece.y and self.farbe != piece.farbe:
                 possible_moves.append((self.x-tile_size, self.y-tile_size))
-                break
+                
 
         if Pieces.white_is_checked or Pieces.black_is_checked:
             enemy_moves = Pieces.checking_piece.attacted_tiles()

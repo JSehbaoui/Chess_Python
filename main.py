@@ -56,6 +56,8 @@ def main():
     screen = pygame.display.set_mode(screen_size)
     s = pygame.Surface((8*tile_size, 8*tile_size))
     hud = pygame.Surface((10.25*tile_size, 2*tile_size))
+    p1 = pygame.Surface((3*tile_size, 1.5*tile_size))
+    p2 = pygame.Surface((3*tile_size, 1.5*tile_size))
     h = pygame.Surface((2*tile_size, 8*tile_size))
     screen.fill(WHITE)
     hud.fill(RED)
@@ -100,7 +102,7 @@ def main():
 
 
     #creating the pieces
-    
+
     # CHESS 960
     # ran_list =  random.sample([i for i in range(8)], 8)
     # WhitePawns(master = s, name = 'A-Pawn-W', tile_x = 0, tile_y = 6, farbe = 'weiss', image = white_pawn_img)
