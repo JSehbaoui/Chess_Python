@@ -31,7 +31,7 @@ class BlackPawns(Pieces):
                 if (self.x, self.y+tile_size*2) == (piece.x, piece.y):
                     deny = True
                     break
-        if not deny:
+        if not deny and self.y == tile_size:
             possible_moves.append((self.x, self.y+tile_size*2))
 
         # if any piece stands directly in front of the pawn, it can't move forward in any way
@@ -47,19 +47,8 @@ class BlackPawns(Pieces):
                 
             if self.x-tile_size == piece.x and self.y+tile_size == piece.y and self.farbe != piece.farbe:
                 possible_moves.append((self.x-tile_size, self.y+tile_size))
-        
-        if Pieces.white_is_checked or Pieces.black_is_checked:
-            enemy_moves = Pieces.checking_piece.attacked_tiles()
-            for possible_move in possible_moves:
-                for enemy_move in enemy_moves:
-                    if enemy_move == possible_move:
-                        finite_moves.append(possible_move)
-        
-        else:
-            finite_moves = possible_moves 
 
-
-        return finite_moves
+        return Pieces.check_limitation(possible_moves=possible_moves)
         
 
     def promotion(self):
@@ -92,7 +81,7 @@ class WhitePawns(Pieces):
                 if (self.x, self.y-tile_size*2) == (piece.x, piece.y):
                     deny = True
                     break
-        if not deny:
+        if not deny and self.y == 6* tile_size:
             possible_moves.append((self.x, self.y-tile_size*2))
 
         # if any piece stands directly in front of the pawn, it can't move forward in any way
