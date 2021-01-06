@@ -25,9 +25,14 @@ class BlackPawns(Pieces):
 
         
         # if the pawn stands on its first square, the it can move two squares forward
-        for piece in Pieces.all_pieces_list:
-            if self.y == tile_size and not (piece.x == self.x and piece.y == tile_size*3):
-                possible_moves.append((self.x, self.y+tile_size*2))
+        deny = False
+        if self.y == tile_size:
+            for piece in Pieces.all_pieces_list:
+                if (self.x, self.y+tile_size*2) == (piece.x, piece.y):
+                    deny = True
+                    break
+        if not deny:
+            possible_moves.append((self.x, self.y+tile_size*2))
 
         # if any piece stands directly in front of the pawn, it can't move forward in any way
         for piece in Pieces.all_pieces_list:
@@ -44,7 +49,7 @@ class BlackPawns(Pieces):
                 possible_moves.append((self.x-tile_size, self.y+tile_size))
         
         if Pieces.white_is_checked or Pieces.black_is_checked:
-            enemy_moves = Pieces.checking_piece.attacted_tiles()
+            enemy_moves = Pieces.checking_piece.attacked_tiles()
             for possible_move in possible_moves:
                 for enemy_move in enemy_moves:
                     if enemy_move == possible_move:
@@ -65,11 +70,10 @@ class BlackPawns(Pieces):
         Pieces.all_pieces_list.remove(self)
 
 
-
-
-
-    def attacted_tiles(self):
+    def attacked_tiles(self):
         return [(self.x+tile_size, self.y+tile_size), (self.x-tile_size, self.y+tile_size)]
+
+
 
 class WhitePawns(Pieces):
     def __init__(self, master, name, tile_x, tile_y, farbe, image):
@@ -77,12 +81,18 @@ class WhitePawns(Pieces):
     
     def getPossible_Moves(self):
 
-        finite_moves = []
+
         # the normal pawn move
         possible_moves = [(self.x, self.y-tile_size)]
         
         # if the pawn stands on its first square, the it can move two squares forward
+        deny = False
         if self.y == 6*tile_size:
+            for piece in Pieces.all_pieces_list:
+                if (self.x, self.y-tile_size*2) == (piece.x, piece.y):
+                    deny = True
+                    break
+        if not deny:
             possible_moves.append((self.x, self.y-tile_size*2))
 
         # if any piece stands directly in front of the pawn, it can't move forward in any way
@@ -98,21 +108,10 @@ class WhitePawns(Pieces):
                 
             if self.x-tile_size == piece.x and self.y-tile_size == piece.y and self.farbe != piece.farbe:
                 possible_moves.append((self.x-tile_size, self.y-tile_size))
-                
 
-        if Pieces.white_is_checked or Pieces.black_is_checked:
-            enemy_moves = Pieces.checking_piece.attacted_tiles()
-            for possible_move in possible_moves:
-                for enemy_move in enemy_moves:
-                    if enemy_move == possible_move:
-                        finite_moves.append(possible_move)
-        
-        else:
-            finite_moves = possible_moves 
+        return Pieces.check_limitation(possible_moves= possible_moves)
 
-        return finite_moves
-
-    def attacted_tiles(self):
+    def attacked_tiles(self):
         return [(self.x+tile_size, self.y-tile_size), (self.x-tile_size, self.y-tile_size), (self.x, self.y)]
 
     def promotion(self):

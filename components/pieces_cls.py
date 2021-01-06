@@ -94,14 +94,14 @@ class Pieces:
 
         while go:
 
-            for tile in self.getPossible_Moves():
-                board.drawBorder(tile, screen)
-                
+            if not (self.getPossible_Moves() == None):
+                for tile in self.getPossible_Moves():
+                    board.drawBorder(tile, screen)
             
-            for pieces in Pieces.all_pieces_list:
-                pieces.draw(screen)
+                for pieces in Pieces.all_pieces_list:
+                    pieces.draw(screen)
 
-            pygame.display.update()
+                pygame.display.update()
 
 
 
@@ -118,61 +118,62 @@ class Pieces:
                     #if the clicked tile is a sqaure, where the pawn can go, move it
                     
                     
-                    # create bool var
-                    for possible_move in self.getPossible_Moves():
-                        if mouse_pos[0] >= possible_move[0] and mouse_pos[1] >=possible_move[1]:
-                            if mouse_pos[0] < possible_move[0]+tile_size and mouse_pos[1] < possible_move[1]+tile_size:
-                                for piece in Pieces.all_pieces_list:
-                                    if mouse_pos[0] >= piece.x and mouse_pos[1] >= piece.y:
-                                        if mouse_pos[0] < piece.x+tile_size and mouse_pos[1] < piece.y+tile_size:
-                                            if self.farbe != piece.farbe:
-                                                go = False
-                                                ok = False
-                                                print('TAKES')
+                    
+                    if not(self.getPossible_Moves() == None):
+                        for possible_move in self.getPossible_Moves():
+                            if mouse_pos[0] >= possible_move[0] and mouse_pos[1] >=possible_move[1]:
+                                if mouse_pos[0] < possible_move[0]+tile_size and mouse_pos[1] < possible_move[1]+tile_size:
+                                    for piece in Pieces.all_pieces_list:
+                                        if mouse_pos[0] >= piece.x and mouse_pos[1] >= piece.y:
+                                            if mouse_pos[0] < piece.x+tile_size and mouse_pos[1] < piece.y+tile_size:
+                                                if self.farbe != piece.farbe:
+                                                    go = False
+                                                    ok = False
+                                                    print('TAKES')
 
-                                                Pieces.round_increment()
+                                                    Pieces.round_increment()
 
-                                                self.animate(screen = screen, start_pos_x = self.x, start_pos_y = self.y, stop_pos_x = possible_move[0], stop_pos_y = possible_move[1], time = 0.2, board = board)
-                                                self.x = possible_move[0]
-                                                self.y = possible_move[1]
-                                                
-                                                Pieces.draw(self, screen)
-                                                Pieces.all_pieces_list.remove(piece)
+                                                    self.animate(screen = screen, start_pos_x = self.x, start_pos_y = self.y, stop_pos_x = possible_move[0], stop_pos_y = possible_move[1], time = 0.2, board = board)
+                                                    self.x = possible_move[0]
+                                                    self.y = possible_move[1]
+                                                    
+                                                    Pieces.draw(self, screen)
+                                                    Pieces.all_pieces_list.remove(piece)
 
-                                                if 'Pawn-B' in self.name and self.y == 490 or 'Pawn-W' in self.name and self.y == 0:
-                                                    self.promotion()
+                                                    if 'Pawn-B' in self.name and self.y == 490 or 'Pawn-W' in self.name and self.y == 0:
+                                                        self.promotion()
 
-
-
-                                                
-                                            else:
-                                                ok = False 
 
 
                                                     
+                                                else:
+                                                    ok = False 
+
+
+                                                        
+                                            else:
+                                                pass
                                         else:
                                             pass
-                                    else:
-                                        pass
+                                        
+                                    if ok: 
+
+                                        self.animate(screen, self.x, self.y, possible_move[0], possible_move[1], 0.2, board = board)
                                     
-                                if ok: 
+                                        self.x = possible_move[0]
+                                        self.y = possible_move[1]
+                                        Pieces.draw(self, screen)
+                                        print('Moved')
+                                        Pieces.round_increment()
+                                        go = False
 
-                                    self.animate(screen, self.x, self.y, possible_move[0], possible_move[1], 0.2, board = board)
+                                        if 'Pawn_B' in self.name and self.x == 350 or 'Pawn_W' in self.name and self.x == 0:
+                                            self.promotion()
                                 
-                                    self.x = possible_move[0]
-                                    self.y = possible_move[1]
-                                    Pieces.draw(self, screen)
-                                    print('Moved')
-                                    Pieces.round_increment()
+                                else:
                                     go = False
-
-                                    if 'Pawn_B' in self.name and self.x == 350 or 'Pawn_W' in self.name and self.x == 0:
-                                        self.promotion()
-                            
                             else:
-                                go = False
-                        else:
-                            go = False        
+                                go = False        
                     go = False     
                 
     def getPossible_Moves(self):
@@ -238,7 +239,7 @@ class Pieces:
 
         return current_moves
 
-    def attacted_tiles(self):
+    def attacked_tiles(self):
         attacted_tiles = self.getPossible_Moves()
         attacted_tiles.append((self.x, self.y))
 
@@ -246,3 +247,18 @@ class Pieces:
 
     def attacking_line(self):
         pass
+
+    @classmethod
+    def check_limitation(cls, possible_moves):
+        finite_moves = []
+        if Pieces.white_is_checked or Pieces.black_is_checked:
+            enemy_moves = Pieces.checking_piece.attacking_line()
+            for possible_move in possible_moves:
+                for enemy_move in enemy_moves:
+                    if enemy_move == possible_move or possible_move == (Pieces.checking_piece.x, Pieces.checking_piece.y):
+                        finite_moves.append(possible_move)
+
+            return finite_moves
+        else:
+            return possible_moves
+            
