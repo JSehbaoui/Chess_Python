@@ -243,3 +243,6 @@ class Pieces:
         attacted_tiles.append((self.x, self.y))
 
         return attacted_tiles
+
+    def attacking_line(self):
+        pass

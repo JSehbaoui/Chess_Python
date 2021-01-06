@@ -56,7 +56,7 @@ class Kings(Pieces):
         for move in possible_moves_unfiltered:
             for piece in Pieces.all_pieces_list:
                 if piece.farbe != self.farbe:
-                    piece_attacted_tiles_arr = piece.attacted_tiles()
+                    piece_attacted_tiles_arr = piece.attacking_line()
                     if move in piece_attacted_tiles_arr and not move == (piece.x, piece.y):
                         possible = False
                         break

@@ -50,7 +50,8 @@ class Knights(Pieces):
         finite_moves = []
 
         if Pieces.white_is_checked or Pieces.black_is_checked:
-            enemy_moves = Pieces.checking_piece.attacted_tiles()
+            check = Pieces.checking_piece
+            enemy_moves = check.attacking_line()
             for possible_move in possible_moves:
                 for enemy_move in enemy_moves:
                     if enemy_move == possible_move:

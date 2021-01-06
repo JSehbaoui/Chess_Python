@@ -1,5 +1,6 @@
 import pygame
 from components.pieces_cls import Pieces
+from components.kings_cls import Kings
 
 import json
 import os
@@ -28,7 +29,7 @@ class Rooks(Pieces):
 
         # if white or black is checked look if you can move at an attacked square, from the attacking piece
         if Pieces.white_is_checked or Pieces.black_is_checked:
-            enemy_moves = Pieces.checking_piece.attacted_tiles()
+            enemy_moves = Pieces.checking_piece.attacking_line()
             for possible_move in possible_moves:
                 for enemy_move in enemy_moves:
                     if enemy_move == possible_move:
@@ -52,4 +53,71 @@ class Rooks(Pieces):
         possible_moves.append((self.x, self.y))
 
         return possible_moves
-                    
+    
+
+    def attacking_line(self):
+        
+        if self.farbe == (0,0,0):
+            list_ = []
+            for blackKing in Pieces.all_pieces_list:
+                bool1 = bool(isinstance(blackKing, Kings))
+                bool2 = bool(blackKing.farbe == (255,255,255))
+                if bool1 and bool2:
+
+                    for i in range(8):
+                        newstep1 = (self.x+tile_size*i, self.y)
+                        newstep2 = (self.x-tile_size*i, self.y)
+                        newstep3 = (self.x, self.y+tile_size*i)
+                        newstep4 = (self.x, self.y-tile_size*i)
+
+                        if newstep1 == (blackKing.x, blackKing.y):
+                            self.check_row_tiles(current_moves=list_, step_x = tile_size, step_y = tile_size, attacking = False)
+                            return list_
+                            break
+                        
+                        if newstep2 == (blackKing.x, blackKing.y):
+                            self.check_row_tiles(current_moves=list_, step_x = tile_size, step_y = tile_size*-1, attacking = False)
+                            return list_
+                            break 
+                        
+                        if newstep3 == (blackKing.x, blackKing.y):
+                            self.check_row_tiles(current_moves=list_, step_x = tile_size*-1, step_y = tile_size, attacking = False)
+                            return list_
+                            break
+
+                        if newstep4 == (blackKing.x, blackKing.y):
+                            self.check_row_tiles(current_moves=list_, step_x = tile_size*-1, step_y = tile_size*-1, attacking = False)
+                            return list_
+                            break
+                        
+
+        if self.farbe == (255,255,255):
+            list_ = []
+            for whiteKing in Pieces.all_pieces_list:
+                if isinstance(whiteKing, Kings) and whiteKing.farbe == (0,0,0):
+
+                    for i in range(8):
+                        newstep1 = (self.x+tile_size*i, self.y)
+                        newstep2 = (self.x-tile_size*i, self.y)
+                        newstep3 = (self.x, self.y+tile_size*i)
+                        newstep4 = (self.x, self.y-tile_size*i)
+
+                        if newstep1 == (whiteKing.x, whiteKing.y):
+                            self.check_row_tiles(current_moves=list_, step_x = tile_size, step_y = tile_size, attacking = False)
+                            return list_
+                            break
+                        
+                        if newstep2 == (whiteKing.x, whiteKing.y):
+                            self.check_row_tiles(current_moves=list_, step_x = tile_size, step_y = tile_size*-1, attacking = False)
+                            return list_
+                            break
+                        
+                        if newstep3 == (whiteKing.x, whiteKing.y):
+                            self.check_row_tiles(current_moves=list_, step_x = tile_size*-1, step_y = tile_size, attacking = False)
+                            return list_
+                            break
+                        
+                        if newstep4 == (whiteKing.x, whiteKing.y):
+                            self.check_row_tiles(current_moves=list_, step_x = tile_size*-1, step_y = tile_size*-1, attacking = False)
+                            return list_
+                            break
