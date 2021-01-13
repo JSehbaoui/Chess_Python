@@ -47,4 +47,29 @@
     
 # animate(40, 500, 40, 200, 2)
 
-print(chr('a'))
+# print(chr('a'))
+
+import pygame
+import datetime
+import time
+import os
+
+# pygame.init()
+
+# screen_size = (800, 800)
+
+# SCREEN = pygame.display.set_mode(screen_size)
+# pygame.display.set_caption("Chess")
+
+# clock = pygame.time.Clock()
+# while True:
+# print(datetime.time(5,30,50))
+
+# for minutes in range(5):
+#     for seconds in range(59):
+#         print(str(datetime.time(0,4-minutes, 59-seconds))[3:])
+#         time.sleep(1)
+#         os.system('cls')
+
+print(str(datetime.datetime.now())[11:19])
+

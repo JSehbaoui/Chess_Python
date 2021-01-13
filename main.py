@@ -33,6 +33,7 @@ def main():
 
     #Constants#
     WHITE = (255,255,255)
+    BLACK = (0,0,0)
     RED = (255,0,0)
     GREEN = (0,255,0)
 
@@ -48,6 +49,10 @@ def main():
 
     #setting up the variables for a new and fresh game#
     screen_size = (11*tile_size, 11*tile_size)
+    starting_time = str(datetime.datetime.now())[11:19]
+    p1_time = 300
+    p2_time = 300
+    font = pygame.font.SysFont("Arial", 20)
     go = True
     Pieces.white_is_checked = False
     Pieces.black_is_checked = False    
@@ -62,6 +67,9 @@ def main():
     screen.fill(WHITE)
     hud.fill(RED)
     h.fill(GREEN)
+
+
+
 
     #window caption#
     pygame.display.set_caption("Chess")
@@ -103,7 +111,7 @@ def main():
 
     #creating the pieces
 
-    CHESS 960
+    # CHESS 960
     # ran_list =  random.sample([i for i in range(8)], 8)
     # WhitePawns(master = s, name = 'A-Pawn-W', tile_x = 0, tile_y = 6, farbe = 'weiss', image = white_pawn_img)
     # WhitePawns(master = s, name = 'B-Pawn-W', tile_x = 1, tile_y = 6, farbe = 'weiss', image = white_pawn_img)
@@ -248,6 +256,21 @@ def main():
         pygame.display.update()
 
         #updating the subsurfaces#
+        p1.fill(BLACK)
+        p2.fill(BLACK)
+            
+        Player_1_label = font.render("Player 1", 1, WHITE)
+        Player_2_label = font.render("Player 2", 1, WHITE)
+
+        time_p1 = str(4+int(starting_time[3:5])-int(str(datetime.datetime.now())[14:16]))+ ':'+ str(59+int(starting_time[6:])-int(str(datetime.datetime.now())[17:19]))
+        time_p1_label = font.render(time_p1, 1, WHITE)
+
+        p1.blit(Player_1_label, (0,0))
+        p2.blit(Player_2_label, (0,0))
+        p1.blit(time_p1_label, (0, 30))
+
+        hud.blit(p1, (50, 0.25*tile_size))
+        hud.blit(p2, (300, 0.25*tile_size))
         screen.blit(s, anchor_point_s)
         screen.blit(h, anchor_point_h)
         screen.blit(hud, anchor_point_hud)

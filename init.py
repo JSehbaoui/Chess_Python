@@ -1,1 +1,2 @@
-#kommt noch#
+# initiating the game itself
+
