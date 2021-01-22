@@ -301,11 +301,14 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD"):
 
 
         #updating the hud#
+        if round_int % 2 == 0:
+            pygame.draw.rect(hud, BLACK, [0.45*tile_size, 0.2*tile_size, 3.1*tile_size, 1.6*tile_size])
+        elif round_int % 2 == 1:
+            pygame.draw.rect(hud, BLACK, [4.45*tile_size, 0.2*tile_size, 3.1*tile_size, 1.6*tile_size])
+
         hud.blit(p1, (0.5*tile_size, 0.25*tile_size))
         hud.blit(p2, (4.5*tile_size, 0.25*tile_size))
         hud.blit(timer_label, (3.65*tile_size, 0.75*tile_size))
-
-
 
 
         #bliting the subsurfaces on the mainsurface
