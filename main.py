@@ -15,6 +15,8 @@ from components.knights_cls import Knights
 from components.queens_cls import Queens
 from components.kings_cls import Kings
 from components.board_cls import Board
+from components.clock import Clock
+from components.history import Hud
 
 
 def main():
@@ -36,6 +38,8 @@ def main():
     BLACK = (0,0,0)
     RED = (255,0,0)
     GREEN = (0,255,0)
+    BG_COLOR_1 = (0, 152, 163)
+    BG_COLOR_2 = (2, 112, 120)
 
     #reading the constants from the json file#
     json_file = open(os.getcwd()+r"\components\constants.json", "r")
@@ -50,12 +54,15 @@ def main():
     #setting up the variables for a new and fresh game#
     screen_size = (11*tile_size, 11*tile_size)
     starting_time = str(datetime.datetime.now())[11:19]
-    p1_time = 300
-    p2_time = 300
-    font = pygame.font.SysFont("Arial", 20)
+    # p1_time = 300
+    # p2_time = 300
+    font = pygame.font.SysFont("DejaVu Sans", int(tile_size*0.2))
+    font_titles = pygame.font.SysFont("DejaVu Sans", int(tile_size*0.25))
     go = True
     Pieces.white_is_checked = False
     Pieces.black_is_checked = False    
+
+    timer = Clock(time = 5)
 
     #creating the surfaces#
     screen = pygame.display.set_mode(screen_size)
@@ -63,13 +70,10 @@ def main():
     hud = pygame.Surface((10.25*tile_size, 2*tile_size))
     p1 = pygame.Surface((3*tile_size, 1.5*tile_size))
     p2 = pygame.Surface((3*tile_size, 1.5*tile_size))
-    h = pygame.Surface((2*tile_size, 8*tile_size))
-    screen.fill(WHITE)
-    hud.fill(RED)
-    h.fill(GREEN)
-
-
-
+    h = Hud((2*tile_size, 8*tile_size))
+    screen.fill(BG_COLOR_1)
+    hud.fill(BG_COLOR_2)
+    h.fill(BG_COLOR_2)
 
     #window caption#
     pygame.display.set_caption("Chess")
@@ -80,6 +84,8 @@ def main():
     #creating the board on the subsurface#
     board = Board(master = s, width = 8, height = 8, tile_size = tile_size, color_a = (245, 216, 188), color_b = (176, 142, 109), anchor_point = anchor_point_s)
     board.draw_board()
+
+    h.print((10, 30), "MOVES", font_titles)
 
     #loading and resizing the images for the pieces#
     white_pawn_img = pygame.image.load(r'assets/white_pawn.png')
@@ -163,8 +169,8 @@ def main():
     Knights(master = s, name = 'R-Knight-W', tile_x = 1, tile_y = 7, farbe = 'weiss', image = white_knight_img)
     Bishops(master = s, name = 'L-Bishop-W', tile_x = 2, tile_y = 7, farbe = 'weiss', image = white_bishop_img)
     Bishops(master = s, name = 'R-Bishop-W', tile_x = 5, tile_y = 7, farbe = 'weiss', image = white_bishop_img)
-    Queens(master = s, name = 'Queen-W', tile_x = 3, tile_y = 7, farbe = 'weiss', image = white_queen_img)
-    Kings(master = s, name = 'King-W', tile_x = 4, tile_y = 7, farbe = 'weiss', image = white_king_img)
+    Queens(master = s, name = '##Queen-W', tile_x = 3, tile_y = 7, farbe = 'weiss', image = white_queen_img)
+    Kings(master = s, name = '##King-W', tile_x = 4, tile_y = 7, farbe = 'weiss', image = white_king_img)
 
     BlackPawns(master = s, name = 'A-Pawn-B', tile_x = 0, tile_y = 1, farbe = 'schwarz', image = black_pawn_img)
     BlackPawns(master = s, name = 'B-Pawn-B', tile_x = 1, tile_y = 1, farbe = 'schwarz', image = black_pawn_img)
@@ -180,8 +186,8 @@ def main():
     Knights(master = s, name = 'R-Knight-B', tile_x = 6, tile_y = 0, farbe = 'schwarz', image = black_knight_img)
     Bishops(master = s, name = 'L-Bishop-B', tile_x = 2, tile_y = 0, farbe = 'schwarz', image = black_bishop_img)
     Bishops(master = s, name = 'R-Bishop-B', tile_x = 5, tile_y = 0, farbe = 'schwarz', image = black_bishop_img)
-    Queens(master = s, name = 'Queen-B', tile_x = 3, tile_y = 0, farbe = 'schwarz', image = black_queen_img)
-    Kings(master = s, name = 'King-B', tile_x = 4, tile_y = 0, farbe = 'schwarz', image = black_king_img)
+    Queens(master = s, name = '##Queen-B', tile_x = 3, tile_y = 0, farbe = 'schwarz', image = black_queen_img)
+    Kings(master = s, name = '##King-B', tile_x = 4, tile_y = 0, farbe = 'schwarz', image = black_king_img)
 
     #a list for every possesed tile on the board#
     occupied_tiles = [] 
@@ -255,22 +261,33 @@ def main():
         #updating the mainsurface#
         pygame.display.update()
 
-        #updating the subsurfaces#
-        p1.fill(BLACK)
-        p2.fill(BLACK)
-            
-        Player_1_label = font.render("Player 1", 1, WHITE)
-        Player_2_label = font.render("Player 2", 1, WHITE)
+        #clearing the Subsurfaces#
+        p1.fill(BG_COLOR_1)
+        p2.fill(BG_COLOR_1)
+        hud.fill(BG_COLOR_2)
 
-        time_p1 = str(4+int(starting_time[3:5])-int(str(datetime.datetime.now())[14:16]))+ ':'+ str(59+int(starting_time[6:])-int(str(datetime.datetime.now())[17:19]))
-        time_p1_label = font.render(time_p1, 1, WHITE)
+        #refresh the time of the timers#
+        timer.refreshTime()
 
-        p1.blit(Player_1_label, (0,0))
-        p2.blit(Player_2_label, (0,0))
-        p1.blit(time_p1_label, (0, 30))
 
-        hud.blit(p1, (50, 0.25*tile_size))
-        hud.blit(p2, (300, 0.25*tile_size))
+        #creating the labels to be printed on the subsurfaces#
+        Player_1_label = font_titles.render("Player 1", 1, BLACK)
+        Player_2_label = font_titles.render("Player 2", 1, BLACK)
+        timer_label = font_titles.render(timer.getTime(), 1, BLACK)
+
+
+        #printing the labes on the subsurfaces
+        p1.blit(Player_1_label, (120,0))
+        p2.blit(Player_2_label, (120,0))
+
+
+
+        #updating the hud#
+        hud.blit(p1, (0.5*tile_size, 0.25*tile_size))
+        hud.blit(p2, (4.5*tile_size, 0.25*tile_size))
+        hud.blit(timer_label, (3.65*tile_size, 0.75*tile_size))
+
+        #bliting the subsurfaces on the mainsurface
         screen.blit(s, anchor_point_s)
         screen.blit(h, anchor_point_h)
         screen.blit(hud, anchor_point_hud)
@@ -310,7 +327,9 @@ def main():
                             if round_int % 2 == 1 and piece.farbe == (0,0,0) or round_int % 2 == 0 and piece.farbe == (255, 255, 255):
 
                                 #...wait for the second mouse input#
-                                piece.move(occupied_tiles = occupied_tiles, board = board, screen = screen)
+                                h.print(((round_int%2)*80+30, round_int//2*30+70), piece.move(occupied_tiles = occupied_tiles, board = board, screen = screen), font = font)
+                                if round_int % 2 == 0:
+                                    h.print((0, round_int//2*30+70), str(round_int//2+1), font) 
 
                                 #check if the white kiung is checked#
                                 if round_int % 2 == 0:

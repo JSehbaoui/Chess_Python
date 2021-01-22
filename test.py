@@ -71,5 +71,7 @@ import os
 #         time.sleep(1)
 #         os.system('cls')
 
-print(str(datetime.datetime.now())[11:19])
+# print(str(datetime.datetime.now())[11:19])
+
+print(ord('a'))
 

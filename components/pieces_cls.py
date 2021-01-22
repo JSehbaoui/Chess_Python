@@ -1,6 +1,7 @@
 import pygame
 import json
 import os
+from components.board_cls import Board
 
 json_file = open(os.getcwd()+r"\components\constants.json", "r")
 json_content = json.load(json_file)
@@ -90,6 +91,7 @@ class Pieces:
     
         go = True
         ok = True
+        move = ''
 
 
         while go:
@@ -129,14 +131,30 @@ class Pieces:
                                                 if self.farbe != piece.farbe:
                                                     go = False
                                                     ok = False
-                                                    print('TAKES')
 
                                                     Pieces.round_increment()
 
                                                     self.animate(screen = screen, start_pos_x = self.x, start_pos_y = self.y, stop_pos_x = possible_move[0], stop_pos_y = possible_move[1], time = 0.2, board = board)
                                                     self.x = possible_move[0]
                                                     self.y = possible_move[1]
+
+                                                    if "Pawn" in self.name:
+                                                        piece_icon = "♙"
+                                                    elif "Rook" in self.name:
+                                                        piece_icon = "♖"
+                                                    elif "Knight" in self.name:
+                                                        piece_icon = "♘"
+                                                    elif "Bishop" in self.name:
+                                                        piece_icon = "♗"
+                                                    elif "Queen" in self.name:
+                                                        piece_icon = "♕"
+                                                    elif "King" in self.name:
+                                                        piece_icon = "♔"
                                                     
+                                                    move = piece_icon + "x" + Board.getcurrentTile(self.x, self.y, tile_size) 
+
+                                                    print(move)
+
                                                     Pieces.draw(self, screen)
                                                     Pieces.all_pieces_list.remove(piece)
 
@@ -163,9 +181,26 @@ class Pieces:
                                         self.x = possible_move[0]
                                         self.y = possible_move[1]
                                         Pieces.draw(self, screen)
-                                        print('Moved')
                                         Pieces.round_increment()
                                         go = False
+
+                                        
+                                        if "Pawn" in self.name:
+                                            piece_icon = "♙"
+                                        elif "Rook" in self.name:
+                                            piece_icon = "♖"
+                                        elif "Knight" in self.name:
+                                            piece_icon = "♘"
+                                        elif "Bishop" in self.name:
+                                            piece_icon = "♗"
+                                        elif "Queen" in self.name:
+                                            piece_icon = "♕"
+                                        elif "King" in self.name:
+                                            piece_icon = "♔"
+                                        
+                                        move = piece_icon + Board.getcurrentTile(self.x, self.y, tile_size) 
+
+                                        print(move)
 
                                         if 'Pawn_B' in self.name and self.x == 350 or 'Pawn_W' in self.name and self.x == 0:
                                             self.promotion()
@@ -175,6 +210,8 @@ class Pieces:
                             else:
                                 go = False        
                     go = False     
+        
+        return move
                 
     def getPossible_Moves(self):
         return ''

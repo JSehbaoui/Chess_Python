@@ -1,6 +1,9 @@
 import pygame
 
 class Board:
+
+    game_draws = []
+
     def __init__(self, master, width, height, tile_size, color_a, color_b, anchor_point, border_color = (152, 186, 0)):
         self.master = master
         self.width = width
@@ -68,4 +71,20 @@ class Board:
     def check(self, king_pos):
         self.changeTilecolor(tile = king_pos, newColor = (247, 87, 87))
 
+    @staticmethod
+    def getcurrentTile(x_, y_, tile_size):
+        
+        for x in range(8):
+            if x_ >= x*tile_size and x_ < x*tile_size+tile_size:
+                posx = chr(x+97)
+        
+        for y in range(8):
+            if y_ >= y*tile_size and y_ < y*tile_size+tile_size:
+                posy = 9-y-1
+        
+        return str(posx)+str(posy)
 
+
+# b = Board(None, None, None, 120, None, None, None, None)
+
+# print(Board.getcurrentTile(356, 270))
