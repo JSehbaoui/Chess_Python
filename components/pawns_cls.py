@@ -49,7 +49,6 @@ class BlackPawns(Pieces):
                 possible_moves.append((self.x-tile_size, self.y+tile_size))
 
         return Pieces.check_limitation(possible_moves=possible_moves)
-        
 
     def promotion(self):
         
@@ -58,10 +57,8 @@ class BlackPawns(Pieces):
         queen.draw()
         Pieces.all_pieces_list.remove(self)
 
-
     def attacked_tiles(self):
         return [(self.x+tile_size, self.y+tile_size), (self.x-tile_size, self.y+tile_size)]
-
 
 
 class WhitePawns(Pieces):

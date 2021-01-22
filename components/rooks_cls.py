@@ -44,7 +44,6 @@ class Rooks(Pieces):
 
         return possible_moves
     
-
     def attacking_line(self):
         
         if self.farbe == (0,0,0):

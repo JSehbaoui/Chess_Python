@@ -36,7 +36,6 @@ class Pieces:
         # Pieces.draw(self)
         Pieces.all_pieces_list.append(self)
 
-
     @staticmethod
     def round_increment():
 

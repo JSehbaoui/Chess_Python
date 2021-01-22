@@ -145,22 +145,22 @@ class Queens(Pieces):
                             return list_
                             break
 
-                        if newstep5 == (blackKing.x, blackKing.y):
+                        if newstep5 == (whiteKing.x, whiteKing.y):
                             self.check_row_tiles(current_moves=list_, step_x = tile_size, step_y = 0, attacking = False)
                             return list_
                             break
                         
-                        if newstep6 == (blackKing.x, blackKing.y):
+                        if newstep6 == (whiteKing.x, whiteKing.y):
                             self.check_row_tiles(current_moves=list_, step_x = tile_size*-1, step_y = 0, attacking = False)
                             return list_
                             break 
                         
-                        if newstep7 == (blackKing.x, blackKing.y):
+                        if newstep7 == (whiteKing.x, whiteKing.y):
                             self.check_row_tiles(current_moves=list_, step_x = 0, step_y = tile_size, attacking = False)
                             return list_
                             break
 
-                        if newstep8 == (blackKing.x, blackKing.y):
+                        if newstep8 == (whiteKing.x, whiteKing.y):
                             self.check_row_tiles(current_moves=list_, step_x = 0, step_y = tile_size*-1, attacking = False)
                             return list_
                             break

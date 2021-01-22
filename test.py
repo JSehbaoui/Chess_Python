@@ -1,14 +1,16 @@
-# import pygame
-# import math
+import pygame
+import math
 
-# pygame.init()
+pygame.init()
 
-# screen_size = (800, 800)
+screen_size = (800, 800)
 
-# SCREEN = pygame.display.set_mode(screen_size)
-# pygame.display.set_caption("Chess")
+SCREEN = pygame.display.set_mode(screen_size)
+pygame.display.set_caption("Chess")
 
-# clock = pygame.time.Clock()
+clock = pygame.time.Clock()
+
+print(pygame.display.get_window_size())
 
 # newx = 0
 # speed = 3

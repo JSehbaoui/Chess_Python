@@ -49,14 +49,14 @@ class Kings(Pieces):
                 possible_moves_filtered.append(move)
 
         # reset the lists for the next filter
-        possible_moves_unfiltered = possible_moves_filtered
+        possible_moves_unfiltered = list(possible_moves_filtered)
         possible_moves_filtered = []
         
         # filters the tiles, that are currently attacked by the enemy
         for move in possible_moves_unfiltered:
             for piece in Pieces.all_pieces_list:
                 if piece.farbe != self.farbe:
-                    if piece == Pieces.checking_piece:
+                    if piece == Pieces.checking_piece and not("Pawn" in piece.name or "King" in piece.name or "Knight" in piece.name):
                         piece_attacted_tiles_arr = piece.attacking_line()
                     else:
                         piece_attacted_tiles_arr = piece.attacked_tiles()
