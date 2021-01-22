@@ -16,17 +16,19 @@ json_file.close()
 class Pieces:
 
     all_pieces_list = []
+    taken_pieces = []
 
     white_is_checked = False
     black_is_checked = False
 
     checking_piece = None
 
-    def __init__(self, master, name, tile_x, tile_y, farbe, image):
+    def __init__(self, master, name, tile_x, tile_y, farbe, image, value):
         self.x = tile_x*tile_size
         self.y = tile_y*tile_size
         self.possible_moves = []
         self.master = master
+        self.value = value
         self.name = name
         self.image = pygame.transform.scale(image, (tile_size-20, tile_size-20))
         if farbe == 'schwarz':
@@ -155,6 +157,7 @@ class Pieces:
                                                     print(move)
 
                                                     Pieces.draw(self, screen)
+                                                    Pieces.taken_pieces.append(piece)
                                                     Pieces.all_pieces_list.remove(piece)
 
                                                     if 'Pawn-B' in self.name and self.y == 490 or 'Pawn-W' in self.name and self.y == 0:

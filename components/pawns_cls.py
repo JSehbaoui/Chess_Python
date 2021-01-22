@@ -14,8 +14,8 @@ tile_size = json_content["tile_size"]
 json_file.close()
 
 class BlackPawns(Pieces):
-    def __init__(self, master, name, tile_x, tile_y, farbe, image):
-        super().__init__(master, name, tile_x, tile_y, farbe, image)
+    def __init__(self, master, name, tile_x, tile_y, farbe, image, value):
+        super().__init__(master, name, tile_x, tile_y, farbe, image, value)
     
     def getPossible_Moves(self):
 
@@ -62,8 +62,8 @@ class BlackPawns(Pieces):
 
 
 class WhitePawns(Pieces):
-    def __init__(self, master, name, tile_x, tile_y, farbe, image):
-        super().__init__(master, name, tile_x, tile_y, farbe, image)
+    def __init__(self, master, name, tile_x, tile_y, farbe, image, value):
+        super().__init__(master, name, tile_x, tile_y, farbe, image, value)
     
     def getPossible_Moves(self):
 
