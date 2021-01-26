@@ -235,34 +235,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "TESTING"):
         board.draw_board()
 
         #detecting if the white king is checked#
-        if round_int % 2 == 0:
-            for white_king in Pieces.all_pieces_list:
-                if isinstance(white_king, Kings) and white_king.farbe == (255, 255, 255):
-                    for piece in Pieces.all_pieces_list:
-                        if piece != white_king and piece.farbe != white_king.farbe:
-                            if (white_king.x, white_king.y) in piece.attacked_tiles():
-                                Pieces.white_is_checked = True
-                                Pieces.checking_piece = piece
-                                break
-                            else:
-                                Pieces.white_is_checked = False
-                    if not Pieces.white_is_checked:
-                        Pieces.checking_piece = None
-
-        #detecting if the black king is checked#
-        else:
-            for black_king in Pieces.all_pieces_list:
-                if isinstance(black_king, Kings) and black_king.farbe == (0, 0, 0):
-                    for piece in Pieces.all_pieces_list:
-                        if piece != black_king and piece.farbe != black_king.farbe:
-                            if (black_king.x, black_king.y) in piece.attacked_tiles():
-                                Pieces.black_is_checked = True
-                                Pieces.checking_piece = piece
-                                break
-                            else:
-                                Pieces.black_is_checked = False
-                    if not Pieces.black_is_checked:
-                        Pieces.checking_piece = None
+        Pieces.detectingCheck()
 
         #highlighting the checked king#
         if Pieces.white_is_checked:
@@ -372,34 +345,8 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "TESTING"):
                                     h.print((0, round_int//2*30+70), str(round_int//2+1), font) 
 
                                 #check if the white kiung is checked#
-                                if round_int % 2 == 0:
-                                    for white_king in Pieces.all_pieces_list:
-                                        if isinstance(white_king, Kings) and white_king.farbe == (255, 255, 255):
-                                            for piece in Pieces.all_pieces_list:
-                                                if piece != white_king and piece.farbe != white_king.farbe:
-                                                    if (white_king.x, white_king.y) in piece.attacked_tiles():
-                                                        Pieces.white_is_checked = True
-                                                        Pieces.checking_piece = piece
-                                                        break
-                                                    else:
-                                                        Pieces.white_is_checked = False
-                                            if not Pieces.white_is_checked:
-                                                Pieces.checking_piece = None
-                                #check if the white is checked#
-                                elif round_int % 2 == 1:
-                                    for black_king in Pieces.all_pieces_list:
-                                        if isinstance(black_king, Kings) and black_king.farbe == (0, 0, 0):
-                                            for piece in Pieces.all_pieces_list:
-                                                if piece != black_king and piece.farbe != black_king.farbe:
-                                                    if (black_king.x, black_king.y) in piece.attacked_tiles():
-                                                        Pieces.black_is_checked = True
-                                                        Pieces.checking_piece = piece
-                                                        break
-                                                    else:
-                                                        Pieces.black_is_checked = False
-                                            if not Pieces.white_is_checked:
-                                                Pieces.checking_piece = None
-        
+                                Pieces.detectingCheck()
+                                                
     #resetting the variables in the .json file#
     json_file = open(r'components\constants.json', 'r')
     json_content = json.load(json_file)
