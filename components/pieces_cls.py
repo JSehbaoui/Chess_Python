@@ -290,14 +290,19 @@ class Pieces:
     @classmethod
     def check_limitation(cls, possible_moves):
         finite_moves = []
-        if Pieces.white_is_checked or Pieces.black_is_checked:
-            enemy_moves = Pieces.checking_piece.attacking_line()
-            for possible_move in possible_moves:
-                for enemy_move in enemy_moves:
-                    if enemy_move == possible_move or possible_move == (Pieces.checking_piece.x, Pieces.checking_piece.y):
-                        finite_moves.append(possible_move)
+        if (Pieces.white_is_checked or Pieces.black_is_checked):
+            if not ("King" in Pieces.checking_piece.name or "Pawn" in Pieces.checking_piece.name or "Knight" in Pieces.checking_piece.name):
+                enemy_moves = Pieces.checking_piece.attacking_line()
+                for possible_move in possible_moves:
+                    for enemy_move in enemy_moves:
+                        if enemy_move == possible_move or possible_move == (Pieces.checking_piece.x, Pieces.checking_piece.y):
+                            finite_moves.append(possible_move)
 
-            return finite_moves
+                return finite_moves
+            else:
+                for move in possible_moves:
+                    if (Pieces.checking_piece.x, Pieces.checking_piece.y) == move:
+                        return [move]
         else:
             return possible_moves
-            
+        
