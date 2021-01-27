@@ -292,6 +292,8 @@ class Pieces:
         finite_moves = []
         if (Pieces.white_is_checked or Pieces.black_is_checked):
             if not ("King" in Pieces.checking_piece.name or "Pawn" in Pieces.checking_piece.name or "Knight" in Pieces.checking_piece.name):
+                
+                print(Pieces.checking_piece.name)
                 enemy_moves = Pieces.checking_piece.attacking_line()
                 for possible_move in possible_moves:
                     for enemy_move in enemy_moves:
@@ -308,31 +310,61 @@ class Pieces:
     
     @staticmethod
     def detectingCheck():
-        if round_int % 2 == 0:
-            for white_king in Pieces.all_pieces_list:
-                if 'King' in white_king.name and white_king.farbe == (255, 255, 255):
-                    for piece in Pieces.all_pieces_list:
-                        if piece != white_king and piece.farbe != white_king.farbe:
-                            if (white_king.x, white_king.y) in piece.attacked_tiles():
-                                Pieces.white_is_checked = True
-                                Pieces.checking_piece = piece
-                                break
-                            else:
-                                Pieces.white_is_checked = False
-                    if not Pieces.white_is_checked:
-                        Pieces.checking_piece = None
+        # if round_int % 2 == 0:
+        for white_king in Pieces.all_pieces_list:
+            if 'King' in white_king.name and white_king.farbe == (255, 255, 255):
+                for piece in Pieces.all_pieces_list:
+                    if piece != white_king and piece.farbe != white_king.farbe:
+                        if (white_king.x, white_king.y) in piece.attacked_tiles():
+                            Pieces.white_is_checked = True
+                            Pieces.checking_piece = piece
+                            break
+                        else:
+                            Pieces.white_is_checked = False
+                if not Pieces.white_is_checked:
+                    Pieces.checking_piece = None
 
         #detecting if the black king is checked#
-        else:
-            for black_king in Pieces.all_pieces_list:
-                if 'King' in black_king.name and black_king.farbe == (0, 0, 0):
-                    for piece in Pieces.all_pieces_list:
-                        if piece != black_king and piece.farbe != black_king.farbe:
-                            if (black_king.x, black_king.y) in piece.attacked_tiles():
-                                Pieces.black_is_checked = True
-                                Pieces.checking_piece = piece
-                                break
-                            else:
-                                Pieces.black_is_checked = False
-                    if not Pieces.black_is_checked:
-                        Pieces.checking_piece = None
+        # else:
+        for black_king in Pieces.all_pieces_list:
+            if 'King' in black_king.name and black_king.farbe == (0, 0, 0):
+                for piece in Pieces.all_pieces_list:
+                    if piece != black_king and piece.farbe != black_king.farbe:
+                        if (black_king.x, black_king.y) in piece.attacked_tiles():
+                            Pieces.black_is_checked = True
+                            Pieces.checking_piece = piece
+                            break
+                        else:
+                            Pieces.black_is_checked = False
+                if not Pieces.black_is_checked:
+                    Pieces.checking_piece = None
+
+
+    def foresight(self, possible_moves):
+        
+        old_pos = self.x, self.y
+
+        it = filter(self.filter_method_foresight, possible_moves)
+
+        possible_moves = list(it)
+            
+        self.x, self.y = old_pos
+
+        return possible_moves
+    
+    @staticmethod
+    def filter_method(tuple):
+        return tuple[0] >= 0 and tuple[1] >= 0 and tuple[0] <= 7*tile_size and tuple[1] <= 7*tile_size
+
+    def filter_method_foresight(self, move):
+
+        self.x, self.y = move
+
+        Pieces.detectingCheck()
+
+        white_check = bool(Pieces.white_is_checked)
+        black_check = bool(Pieces.black_is_checked)
+        white_bool = bool(self.farbe == (255,255,255))
+        black_bool = bool(self.farbe == (0,0,0))
+
+        return (white_bool and not white_check) or (black_bool and not black_check)

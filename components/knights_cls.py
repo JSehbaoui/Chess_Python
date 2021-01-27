@@ -47,8 +47,9 @@ class Knights(Pieces):
             for i in range(len(index_list)):
                 index_list[i] -= 1
 
+        possible_moves = self.foresight(possible_moves)
 
-        return Pieces.check_limitation(possible_moves=possible_moves)
+        return possible_moves # Pieces.check_limitation(possible_moves=possible_moves)
     
     def attacked_tiles(self):
         possible_moves = [(self.x-2*tile_size, self.y+tile_size),

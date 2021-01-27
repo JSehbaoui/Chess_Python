@@ -75,5 +75,19 @@ import os
 
 # print(str(datetime.datetime.now())[11:19])
 
-print(ord('a'))
+# print(ord('a'))
 
+
+
+# print(bool(-140 < 0))
+
+numbers = [(0,0), (1,1)]
+
+def less_than_three(tuple):
+	return tuple[0] > 0
+
+an_iterator = filter(less_than_three, numbers)
+
+filtered_numbers = list(an_iterator)
+
+print(filtered_numbers)

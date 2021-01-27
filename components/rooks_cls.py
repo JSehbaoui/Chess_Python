@@ -28,9 +28,9 @@ class Rooks(Pieces):
 
         # if white or black is checked look if you can move at an attacked square, from the attacking piece
 
+        possible_moves = self.foresight(possible_moves)
 
-
-        return Pieces.check_limitation(possible_moves=possible_moves)
+        return possible_moves #Pieces.check_limitation(possible_moves=possible_moves)
     
     def attacked_tiles(self):
         possible_moves = []

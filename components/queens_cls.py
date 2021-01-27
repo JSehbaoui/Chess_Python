@@ -29,9 +29,15 @@ class Queens(Pieces):
         self.check_row_tiles(current_moves = possible_moves, step_x= 0, step_y = tile_size,  attacking = False)
         self.check_row_tiles(current_moves = possible_moves, step_x= 0, step_y = tile_size*-1,  attacking = False)
  
+        iterator = filter(self.filter_method, possible_moves)
 
+        possible_moves = list(iterator)
 
-        return Pieces.check_limitation(possible_moves=possible_moves)
+        possible_moves = self.foresight(possible_moves)
+
+        # possible_moves = Pieces.check_limitation(possible_moves=possible_moves)
+
+        return possible_moves
 
     def attacked_tiles(self):
         possible_moves = []
@@ -164,3 +170,5 @@ class Queens(Pieces):
                             self.check_row_tiles(current_moves=list_, step_x = 0, step_y = tile_size*-1, attacking = False)
                             return list_
                             break
+
+        

@@ -65,6 +65,8 @@ class Kings(Pieces):
             if possible:
                 possible_moves_filtered.append(move)
 
+        possible_moves_filtered = self.foresight(possible_moves_filtered)
+
         return possible_moves_filtered
 
     def attacked_tiles(self):

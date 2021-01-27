@@ -48,7 +48,9 @@ class BlackPawns(Pieces):
             if self.x-tile_size == piece.x and self.y+tile_size == piece.y and self.farbe != piece.farbe:
                 possible_moves.append((self.x-tile_size, self.y+tile_size))
 
-        return Pieces.check_limitation(possible_moves=possible_moves)
+        possible_moves = self.foresight(possible_moves)
+
+        return possible_moves #Pieces.check_limitation(possible_moves=possible_moves)
 
     def promotion(self):
         
@@ -95,7 +97,9 @@ class WhitePawns(Pieces):
             if self.x-tile_size == piece.x and self.y-tile_size == piece.y and self.farbe != piece.farbe:
                 possible_moves.append((self.x-tile_size, self.y-tile_size))
 
-        return Pieces.check_limitation(possible_moves= possible_moves)
+        possible_moves = self.foresight(possible_moves)
+
+        return possible_moves #Pieces.check_limitation(possible_moves= possible_moves)
 
     def attacked_tiles(self):
         return [(self.x+tile_size, self.y-tile_size), (self.x-tile_size, self.y-tile_size), (self.x, self.y)]

@@ -30,6 +30,10 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "TESTING"):
     json_file.writelines(json.dumps(json_content))
     json_file.close()
 
+    Pieces.white_is_checked = False
+    Pieces.black_is_checked = False
+    Pieces.checking_piece = None
+
     #initiating pygame#
     pygame.init()
 
@@ -59,8 +63,6 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "TESTING"):
     font = pygame.font.SysFont("DejaVu Sans", int(tile_size*0.2))
     font_titles = pygame.font.SysFont("DejaVu Sans", int(tile_size*0.25))
     go = True
-    Pieces.white_is_checked = False
-    Pieces.black_is_checked = False    
 
     timer = Clock(time = 5)
 
@@ -320,6 +322,18 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "TESTING"):
 
                 #kill window if ESC is pressed#
                 if event.key == pygame.K_ESCAPE:
+                    Pieces.white_is_checked = False
+                    Pieces.black_is_checked = False
+                    Pieces.checking_piece = None
+
+                    json_file = open(r'components\constants.json', 'r')
+                    json_content = json.load(json_file)
+                    json_content["round_int"] = 0
+                    json_file.close()
+                    json_file = open(r'components\constants.json', 'w')
+                    json_file.writelines(json.dumps(json_content))
+                    json_file.close()
+
                     quit()
                 
                 #(TEMP) my information key (arrow down) to get certain information#
@@ -346,7 +360,12 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "TESTING"):
 
                                 #check if the white kiung is checked#
                                 Pieces.detectingCheck()
-                                                
+
+
+    Pieces.white_is_checked = False
+    Pieces.black_is_checked = False
+    Pieces.checking_piece = None
+
     #resetting the variables in the .json file#
     json_file = open(r'components\constants.json', 'r')
     json_content = json.load(json_file)
