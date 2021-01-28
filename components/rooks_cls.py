@@ -1,4 +1,3 @@
-import pygame
 from components.pieces_cls import Pieces
 from components.kings_cls import Kings
 

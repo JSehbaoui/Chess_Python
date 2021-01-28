@@ -139,6 +139,8 @@ class Pieces:
                                                     self.x = possible_move[0]
                                                     self.y = possible_move[1]
 
+                                                    piece_icon = '?'
+
                                                     if "Pawn" in self.name:
                                                         piece_icon = "♙"
                                                     elif "Rook" in self.name:
@@ -186,6 +188,7 @@ class Pieces:
                                         Pieces.round_increment()
                                         go = False
 
+                                        piece_icon = '?'
                                         
                                         if "Pawn" in self.name:
                                             piece_icon = "♙"

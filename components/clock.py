@@ -1,6 +1,4 @@
-import pygame 
 import datetime
-import time
 
 class Clock:
 

@@ -43,7 +43,7 @@ def main():
             if event.type == pygame.QUIT:
                 done = True
 
-        Button1.checkClick(event)
+            Button1.checkClick(event)
         
 
         screen.fill((255, 255, 255))

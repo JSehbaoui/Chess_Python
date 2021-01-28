@@ -73,7 +73,9 @@ class Board:
 
     @staticmethod
     def getcurrentTile(x_, y_, tile_size):
-        
+        posx = 0
+        posy = 0
+
         for x in range(8):
             if x_ >= x*tile_size and x_ < x*tile_size+tile_size:
                 posx = chr(x+97)

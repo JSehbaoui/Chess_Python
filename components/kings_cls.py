@@ -1,4 +1,3 @@
-import pygame
 from .pieces_cls import Pieces
 
 import json
