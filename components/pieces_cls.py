@@ -309,12 +309,12 @@ class Pieces:
             return possible_moves
     
     @staticmethod
-    def detectingCheck():
+    def detectingCheck(ignoring_piece = None):
         # if round_int % 2 == 0:
         for white_king in Pieces.all_pieces_list:
             if 'King' in white_king.name and white_king.farbe == (255, 255, 255):
                 for piece in Pieces.all_pieces_list:
-                    if piece != white_king and piece.farbe != white_king.farbe:
+                    if piece != white_king and piece.farbe != white_king.farbe and piece != ignoring_piece:
                         if (white_king.x, white_king.y) in piece.attacked_tiles():
                             Pieces.white_is_checked = True
                             Pieces.checking_piece = piece
@@ -329,7 +329,7 @@ class Pieces:
         for black_king in Pieces.all_pieces_list:
             if 'King' in black_king.name and black_king.farbe == (0, 0, 0):
                 for piece in Pieces.all_pieces_list:
-                    if piece != black_king and piece.farbe != black_king.farbe:
+                    if piece != black_king and piece.farbe != black_king.farbe and piece != ignoring_piece:
                         if (black_king.x, black_king.y) in piece.attacked_tiles():
                             Pieces.black_is_checked = True
                             Pieces.checking_piece = piece
@@ -360,7 +360,14 @@ class Pieces:
 
         self.x, self.y = move
 
-        Pieces.detectingCheck()
+        ignoring_piece = None
+
+        # if you want to simulate to take a piece, without taking it, you can just ignore it in the .detectingCheck method
+        for piece in Pieces.all_pieces_list:
+            if (self.x, self.y) == (piece.x, piece.y):
+                ignoring_piece = piece
+
+        Pieces.detectingCheck(ignoring_piece = ignoring_piece)
 
         white_check = bool(Pieces.white_is_checked)
         black_check = bool(Pieces.black_is_checked)
