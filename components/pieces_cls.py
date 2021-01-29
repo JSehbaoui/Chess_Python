@@ -104,6 +104,23 @@ class Pieces:
                 for pieces in Pieces.all_pieces_list:
                     pieces.draw(screen)
 
+                highlight_color = (0,0,0)
+
+                #color_a = (245, 216, 188), color_b = (176, 142, 109)
+
+                if self.y/tile_size % 2 == 0:
+                    if self.x/tile_size % 2 == 0:
+                        highlight_color = (189, 204, 157)
+                    else:
+                        highlight_color = (158, 173, 134)
+                else:
+                    if self.x/tile_size % 2 == 0:
+                        highlight_color = (158, 173, 134)
+                    else:
+                        highlight_color = (189, 204, 157)
+                
+                board.changeTilecolor(tile = (self.x, self.y), newColor = highlight_color)
+
                 pygame.display.update()
 
 
