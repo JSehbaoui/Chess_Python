@@ -25,6 +25,10 @@ class Rooks(Pieces):
         self.check_row_tiles(current_moves = possible_moves, step_x= 0, step_y = tile_size,  attacking = False)
         self.check_row_tiles(current_moves = possible_moves, step_x= 0, step_y = tile_size*-1,  attacking = False)
 
+        iterator = filter(self.filter_method, possible_moves)
+
+        possible_moves = list(iterator)
+
         # if white or black is checked look if you can move at an attacked square, from the attacking piece
 
         possible_moves = self.foresight(possible_moves)

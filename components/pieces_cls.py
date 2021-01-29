@@ -367,7 +367,7 @@ class Pieces:
 
         # if you want to simulate to take a piece, without taking it, you can just ignore it in the .detectingCheck method
         for piece in Pieces.all_pieces_list:
-            if (self.x, self.y) == (piece.x, piece.y):
+            if (self.x, self.y) == (piece.x, piece.y) and not (piece == self):
                 ignoring_piece = piece
 
         Pieces.detectingCheck(ignoring_piece = ignoring_piece)
