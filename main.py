@@ -160,6 +160,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD"):
     elif mode == "STANDARD":
 
         # STANDARD
+
         WhitePawns(master = s, name = 'A-Pawn-W', tile_x = 0, tile_y = 6, farbe = 'weiss', image = white_pawn_img, value = 1)
         WhitePawns(master = s, name = 'B-Pawn-W', tile_x = 1, tile_y = 6, farbe = 'weiss', image = white_pawn_img, value = 1)
         WhitePawns(master = s, name = 'C-Pawn-W', tile_x = 2, tile_y = 6, farbe = 'weiss', image = white_pawn_img, value = 1)
