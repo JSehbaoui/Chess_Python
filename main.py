@@ -7,6 +7,8 @@ import json
 import os
 import random
 import datetime
+from stockfish import Stockfish
+from Chessnut import Game
 from components.pieces_cls import Pieces
 from components.pawns_cls import WhitePawns, BlackPawns
 from components.bishops_cls import Bishops
@@ -217,6 +219,11 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD"):
     #a list for every possesed tile on the board#
     occupied_tiles = [] 
 
+    chessnut = Game()
+    
+    bot = Stockfish(b'C:\Users\yassi\Downloads\stockfish-11-win\stockfish-11-win\Windows\stockfish_20011801_x64.exe')
+
+
     #the mainloop#
     while go:
 
@@ -352,15 +359,20 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD"):
                         if mouse_pos[0] < piece.x+tile_size and mouse_pos[1] < piece.y+tile_size:
                             
                             #if the clicked piece is one of the team that currently is to move...#
-                            if round_int % 2 == 1 and piece.farbe == (0,0,0) or round_int % 2 == 0 and piece.farbe == (255, 255, 255):
+
+                            if round_int % 2 == 0 and piece.farbe == (255, 255, 255): # or round_int % 2 == 1 and piece.farbe == (0,0,0):
 
                                 #...wait for the second mouse input#
-                                h.print(((round_int%2)*80+30, round_int//2*30+70), piece.move(occupied_tiles = occupied_tiles, board = board, screen = screen), font = font)
+                                move_ = piece.move(occupied_tiles = occupied_tiles, board = board, screen = screen)
+
+                                h.print(((round_int%2)*80+30, round_int//2*30+70), move_, font = font)
                                 if round_int % 2 == 0:
                                     h.print((0, round_int//2*30+70), str(round_int//2+1), font) 
 
                                 #check if the white kiung is checked#
                                 Pieces.detectingCheck()
+                            else:
+                                pass
 
 
     Pieces.white_is_checked = False
