@@ -92,9 +92,11 @@ class Pieces:
 
     def move_from_pos(self, move, board, screen):
         if Board.getcurrentTile(self.x, self.y, tile_size) == move[:2]:
-            old_pos = (self.x, self.y)
-            # print(move[2:])
             newpos = Board.translate_to_coordinates(move[2:], tile_size)
+            self.animate(screen=screen, start_pos_x=self.x, start_pos_y= self.y, stop_pos_x=newpos[0], stop_pos_y=newpos[1], time=0.2, board = board)
+            
+            # print(move[2:])
+            
             # self.animate(self.master, self.x, self.y, newpos[0], newpos[1], 0.2, board)
             self.x, self.y = newpos
             print('New_pos: ', self.x, self.y)
@@ -104,8 +106,7 @@ class Pieces:
 
 
             #ALSO DONT FORGET TO MAKE A MODE FOR A PVP AND PVC
-            self.animate(screen=screen, start_pos_x=old_pos[0], start_pos_y= old_pos[1], stop_pos_x=self.x, stop_pos_y=self.y, time=0.2, board = board)
-            # self.draw(screen=screen)
+            
 
             Pieces.round_increment()
 
