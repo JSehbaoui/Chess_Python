@@ -81,13 +81,6 @@ import os
 
 # print(bool(-140 < 0))
 
-numbers = [(0,0), (1,1)]
+s = 'Hallo'
 
-def less_than_three(tuple):
-	return tuple[0] > 0
-
-an_iterator = filter(less_than_three, numbers)
-
-filtered_numbers = list(an_iterator)
-
-print(filtered_numbers)
+print(ord('a'))

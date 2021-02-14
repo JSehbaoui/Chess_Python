@@ -227,6 +227,8 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD"):
     #the mainloop#
     while go:
 
+        
+
         #setting the framerate#
         clock.tick(60)
 
@@ -243,6 +245,8 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD"):
 
         #drawing the board#
         board.draw_board()
+
+        bot.set_position(Pieces.moves_done)
 
         #detecting if the white king is checked#
         Pieces.detectingCheck()
@@ -318,62 +322,70 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD"):
         screen.blit(h, anchor_point_h)
         screen.blit(hud, anchor_point_hud)
 
-        #checking for events#
-        for event in pygame.event.get():
+        #checking for events#´
 
-            #closing the screen by clicking the X#
-            if event.type == pygame.QUIT:
-                go = False
- 
-            #Keyboard-Inputs#
-            if event.type == pygame.KEYDOWN:
+        if round_int % 2 == 1:
+            opt_move = bot.get_best_move()
+            print(opt_move)
+            for piece in Pieces.all_pieces_list:
+                if piece.farbe == (0,0,0):
+                    piece.move_from_pos(move=opt_move, board=board, screen = screen)
 
-                #kill window if ESC is pressed#
-                if event.key == pygame.K_ESCAPE:
-                    Pieces.white_is_checked = False
-                    Pieces.black_is_checked = False
-                    Pieces.checking_piece = None
+        else:
+            for event in pygame.event.get():
 
-                    json_file = open(r'components\constants.json', 'r')
-                    json_content = json.load(json_file)
-                    json_content["round_int"] = 0
-                    json_file.close()
-                    json_file = open(r'components\constants.json', 'w')
-                    json_file.writelines(json.dumps(json_content))
-                    json_file.close()
+                #closing the screen by clicking the X#
+                if event.type == pygame.QUIT:
+                    go = False
+    
+                #Keyboard-Inputs#
+                if event.type == pygame.KEYDOWN:
 
-                    quit()
-                
-                #(TEMP) my information key (arrow down) to get certain information#
-                if event.key == pygame.K_DOWN:
-                    print(Pieces.taken_pieces)
-            #left mouse click#
-            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                #getting the mouseposition and than correcting it by the relative position of the subsurface#
-                mouse_pos = pygame.mouse.get_pos()
-                mouse_pos = (mouse_pos[0]-anchor_point_s[0], mouse_pos[1]-anchor_point_s[1])
+                    #kill window if ESC is pressed#
+                    if event.key == pygame.K_ESCAPE:
+                        Pieces.white_is_checked = False
+                        Pieces.black_is_checked = False
+                        Pieces.checking_piece = None
 
-                #checking if a Piece stands on the clicked tile#
-                for piece in Pieces.all_pieces_list:
-                    if mouse_pos[0] >= piece.x and mouse_pos[1] >=piece.y:
-                        if mouse_pos[0] < piece.x+tile_size and mouse_pos[1] < piece.y+tile_size:
+                        json_file = open(r'components\constants.json', 'r')
+                        json_content = json.load(json_file)
+                        json_content["round_int"] = 0
+                        json_file.close()
+                        json_file = open(r'components\constants.json', 'w')
+                        json_file.writelines(json.dumps(json_content))
+                        json_file.close()
+
+                        quit()
+                    
+                    #(TEMP) my information key (arrow down) to get certain information#
+                    if event.key == pygame.K_DOWN:
+                        print(bot.get_best_move())
+                #left mouse click#
+                elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    #getting the mouseposition and than correcting it by the relative position of the subsurface#
+                    mouse_pos = pygame.mouse.get_pos()
+                    mouse_pos = (mouse_pos[0]-anchor_point_s[0], mouse_pos[1]-anchor_point_s[1])
+
+                    #checking if a Piece stands on the clicked tile#
+                    for piece in Pieces.all_pieces_list:
+                        if mouse_pos[0] >= piece.x and mouse_pos[1] >=piece.y:
+                            if mouse_pos[0] < piece.x+tile_size and mouse_pos[1] < piece.y+tile_size:
+                                
+                                #if the clicked piece is one of the team that currently is to move...#
+
+                                if round_int % 2 == 0 and piece.farbe == (255, 255, 255): #or round_int % 2 == 1 and piece.farbe == (0,0,0):
+
+                                    #...wait for the second mouse input#
+                                    move_ = piece.move(occupied_tiles = occupied_tiles, board = board, screen = screen)
+
+                                    h.print(((round_int%2)*80+30, round_int//2*30+70), move_, font = font)
+                                    if round_int % 2 == 0:
+                                        h.print((0, round_int//2*30+70), str(round_int//2+1), font) 
+
+                                    #check if the white kiung is checked#
+                                    Pieces.detectingCheck()
                             
-                            #if the clicked piece is one of the team that currently is to move...#
-
-                            if round_int % 2 == 0 and piece.farbe == (255, 255, 255): # or round_int % 2 == 1 and piece.farbe == (0,0,0):
-
-                                #...wait for the second mouse input#
-                                move_ = piece.move(occupied_tiles = occupied_tiles, board = board, screen = screen)
-
-                                h.print(((round_int%2)*80+30, round_int//2*30+70), move_, font = font)
-                                if round_int % 2 == 0:
-                                    h.print((0, round_int//2*30+70), str(round_int//2+1), font) 
-
-                                #check if the white kiung is checked#
-                                Pieces.detectingCheck()
-                            else:
-                                pass
-
+                            
 
     Pieces.white_is_checked = False
     Pieces.black_is_checked = False

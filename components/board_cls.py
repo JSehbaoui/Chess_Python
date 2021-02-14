@@ -86,7 +86,12 @@ class Board:
         
         return str(posx)+str(posy)
 
+    @staticmethod
+    def translate_to_coordinates(tile, tile_size):
+        return (int(ord(tile[0])-97)*tile_size, (8-int(tile[1]))*tile_size)
 
+        
+print(Board.translate_to_coordinates('e2', 70))
 # b = Board(None, None, None, 120, None, None, None, None)
 
 # print(Board.getcurrentTile(356, 270))

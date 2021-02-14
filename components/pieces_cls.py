@@ -18,6 +18,8 @@ class Pieces:
     all_pieces_list = []
     taken_pieces = []
 
+    moves_done = []
+
     white_is_checked = False
     black_is_checked = False
 
@@ -87,6 +89,35 @@ class Pieces:
         #pygame.draw.rect(self.master, self.farbe, [self.x+10, self.y+10, 30, 30])
         self.master.blit(self.image, (self.x+10, self.y+10))
         screen.blit(self.master, anchor_point)
+
+    def move_from_pos(self, move, board, screen):
+        if Board.getcurrentTile(self.x, self.y, tile_size) == move[:2]:
+            old_pos = (self.x, self.y)
+            # print(move[2:])
+            newpos = Board.translate_to_coordinates(move[2:], tile_size)
+            # self.animate(self.master, self.x, self.y, newpos[0], newpos[1], 0.2, board)
+            self.x, self.y = newpos
+            print('New_pos: ', self.x, self.y)
+
+
+            #SOMETHING IS WRONG HERE WITH THE ANIMATION
+
+
+            #ALSO DONT FORGET TO MAKE A MODE FOR A PVP AND PVC
+            self.animate(screen=screen, start_pos_x=old_pos[0], start_pos_y= old_pos[1], stop_pos_x=self.x, stop_pos_y=self.y, time=0.2, board = board)
+            # self.draw(screen=screen)
+
+            Pieces.round_increment()
+
+            Pieces.moves_done.append(move)
+
+            for piece in Pieces.all_pieces_list:
+                if (piece.x, piece.y) == (self.x, self.y) and self != piece:
+                    Pieces.append_taken_piece(piece)
+
+            
+
+
     
     def move(self, occupied_tiles, board, screen):
     
@@ -152,32 +183,35 @@ class Pieces:
 
                                                     Pieces.round_increment()
 
+                                                    old_pos = (self.x, self.y)
+
                                                     self.animate(screen = screen, start_pos_x = self.x, start_pos_y = self.y, stop_pos_x = possible_move[0], stop_pos_y = possible_move[1], time = 0.2, board = board)
                                                     self.x = possible_move[0]
                                                     self.y = possible_move[1]
 
-                                                    piece_icon = '?'
+                                                    # piece_icon = '?'
 
-                                                    if "Pawn" in self.name:
-                                                        piece_icon = "♙"
-                                                    elif "Rook" in self.name:
-                                                        piece_icon = "♖"
-                                                    elif "Knight" in self.name:
-                                                        piece_icon = "♘"
-                                                    elif "Bishop" in self.name:
-                                                        piece_icon = "♗"
-                                                    elif "Queen" in self.name:
-                                                        piece_icon = "♕"
-                                                    elif "King" in self.name:
-                                                        piece_icon = "♔"
+                                                    # if "Pawn" in self.name:
+                                                    #     piece_icon = "♙"
+                                                    # elif "Rook" in self.name:
+                                                    #     piece_icon = "♖"
+                                                    # elif "Knight" in self.name:
+                                                    #     piece_icon = "♘"
+                                                    # elif "Bishop" in self.name:
+                                                    #     piece_icon = "♗"
+                                                    # elif "Queen" in self.name:
+                                                    #     piece_icon = "♕"
+                                                    # elif "King" in self.name:
+                                                    #     piece_icon = "♔"
                                                     
-                                                    move = piece_icon + "x" + Board.getcurrentTile(self.x, self.y, tile_size) 
+                                                    move = Board.getcurrentTile(old_pos[0], old_pos[1], tile_size) + Board.getcurrentTile(self.x, self.y, tile_size) 
 
                                                     print(move)
 
                                                     Pieces.draw(self, screen)
-                                                    Pieces.taken_pieces.append(piece)
-                                                    Pieces.all_pieces_list.remove(piece)
+                                                    Pieces.moves_done.append(move)
+
+                                                    self.append_taken_piece(piece)
 
                                                     if 'Pawn-B' in self.name and self.y == 490 or 'Pawn-W' in self.name and self.y == 0:
                                                         self.promotion()
@@ -189,43 +223,42 @@ class Pieces:
                                                     ok = False 
 
 
-                                                        
-                                            else:
-                                                pass
-                                        else:
-                                            pass
                                         
                                     if ok: 
 
                                         self.animate(screen, self.x, self.y, possible_move[0], possible_move[1], 0.2, board = board)
                                     
+                                        old_pos = (self.x, self.y)
+
                                         self.x = possible_move[0]
                                         self.y = possible_move[1]
                                         Pieces.draw(self, screen)
                                         Pieces.round_increment()
                                         go = False
 
-                                        piece_icon = '?'
+                                        # piece_icon = '?'
                                         
-                                        if "Pawn" in self.name:
-                                            piece_icon = "♙"
-                                        elif "Rook" in self.name:
-                                            piece_icon = "♖"
-                                        elif "Knight" in self.name:
-                                            piece_icon = "♘"
-                                        elif "Bishop" in self.name:
-                                            piece_icon = "♗"
-                                        elif "Queen" in self.name:
-                                            piece_icon = "♕"
-                                        elif "King" in self.name:
-                                            piece_icon = "♔"
+                                        # if "Pawn" in self.name:
+                                        #     piece_icon = "♙"
+                                        # elif "Rook" in self.name:
+                                        #     piece_icon = "♖"
+                                        # elif "Knight" in self.name:
+                                        #     piece_icon = "♘"
+                                        # elif "Bishop" in self.name:
+                                        #     piece_icon = "♗"
+                                        # elif "Queen" in self.name:
+                                        #     piece_icon = "♕"
+                                        # elif "King" in self.name:
+                                        #     piece_icon = "♔"
                                         
-                                        move = piece_icon + Board.getcurrentTile(self.x, self.y, tile_size) 
+                                        move = Board.getcurrentTile(old_pos[0], old_pos[1], tile_size) + Board.getcurrentTile(self.x, self.y, tile_size) 
+
+                                        Pieces.moves_done.append(move)
 
                                         print(move)
 
-                                        if 'Pawn_B' in self.name and self.x == 350 or 'Pawn_W' in self.name and self.x == 0:
-                                            self.promotion()
+                                        # if 'Pawn_B' in self.name and self.x == 350 or 'Pawn_W' in self.name and self.x == 0:
+                                        #     self.promotion()
                                 
                                 else:
                                     go = False
@@ -234,6 +267,11 @@ class Pieces:
                     go = False     
         
         return move
+
+    @staticmethod
+    def append_taken_piece(piece):
+        Pieces.taken_pieces.append(piece)
+        Pieces.all_pieces_list.remove(piece)
                 
     def getPossible_Moves(self):
         return ''
