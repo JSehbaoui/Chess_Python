@@ -79,8 +79,15 @@ import os
 
 
 
-# print(bool(-140 < 0))
+# # print(bool(-140 < 0))
 
-s = 'Hallo'
+# s = 'Hallo'
 
-print(ord('a'))
+# print(ord('a'))
+
+def test():
+    return True
+    print('fuck')
+
+if test():
+    print('hi')

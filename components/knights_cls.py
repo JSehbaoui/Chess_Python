@@ -45,6 +45,10 @@ class Knights(Pieces):
             #nasty shit
             for i in range(len(index_list)):
                 index_list[i] -= 1
+        
+        iterator = filter(self.filter_method, possible_moves)
+
+        possible_moves = list(iterator)
 
         possible_moves = self.foresight(possible_moves)
 

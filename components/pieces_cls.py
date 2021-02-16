@@ -434,3 +434,23 @@ class Pieces:
         black_bool = bool(self.farbe == (0,0,0))
 
         return (white_bool and not white_check) or (black_bool and not black_check)
+
+    @staticmethod
+    def detectGameOver():
+        total_moves = []
+        if round_int % 2 == 0:
+            c = (255,255,255)
+        elif round_int % 2 == 1:
+            c = (0,0,0)
+        
+        for white_p in Pieces.all_pieces_list:
+            if white_p.farbe == c:
+                for x in white_p.getPossible_Moves():
+                    total_moves.append(x)
+                    
+        
+        if len(total_moves) == 0:
+            return True
+        else:
+            return False
+    

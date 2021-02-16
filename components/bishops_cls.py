@@ -25,7 +25,12 @@ class Bishops(Pieces):
         self.check_row_tiles(current_moves = possible_moves, step_x = tile_size*-1, step_y = tile_size*-1,  attacking = False)
         self.check_row_tiles(current_moves = possible_moves, step_x = tile_size, step_y = tile_size*-1,  attacking = False)
 
+        iterator = filter(self.filter_method, possible_moves)
+
+        possible_moves = list(iterator)
+
         possible_moves = self.foresight(possible_moves)
+
 
         return possible_moves#Pieces.check_limitation(possible_moves=possible_moves)
 

@@ -64,6 +64,10 @@ class Kings(Pieces):
             if possible:
                 possible_moves_filtered.append(move)
 
+        iterator = filter(self.filter_method, possible_moves_filtered)
+
+        possible_moves_filtered = list(iterator)
+
         possible_moves_filtered = self.foresight(possible_moves_filtered)
 
         return possible_moves_filtered

@@ -21,7 +21,7 @@ from components.clock import Clock
 from components.history import Hud
 
 
-def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD"):
+def main(player1 = "Player 1", player2 = "Player 2", mode = "TESTING", bot_bool = False):
 
     # resetting the variables in the .json file#
     json_file = open(r'components\constants.json', 'r')
@@ -65,6 +65,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD"):
     font = pygame.font.SysFont("DejaVu Sans", int(tile_size*0.2))
     font_titles = pygame.font.SysFont("DejaVu Sans", int(tile_size*0.25))
     go = True
+    game_over = False
 
     timer = Clock(time = 5)
 
@@ -207,13 +208,13 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD"):
         Queens(master = s, name = '##Queen-W', tile_x = 3, tile_y = 7, farbe = 'weiss', image = white_queen_img, value = 9)
         Kings(master = s, name = '##King-W', tile_x = 4, tile_y = 7, farbe = 'weiss', image = white_king_img, value = 100)
 
-        Rooks(master = s, name = 'L-Rook-B', tile_x = 0, tile_y = 0, farbe = 'schwarz', image = black_rook_img, value = 5)
-        Rooks(master = s, name = 'R-Rook-B', tile_x = 7, tile_y = 0, farbe = 'schwarz', image = black_rook_img, value = 5)
-        Knights(master = s, name = 'L-Knight-B', tile_x = 1, tile_y = 0, farbe = 'schwarz', image = black_knight_img, value = 3.001)
-        Knights(master = s, name = 'R-Knight-B', tile_x = 6, tile_y = 0, farbe = 'schwarz', image = black_knight_img, value = 3.001)
-        Bishops(master = s, name = 'L-Bishop-B', tile_x = 2, tile_y = 0, farbe = 'schwarz', image = black_bishop_img, value = 3)
-        Bishops(master = s, name = 'R-Bishop-B', tile_x = 5, tile_y = 0, farbe = 'schwarz', image = black_bishop_img, value = 3)
-        Queens(master = s, name = '##Queen-B', tile_x = 3, tile_y = 0, farbe = 'schwarz', image = black_queen_img, value = 9)
+        # Rooks(master = s, name = 'L-Rook-B', tile_x = 0, tile_y = 0, farbe = 'schwarz', image = black_rook_img, value = 5)
+        # Rooks(master = s, name = 'R-Rook-B', tile_x = 7, tile_y = 0, farbe = 'schwarz', image = black_rook_img, value = 5)
+        # Knights(master = s, name = 'L-Knight-B', tile_x = 1, tile_y = 0, farbe = 'schwarz', image = black_knight_img, value = 3.001)
+        # Knights(master = s, name = 'R-Knight-B', tile_x = 6, tile_y = 0, farbe = 'schwarz', image = black_knight_img, value = 3.001)
+        # Bishops(master = s, name = 'L-Bishop-B', tile_x = 2, tile_y = 0, farbe = 'schwarz', image = black_bishop_img, value = 3)
+        # Bishops(master = s, name = 'R-Bishop-B', tile_x = 5, tile_y = 0, farbe = 'schwarz', image = black_bishop_img, value = 3)
+        # Queens(master = s, name = '##Queen-B', tile_x = 3, tile_y = 0, farbe = 'schwarz', image = black_queen_img, value = 9)
         Kings(master = s, name = '##King-B', tile_x = 4, tile_y = 0, farbe = 'schwarz', image = black_king_img, value = 100)
 
     #a list for every possesed tile on the board#
@@ -248,17 +249,33 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD"):
 
         bot.set_position(Pieces.moves_done)
 
-        #detecting if the white king is checked#
         Pieces.detectingCheck()
 
+        #detecting, if the game is over, or not
+        game_over = Pieces.detectGameOver()
+
+        if game_over:
+            if Pieces.white_is_checked:
+                board.end_screen('BLACK', s)
+            
+            elif Pieces.black_is_checked:
+                board.end_screen('WHITE', s)
+                
+            else:
+                board.end_screen('STALEMATE', s)
+            
+
+        #detecting if the white king is checked#
+        
+
         #highlighting the checked king#
-        if Pieces.white_is_checked:
+        if Pieces.white_is_checked:# and not game_over:
             for king in Pieces.all_pieces_list:
                 if isinstance(king, Kings) and king.farbe == (255,255,255):
                     board.check(king_pos = (king.x, king.y))
 
         #highlighting the checked king#            
-        elif Pieces.black_is_checked:
+        elif Pieces.black_is_checked: #and not game_over:
             for king in Pieces.all_pieces_list:
                 if isinstance(king, Kings) and king.farbe == (0,0,0):
                     board.check(king_pos = (king.x, king.y))
@@ -324,14 +341,14 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD"):
 
         #checking for events#´
 
-        if round_int % 2 == 1:
+        if round_int % 2 == 1 and bot_bool and not game_over:
             opt_move = bot.get_best_move()
             print(opt_move)
             for piece in Pieces.all_pieces_list:
                 if piece.farbe == (0,0,0):
                     piece.move_from_pos(move=opt_move, board=board, screen = screen)
 
-        else:
+        elif not game_over:
             for event in pygame.event.get():
 
                 #closing the screen by clicking the X#
@@ -373,7 +390,13 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD"):
                                 
                                 #if the clicked piece is one of the team that currently is to move...#
 
-                                if round_int % 2 == 0 and piece.farbe == (255, 255, 255): #or round_int % 2 == 1 and piece.farbe == (0,0,0):
+                                with_bool = round_int % 2 == 0 and piece.farbe == (255, 255, 255)
+                                without_bool = round_int % 2 == 1 and piece.farbe == (0,0,0)
+
+                                if bot_bool:
+                                    without_bool = False
+
+                                if with_bool or without_bool:
 
                                     #...wait for the second mouse input#
                                     move_ = piece.move(occupied_tiles = occupied_tiles, board = board, screen = screen)
@@ -384,7 +407,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD"):
 
                                     #check if the white kiung is checked#
                                     Pieces.detectingCheck()
-                            
+
                             
 
     Pieces.white_is_checked = False
