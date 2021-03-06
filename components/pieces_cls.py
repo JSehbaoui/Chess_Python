@@ -17,7 +17,6 @@ class Pieces:
 
     all_pieces_list = []
     taken_pieces = []
-
     moves_done = []
 
     white_is_checked = False
@@ -26,6 +25,7 @@ class Pieces:
     checking_piece = None
 
     def __init__(self, master, name, tile_x, tile_y, farbe, image, value):
+        self.touched = False
         self.x = tile_x*tile_size
         self.y = tile_y*tile_size
         self.possible_moves = []
@@ -52,6 +52,17 @@ class Pieces:
         json_file.writelines(json.dumps(json_content))
         json_file.close()
         # round_int = json_content["round_int"] 
+    
+    @staticmethod
+    def round_decrement():
+        json_file = open(os.getcwd()+r"\components\constants.json", "r")
+        json_content = json.load(json_file)
+        json_content["round_int"] -= 1
+        json_file.close()
+
+        json_file = open(os.getcwd()+r"\components\constants.json", "w")
+        json_file.writelines(json.dumps(json_content))
+        json_file.close()
 
     def animate(self, screen, start_pos_x, start_pos_y, stop_pos_x, stop_pos_y, time, board):
         newx = 0
@@ -101,12 +112,7 @@ class Pieces:
             self.x, self.y = newpos
             print('New_pos: ', self.x, self.y)
 
-
-            #SOMETHING IS WRONG HERE WITH THE ANIMATION
-
-
-            #ALSO DONT FORGET TO MAKE A MODE FOR A PVP AND PVC
-            
+            self.touched = True
 
             Pieces.round_increment()
 
@@ -190,24 +196,12 @@ class Pieces:
                                                     self.x = possible_move[0]
                                                     self.y = possible_move[1]
 
-                                                    # piece_icon = '?'
-
-                                                    # if "Pawn" in self.name:
-                                                    #     piece_icon = "♙"
-                                                    # elif "Rook" in self.name:
-                                                    #     piece_icon = "♖"
-                                                    # elif "Knight" in self.name:
-                                                    #     piece_icon = "♘"
-                                                    # elif "Bishop" in self.name:
-                                                    #     piece_icon = "♗"
-                                                    # elif "Queen" in self.name:
-                                                    #     piece_icon = "♕"
-                                                    # elif "King" in self.name:
-                                                    #     piece_icon = "♔"
                                                     
                                                     move = Board.getcurrentTile(old_pos[0], old_pos[1], tile_size) + Board.getcurrentTile(self.x, self.y, tile_size) 
 
                                                     print(move)
+
+                                                    self.touched = True
 
                                                     Pieces.draw(self, screen)
                                                     Pieces.moves_done.append(move)
@@ -237,26 +231,29 @@ class Pieces:
                                         Pieces.round_increment()
                                         go = False
 
-                                        # piece_icon = '?'
-                                        
-                                        # if "Pawn" in self.name:
-                                        #     piece_icon = "♙"
-                                        # elif "Rook" in self.name:
-                                        #     piece_icon = "♖"
-                                        # elif "Knight" in self.name:
-                                        #     piece_icon = "♘"
-                                        # elif "Bishop" in self.name:
-                                        #     piece_icon = "♗"
-                                        # elif "Queen" in self.name:
-                                        #     piece_icon = "♕"
-                                        # elif "King" in self.name:
-                                        #     piece_icon = "♔"
-                                        
+                                        self.touched = True
                                         move = Board.getcurrentTile(old_pos[0], old_pos[1], tile_size) + Board.getcurrentTile(self.x, self.y, tile_size) 
 
                                         Pieces.moves_done.append(move)
 
                                         print(move)
+
+                                        if 'King' in self.name:
+                                            if old_pos[0] - self.x > tile_size or self.x - old_pos[0] > tile_size:
+                                                if self.x > 4*tile_size:
+                                                    for rook in Pieces.all_pieces_list:
+                                                        if rook.farbe == self.farbe and 'R-Rook' in rook.name:
+                                                            move = Board.getcurrentTile(rook.x, rook.y, tile_size) + Board.getcurrentTile(rook.x-2*tile_size, rook.y, tile_size)
+                                                            rook.move_from_pos(move = move, board = board, screen = screen)
+                                                            Pieces.round_decrement()
+                                                else:
+                                                    for rook in Pieces.all_pieces_list:
+                                                        if rook.farbe == self.farbe and 'L-Rook' in rook.name:
+                                                            move = Board.getcurrentTile(rook.x, rook.y, tile_size) + Board.getcurrentTile(rook.x+3*tile_size, rook.y, tile_size)
+                                                            rook.move_from_pos(move = move, board = board, screen = screen)
+                                                            Pieces.round_decrement()
+                                                
+                                        self.touched = True
 
                                         # if 'Pawn_B' in self.name and self.x == 350 or 'Pawn_W' in self.name and self.x == 0:
                                         #     self.promotion()
@@ -369,7 +366,7 @@ class Pieces:
     
     @staticmethod
     def detectingCheck(ignoring_piece = None):
-        # if round_int % 2 == 0:
+        # if round_int % 2 == 0: #
         for white_king in Pieces.all_pieces_list:
             if 'King' in white_king.name and white_king.farbe == (255, 255, 255):
                 for piece in Pieces.all_pieces_list:
@@ -383,7 +380,7 @@ class Pieces:
                 if not Pieces.white_is_checked:
                     Pieces.checking_piece = None
 
-        #detecting if the black king is checked#
+        # detecting if the black king is checked #
         # else:
         for black_king in Pieces.all_pieces_list:
             if 'King' in black_king.name and black_king.farbe == (0, 0, 0):
@@ -436,7 +433,7 @@ class Pieces:
         return (white_bool and not white_check) or (black_bool and not black_check)
 
     @staticmethod
-    def detectGameOver():
+    def detectGameOver(round_int):
         total_moves = []
         if round_int % 2 == 0:
             c = (255,255,255)
@@ -453,4 +450,6 @@ class Pieces:
             return True
         else:
             return False
+
+    
     

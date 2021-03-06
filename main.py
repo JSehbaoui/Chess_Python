@@ -21,7 +21,7 @@ from components.clock import Clock
 from components.history import Hud
 
 
-def main(player1 = "Player 1", player2 = "Player 2", mode = "TESTING", bot_bool = False):
+def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool = False):
 
     # resetting the variables in the .json file#
     json_file = open(r'components\constants.json', 'r')
@@ -228,8 +228,6 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "TESTING", bot_bool 
     #the mainloop#
     while go:
 
-        
-
         #setting the framerate#
         clock.tick(60)
 
@@ -252,7 +250,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "TESTING", bot_bool 
         Pieces.detectingCheck()
 
         #detecting, if the game is over, or not
-        game_over = Pieces.detectGameOver()
+        game_over = Pieces.detectGameOver(round_int=round_int)
 
         if game_over:
             if Pieces.white_is_checked:
@@ -263,10 +261,6 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "TESTING", bot_bool 
                 
             else:
                 board.end_screen('STALEMATE', s)
-            
-
-        #detecting if the white king is checked#
-        
 
         #highlighting the checked king#
         if Pieces.white_is_checked:# and not game_over:
@@ -348,7 +342,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "TESTING", bot_bool 
                 if piece.farbe == (0,0,0):
                     piece.move_from_pos(move=opt_move, board=board, screen = screen)
 
-        elif not game_over:
+        else:
             for event in pygame.event.get():
 
                 #closing the screen by clicking the X#
@@ -384,29 +378,30 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "TESTING", bot_bool 
                     mouse_pos = (mouse_pos[0]-anchor_point_s[0], mouse_pos[1]-anchor_point_s[1])
 
                     #checking if a Piece stands on the clicked tile#
-                    for piece in Pieces.all_pieces_list:
-                        if mouse_pos[0] >= piece.x and mouse_pos[1] >=piece.y:
-                            if mouse_pos[0] < piece.x+tile_size and mouse_pos[1] < piece.y+tile_size:
-                                
-                                #if the clicked piece is one of the team that currently is to move...#
+                    if not game_over:
+                        for piece in Pieces.all_pieces_list:
+                            if mouse_pos[0] >= piece.x and mouse_pos[1] >=piece.y:
+                                if mouse_pos[0] < piece.x+tile_size and mouse_pos[1] < piece.y+tile_size:
+                                    
+                                    #if the clicked piece is one of the team that currently is to move...#
 
-                                with_bool = round_int % 2 == 0 and piece.farbe == (255, 255, 255)
-                                without_bool = round_int % 2 == 1 and piece.farbe == (0,0,0)
+                                    with_bool = round_int % 2 == 0 and piece.farbe == (255, 255, 255)
+                                    without_bool = round_int % 2 == 1 and piece.farbe == (0,0,0)
 
-                                if bot_bool:
-                                    without_bool = False
+                                    if bot_bool:
+                                        without_bool = False
 
-                                if with_bool or without_bool:
+                                    if with_bool or without_bool:
 
-                                    #...wait for the second mouse input#
-                                    move_ = piece.move(occupied_tiles = occupied_tiles, board = board, screen = screen)
+                                        #...wait for the second mouse input#
+                                        move_ = piece.move(occupied_tiles = occupied_tiles, board = board, screen = screen)
 
-                                    h.print(((round_int%2)*80+30, round_int//2*30+70), move_, font = font)
-                                    if round_int % 2 == 0:
-                                        h.print((0, round_int//2*30+70), str(round_int//2+1), font) 
+                                        h.print(((round_int%2)*80+30, round_int//2*30+70), move_, font = font)
+                                        if round_int % 2 == 0:
+                                            h.print((0, round_int//2*30+70), str(round_int//2+1), font) 
 
-                                    #check if the white kiung is checked#
-                                    Pieces.detectingCheck()
+                                        #check if the white kiung is checked#
+                                        Pieces.detectingCheck()
 
                             
 

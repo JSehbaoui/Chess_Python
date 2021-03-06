@@ -1,3 +1,4 @@
+from pygame.constants import APPACTIVE
 from .pieces_cls import Pieces
 
 import json
@@ -63,12 +64,24 @@ class Kings(Pieces):
                         possible = True
             if possible:
                 possible_moves_filtered.append(move)
+        
+        # castle
+
+        propertys = self.is_castle_legal()
+
+        if propertys[0]:
+            if propertys[1]:
+                possible_moves_filtered.append((self.x-2*tile_size, self.y))
+            if propertys[2]:
+                possible_moves_filtered.append((self.x+2*tile_size, self.y))
+
 
         iterator = filter(self.filter_method, possible_moves_filtered)
 
         possible_moves_filtered = list(iterator)
 
         possible_moves_filtered = self.foresight(possible_moves_filtered)
+
 
         return possible_moves_filtered
 
@@ -83,3 +96,39 @@ class Kings(Pieces):
                                     (self.x+tile_size, self.y-tile_size)
                                     ]
         return possible_moves_unfiltered
+
+    def is_castle_legal(self):
+        left_castle = True
+        right_caste = True
+        if not self.touched:
+            for rook in Pieces.all_pieces_list:
+                if 'Rook' in rook.name and rook.farbe == self.farbe and not rook.touched:
+                    for enemy in Pieces.all_pieces_list:
+                        if not enemy.farbe == self.farbe:
+                            l = enemy.attacked_tiles()
+                    
+                            if 'L' in rook.name:
+                                weak_side = (self.x-tile_size, self.y)
+                            elif 'R' in rook.name:
+                                weak_side = (self.x-tile_size, self.y)
+                            
+                            if weak_side in l:
+                                return False, False, False
+    
+                    for piece in Pieces.all_pieces_list:
+                        if 'L' in rook.name:
+                            for i in range(1, 3):
+                                if (piece.x, piece.y) == (self.x-i*tile_size, self.y):
+                                    left_castle = False
+                        elif 'R' in rook.name:
+                            for i in range(1, 2):
+                                b = (piece.x, piece.y) == (self.x+i*tile_size, self.y)
+                                if b:
+                                    right_caste = False
+                    
+            if left_castle or right_caste:
+                return True, left_castle, right_caste
+            else:
+                return False, False, False
+        else:
+            return False, False, False

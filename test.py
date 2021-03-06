@@ -1,16 +1,16 @@
-import pygame
-import math
+# import pygame
+# import math
 
-pygame.init()
+# pygame.init()
 
-screen_size = (800, 800)
+# screen_size = (800, 800)
 
-SCREEN = pygame.display.set_mode(screen_size)
-pygame.display.set_caption("Chess")
+# SCREEN = pygame.display.set_mode(screen_size)
+# pygame.display.set_caption("Chess")
 
-clock = pygame.time.Clock()
+# clock = pygame.time.Clock()
 
-print(pygame.display.get_window_size())
+# print(pygame.display.get_window_size())
 
 # newx = 0
 # speed = 3
@@ -85,9 +85,21 @@ import os
 
 # print(ord('a'))
 
-def test():
-    return True
-    print('fuck')
+# def test():
+#     return True
+#     print('fuck')
 
-if test():
-    print('hi')
+# if test():
+#     print('hi')
+
+# w1 = 'Alphabeth'
+# w2 = 'Zebra'
+
+# if w1 > w2:
+#     print('davor')
+# else:
+#     print('danach')
+
+s = 'ssulhcsbaluhcshcoH'
+for i in range(1, len(s)+1):
+    print(s[-i], end='')
