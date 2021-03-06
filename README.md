@@ -1,5 +1,5 @@
 # Chess
-This is a chess game implemented in python by using the libary pygame
+This is a chess game implemented in python by using the library pygame
 
 ## Motivation
 I wanted to create a project in python for my computer science class that should be advanced but be doable for me on my own. I personaly enjoy chess alot, therefore I asked some advanced students if that would be possible for me to code and they encouraged me to do it.
@@ -26,7 +26,7 @@ pip install pygame
 For this, simply open main.py
 
 Now by clicking at one of the pieces you can see where you can move it. By clicking at one of the marked tiles the piece will move to this square
-You can exit the game by pressing ESC or by closing it as an usial window
+You can exit the game by pressing ESC or by closing it as an usual window
 
 ## Bugs, I am aware of
 - There is a bug where the tile under the king stays red after the check were denied (FIXED)
