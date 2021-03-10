@@ -5,7 +5,7 @@ from main import main
 from components.entry_boy import InputBox
 from components.button import Button
 
-def login(mode = 'STANDARD'):
+def settings(mode = 'STANDARD'):
     pygame.init()
 
     json_file = open(os.getcwd()+r"\components\constants.json", "r")
@@ -65,23 +65,6 @@ def login(mode = 'STANDARD'):
             pygame.display.flip()
 
             
-            
-
-
-
-                # if mouseposition[0] > button1_messurments[0] and mouseposition[0] < button1_messurments[0]+button1_messurments[2]:
-                #     if mouseposition[1] > button1_messurments[1] and mouseposition[1] < button1_messurments[1]+button1_messurments[3]:
-                #         print("INIT STANDARD")
-                #         main(mode = "STANDARD")
-
-                # elif mouseposition[0] > button2_messurments[0] and mouseposition[0] < button2_messurments[0]+button2_messurments[2]:
-                #     if mouseposition[1] > button2_messurments[1] and mouseposition[1] < button2_messurments[1]+button2_messurments[3]:
-                #         print("INIT CHESS 960")
-                #         main(mode = "CHESS 960")
-
-
-
-    # Or pygame.display.flip()
 
 if __name__ == "__main__":
-    login()    
+    settings()    

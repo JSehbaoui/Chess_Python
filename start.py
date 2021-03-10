@@ -1,9 +1,12 @@
 import pygame
 import json 
 import os
+
+from pygame import display
 from main import main
 from components.button import Button
-from login import login
+from intermediary import intermediary
+from components.switch import TickBox
 
 def start():
     pygame.init()
@@ -15,25 +18,29 @@ def start():
 
     BLACK = (0, 0, 0)
     WHITE = (255, 255, 255)
-    font = pygame.font.SysFont("DejaVu Sans", 30)
-    # RED = (255, 0, 0), GREEN = (0, 255, 0), BLUE = (0, 0, 255)
-
+    BROWN = (138, 79, 28)
+    font_large = pygame.font.SysFont("DejaVu Sans", 30)
+    font_small = pygame.font.SysFont("DejaVu Sans", 22)
     
     screen = pygame.display.set_mode((720, 480))
-    screen.fill(WHITE)
+    screen.fill(BROWN)
     
     clock = pygame.time.Clock()
 
-    choose_label = font.render("Choose a gamemode", 1, BLACK)
-
+    choose_label = font_large.render("Choose a gamemode", 1, BLACK)
     screen.blit(choose_label, (200, 60))
 
-    button_standard =   Button(screen, 100, 200, 200, 100, BLACK, WHITE, lambda:[login("STANDARD")], 'STANDARD')
-    button_960 =        Button(screen, 400, 200, 200, 100, BLACK, WHITE, lambda:[login("CHESS 960")], 'CHESS 960')
+    bot_box = TickBox(posx = 320, posy = 350, size = 30)
+    button_standard =   Button(100, 200, 200, 100, BLACK, WHITE, lambda:[intermediary(bot = bot_box.getStatus(), mode = "STANDARD")], 'STANDARD')
+    button_960 =        Button(400, 200, 200, 100, BLACK, WHITE, lambda:[intermediary(bot = bot_box.getStatus(), mode = "CHESS 960")], 'CHESS 960')
+    
 
-    buttons = [button_standard, button_960]
-    for button in buttons:
-        button.draw()
+    bot_label = font_small.render("Play against AI", 1, BLACK)
+    screen.blit(bot_label, (120, 350))
+
+    items = [button_standard, button_960, bot_box]
+    for item in items:
+        item.draw(screen = screen)
     pygame.display.update()
 
     while True:
@@ -43,8 +50,12 @@ def start():
             if event.type == pygame.QUIT:
                 quit()
 
-            for button in buttons:
-                button.checkClick(event)
+            for item in items:
+                item.processEvent(event)
+
+            bot_box.draw(screen)
+        
+        pygame.display.flip()
 
             
 

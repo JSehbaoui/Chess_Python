@@ -126,7 +126,7 @@ class Pieces:
 
 
     
-    def move(self, occupied_tiles, board, screen):
+    def move(self, board, screen):
     
         go = True
         ok = True
@@ -208,8 +208,7 @@ class Pieces:
 
                                                     self.append_taken_piece(piece)
 
-                                                    if 'Pawn-B' in self.name and self.y == 490 or 'Pawn-W' in self.name and self.y == 0:
-                                                        self.promotion()
+                                                    
 
 
 

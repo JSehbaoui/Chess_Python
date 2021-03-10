@@ -1,14 +1,11 @@
 ### CHESS GAME MADE BY JULIAN SEHBAOUI ###
 
-
 #importing nessesary libaries and own classes from the components folder#
 import pygame
 import json
 import os
 import random
-import datetime
 from stockfish import Stockfish
-from Chessnut import Game
 from components.pieces_cls import Pieces
 from components.pawns_cls import WhitePawns, BlackPawns
 from components.bishops_cls import Bishops
@@ -21,7 +18,7 @@ from components.clock import Clock
 from components.history import Hud
 
 
-def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool = False):
+def main(player1 = "Player 1", player2 = "Player 2", mode = "TESTING", bot_bool = False):
 
     # resetting the variables in the .json file#
     json_file = open(r'components\constants.json', 'r')
@@ -40,10 +37,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
     pygame.init()
 
     #Constants#
-    WHITE = (255,255,255)
     BLACK = (0,0,0)
-    RED = (255,0,0)
-    GREEN = (0,255,0)
     BG_COLOR_1 = (0, 152, 163)
     BG_COLOR_2 = (2, 112, 120)
 
@@ -59,14 +53,10 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
 
     #setting up the variables for a new and fresh game#
     screen_size = (11*tile_size, 11*tile_size)
-    starting_time = str(datetime.datetime.now())[11:19]
-    # p1_time = 300
-    # p2_time = 300
     font = pygame.font.SysFont("DejaVu Sans", int(tile_size*0.2))
     font_titles = pygame.font.SysFont("DejaVu Sans", int(tile_size*0.25))
     go = True
     game_over = False
-
     timer = Clock(time = 5)
 
     #creating the surfaces#
@@ -90,9 +80,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
     board = Board(master = s, width = 8, height = 8, tile_size = tile_size, color_a = (245, 216, 188), color_b = (176, 142, 109), anchor_point = anchor_point_s)
     board.draw_board()
 
-    h.print((10, 30), "MOVES", font_titles)
-
-    #loading and resizing the images for the pieces#
+    #loading the images for the pieces#
     white_pawn_img = pygame.image.load(r'assets/white_pawn.png')
     white_rook_img = pygame.image.load(r'assets/white_rook.png')
     white_knight_img = pygame.image.load(r'assets/white_knight.png')
@@ -106,6 +94,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
     black_queen_img = pygame.image.load(r'assets/black_queen.png')
     black_king_img = pygame.image.load(r'assets/black_king.png')
 
+    #resizing the images#
     white_pawn_img = pygame.transform.scale(white_pawn_img, (tile_size, tile_size))
     white_rook_img = pygame.transform.scale(white_rook_img, (tile_size, tile_size))
     white_knight_img = pygame.transform.scale(white_knight_img, (tile_size, tile_size))
@@ -121,9 +110,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
 
 
     #creating the pieces
-
     if mode == "CHESS 960":
-
         # CHESS 960
         ran_list =  random.sample([i for i in range(8)], 8)
         WhitePawns(master = s, name = 'A-Pawn-W', tile_x = 0, tile_y = 6, farbe = 'weiss', image = white_pawn_img, value = 1)
@@ -161,9 +148,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
         Kings(master = s, name = 'King-B', tile_x = ran_list[4], tile_y = 0, farbe = 'schwarz', image = black_king_img, value = 100)
 
     elif mode == "STANDARD":
-
         # STANDARD
-
         WhitePawns(master = s, name = 'A-Pawn-W', tile_x = 0, tile_y = 6, farbe = 'weiss', image = white_pawn_img, value = 1)
         WhitePawns(master = s, name = 'B-Pawn-W', tile_x = 1, tile_y = 6, farbe = 'weiss', image = white_pawn_img, value = 1)
         WhitePawns(master = s, name = 'C-Pawn-W', tile_x = 2, tile_y = 6, farbe = 'weiss', image = white_pawn_img, value = 1)
@@ -199,43 +184,31 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
         Kings(master = s, name = '##King-B', tile_x = 4, tile_y = 0, farbe = 'schwarz', image = black_king_img, value = 100)
 
     elif mode == "TESTING":
-        Rooks(master = s, name = 'L-Rook-W', tile_x = 0, tile_y = 7, farbe = 'weiss', image = white_rook_img, value = 5)
-        Rooks(master = s, name = 'R-Rook-W', tile_x = 7, tile_y = 7, farbe = 'weiss', image = white_rook_img, value = 5)
-        Knights(master = s, name = 'L-Knight-W', tile_x = 6, tile_y = 7, farbe = 'weiss', image = white_knight_img, value = 3.001)
-        Knights(master = s, name = 'R-Knight-W', tile_x = 1, tile_y = 7, farbe = 'weiss', image = white_knight_img, value = 3.001)
-        Bishops(master = s, name = 'L-Bishop-W', tile_x = 2, tile_y = 7, farbe = 'weiss', image = white_bishop_img, value = 3)
-        Bishops(master = s, name = 'R-Bishop-W', tile_x = 5, tile_y = 7, farbe = 'weiss', image = white_bishop_img, value = 3)
-        Queens(master = s, name = '##Queen-W', tile_x = 3, tile_y = 7, farbe = 'weiss', image = white_queen_img, value = 9)
-        Kings(master = s, name = '##King-W', tile_x = 4, tile_y = 7, farbe = 'weiss', image = white_king_img, value = 100)
-
-        # Rooks(master = s, name = 'L-Rook-B', tile_x = 0, tile_y = 0, farbe = 'schwarz', image = black_rook_img, value = 5)
-        # Rooks(master = s, name = 'R-Rook-B', tile_x = 7, tile_y = 0, farbe = 'schwarz', image = black_rook_img, value = 5)
-        # Knights(master = s, name = 'L-Knight-B', tile_x = 1, tile_y = 0, farbe = 'schwarz', image = black_knight_img, value = 3.001)
-        # Knights(master = s, name = 'R-Knight-B', tile_x = 6, tile_y = 0, farbe = 'schwarz', image = black_knight_img, value = 3.001)
-        # Bishops(master = s, name = 'L-Bishop-B', tile_x = 2, tile_y = 0, farbe = 'schwarz', image = black_bishop_img, value = 3)
-        # Bishops(master = s, name = 'R-Bishop-B', tile_x = 5, tile_y = 0, farbe = 'schwarz', image = black_bishop_img, value = 3)
-        # Queens(master = s, name = '##Queen-B', tile_x = 3, tile_y = 0, farbe = 'schwarz', image = black_queen_img, value = 9)
+        #TESTING
+        WhitePawns(master = s, name = 'A-Pawn-W', tile_x = 0, tile_y = 6, farbe = 'weiss', image = white_pawn_img, value = 1)
+        WhitePawns(master = s, name = 'B-Pawn-W', tile_x = 1, tile_y = 6, farbe = 'weiss', image = white_pawn_img, value = 1)
+        WhitePawns(master = s, name = 'C-Pawn-W', tile_x = 2, tile_y = 6, farbe = 'weiss', image = white_pawn_img, value = 1)
+        WhitePawns(master = s, name = 'D-Pawn-W', tile_x = 3, tile_y = 6, farbe = 'weiss', image = white_pawn_img, value = 1)
+        WhitePawns(master = s, name = 'E-Pawn-W', tile_x = 4, tile_y = 6, farbe = 'weiss', image = white_pawn_img, value = 1)
+        WhitePawns(master = s, name = 'F-Pawn-W', tile_x = 5, tile_y = 6, farbe = 'weiss', image = white_pawn_img, value = 1)
+        WhitePawns(master = s, name = 'G-Pawn-W', tile_x = 6, tile_y = 6, farbe = 'weiss', image = white_pawn_img, value = 1)
+        WhitePawns(master = s, name = 'H-Pawn-W', tile_x = 7, tile_y = 6, farbe = 'weiss', image = white_pawn_img, value = 1)
         Kings(master = s, name = '##King-B', tile_x = 4, tile_y = 0, farbe = 'schwarz', image = black_king_img, value = 100)
 
-    #a list for every possesed tile on the board#
-    occupied_tiles = [] 
-
-    chessnut = Game()
-    
+        BlackPawns(master = s, name = 'A-Pawn-B', tile_x = 0, tile_y = 1, farbe = 'schwarz', image = black_pawn_img, value = 1)
+        BlackPawns(master = s, name = 'B-Pawn-B', tile_x = 1, tile_y = 1, farbe = 'schwarz', image = black_pawn_img, value = 1)
+        BlackPawns(master = s, name = 'C-Pawn-B', tile_x = 2, tile_y = 1, farbe = 'schwarz', image = black_pawn_img, value = 1)
+        BlackPawns(master = s, name = 'D-Pawn-B', tile_x = 3, tile_y = 1, farbe = 'schwarz', image = black_pawn_img, value = 1)
+        Kings(master = s, name = '##King-W', tile_x = 4, tile_y = 7, farbe = 'weiss', image = white_king_img, value = 100)
+        
+    #creating the chessbot based on .json parameters
     bot = Stockfish(b'C:\Users\yassi\Downloads\stockfish-11-win\stockfish-11-win\Windows\stockfish_20011801_x64.exe')
-
 
     #the mainloop#
     while go:
-
         #setting the framerate#
         clock.tick(60)
-
-        #refreshing the occupied_tiles-list#
-        occupied_tiles.clear()
-        for piece in Pieces.all_pieces_list:
-            occupied_tiles.append((piece.x, piece.y))
-
+        
         #refreshing the round counter#
         json_file = open(os.getcwd()+r"\components\constants.json", "r")
         json_content = json.load(json_file)
@@ -245,31 +218,35 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
         #drawing the board#
         board.draw_board()
 
+        #updating the bot with the new game state#
         bot.set_position(Pieces.moves_done)
-
-        Pieces.detectingCheck()
-
+        
         #detecting, if the game is over, or not
+        Pieces.detectingCheck()
         game_over = Pieces.detectGameOver(round_int=round_int)
 
+        #end the game if the game is over#
         if game_over:
             if Pieces.white_is_checked:
                 board.end_screen('BLACK', s)
-            
             elif Pieces.black_is_checked:
-                board.end_screen('WHITE', s)
-                
+                board.end_screen('WHITE', s)    
             else:
                 board.end_screen('STALEMATE', s)
 
+        #checking if a pawn is promotable#
+        for pawn in Pieces.all_pieces_list:
+            if 'Pawn-B' in pawn.name and pawn.y == 8*tile_size or 'Pawn-W' in pawn.name and pawn.y == 0*tile_size:
+                pawn.promotion()
+
         #highlighting the checked king#
-        if Pieces.white_is_checked:# and not game_over:
+        if Pieces.white_is_checked:
             for king in Pieces.all_pieces_list:
                 if isinstance(king, Kings) and king.farbe == (255,255,255):
                     board.check(king_pos = (king.x, king.y))
 
         #highlighting the checked king#            
-        elif Pieces.black_is_checked: #and not game_over:
+        elif Pieces.black_is_checked: 
             for king in Pieces.all_pieces_list:
                 if isinstance(king, Kings) and king.farbe == (0,0,0):
                     board.check(king_pos = (king.x, king.y))
@@ -289,52 +266,44 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
         #refresh the time of the timers#
         timer.refreshTime()
 
-
         #creating the labels to be printed on the subsurfaces#
         Player_1_label = font_titles.render(player1, 1, BLACK)
         Player_2_label = font_titles.render(player2, 1, BLACK)
         timer_label = font_titles.render(timer.getTime(), 1, BLACK)
 
-
-        #printing the labes on the subsurfaces
+        #printing the labes on the subsurfaces#        
         p1.blit(Player_1_label, (p1.get_width()/2 - Player_1_label.get_width()/2,0))
         p2.blit(Player_2_label, (p2.get_width()/2 - Player_2_label.get_width()/2,0))
-
+        
+        #showing the taken pieces#
         Pieces.taken_pieces.sort(key= lambda x: x.value, reverse = False)
-
         white_loss = []
         black_loss = []
-
         for piece in Pieces.taken_pieces:
             if piece.farbe == (0,0,0):
                 black_loss.append(piece)
             elif piece.farbe == (255,255,255):
                 white_loss.append(piece)
-
         for piece in black_loss:
             p1.blit(pygame.transform.scale(piece.image, (tile_size//3, tile_size//3)), (black_loss.index(piece)*15+20, 70))
         for piece in white_loss: 
             p2.blit(pygame.transform.scale(piece.image, (tile_size//3, tile_size//3)), (white_loss.index(piece)*15+20, 70))
-
 
         #updating the hud#
         if round_int % 2 == 0:
             pygame.draw.rect(hud, BLACK, [0.45*tile_size, 0.2*tile_size, 3.1*tile_size, 1.6*tile_size])
         elif round_int % 2 == 1:
             pygame.draw.rect(hud, BLACK, [4.45*tile_size, 0.2*tile_size, 3.1*tile_size, 1.6*tile_size])
-
         hud.blit(p1, (0.5*tile_size, 0.25*tile_size))
         hud.blit(p2, (4.5*tile_size, 0.25*tile_size))
         hud.blit(timer_label, (3.65*tile_size, 0.75*tile_size))
-
 
         #bliting the subsurfaces on the mainsurface
         screen.blit(s, anchor_point_s)
         screen.blit(h, anchor_point_h)
         screen.blit(hud, anchor_point_hud)
 
-        #checking for events#´
-
+        #checking for events#
         if round_int % 2 == 1 and bot_bool and not game_over:
             opt_move = bot.get_best_move()
             print(opt_move)
@@ -394,7 +363,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                                     if with_bool or without_bool:
 
                                         #...wait for the second mouse input#
-                                        move_ = piece.move(occupied_tiles = occupied_tiles, board = board, screen = screen)
+                                        move_ = piece.move(board = board, screen = screen)
 
                                         h.print(((round_int%2)*80+30, round_int//2*30+70), move_, font = font)
                                         if round_int % 2 == 0:
@@ -403,8 +372,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                                         #check if the white kiung is checked#
                                         Pieces.detectingCheck()
 
-                            
-
+    #resetting class variables#
     Pieces.white_is_checked = False
     Pieces.black_is_checked = False
     Pieces.checking_piece = None
@@ -418,6 +386,6 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
     json_file.writelines(json.dumps(json_content))
     json_file.close()
 
-
+#executing the script if started from the main.py file#
 if __name__ == '__main__':
     main()

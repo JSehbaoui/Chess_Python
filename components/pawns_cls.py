@@ -53,11 +53,11 @@ class BlackPawns(Pieces):
         return possible_moves #Pieces.check_limitation(possible_moves=possible_moves)
 
     def promotion(self):
-        
-        queen = Queens(master = self.master, name = self.name + 'Promoted to Queen', tile_x = self.x/tile_size, tile_y = self.y/tile_size, farbe = 'schwarz', image = pygame.transform.scale(pygame.image.load(r'assets/black_queen.png'), (tile_size, tile_size)))
-        Pieces.all_pieces_list.append(queen)
-        queen.draw()
         Pieces.all_pieces_list.remove(self)
+        Queens(master = self.master, name = self.name + 'Promoted to Queen', tile_x = self.x/tile_size, tile_y = self.y/tile_size, farbe = 'schwarz', image = pygame.transform.scale(pygame.image.load(r'assets/black_queen.png'), (tile_size, tile_size)), value = 9)
+        
+        
+        
 
     def attacked_tiles(self):
         return [(self.x+tile_size, self.y+tile_size), (self.x-tile_size, self.y+tile_size)]
@@ -105,8 +105,11 @@ class WhitePawns(Pieces):
         return [(self.x+tile_size, self.y-tile_size), (self.x-tile_size, self.y-tile_size), (self.x, self.y)]
 
     def promotion(self):
-
-        Pieces.all_pieces_list.append(Queens(master = self.master, name = self.name + 'Promoted to Queen', tile_x = self.x, tile_y = self.y, farbe = 'weiss', image = pygame.transform.scale(pygame.image.load(r'assets/white_queen.png'), (tile_size, tile_size))))
         Pieces.all_pieces_list.remove(self)
+        Queens(master = self.master, name = self.name + 'Promoted to Queen', tile_x = self.x/tile_size, tile_y = self.y/tile_size, farbe = 'weiss', image = pygame.transform.scale(pygame.image.load(r'assets/white_queen.png'), (tile_size, tile_size)), value = 9)
+        
+        
+        
+
 
        
