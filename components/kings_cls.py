@@ -117,11 +117,11 @@ class Kings(Pieces):
     
                     for piece in Pieces.all_pieces_list:
                         if 'L' in rook.name:
-                            for i in range(1, 3):
+                            for i in range(1, 4):
                                 if (piece.x, piece.y) == (self.x-i*tile_size, self.y):
                                     left_castle = False
                         elif 'R' in rook.name:
-                            for i in range(1, 2):
+                            for i in range(1, 3):
                                 b = (piece.x, piece.y) == (self.x+i*tile_size, self.y)
                                 if b:
                                     right_caste = False
