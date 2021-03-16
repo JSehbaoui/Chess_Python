@@ -18,7 +18,7 @@ from components.clock import Clock
 from components.history import Hud
 
 
-def main(player1 = "Player 1", player2 = "Player 2", mode = "TESTING", bot_bool = False):
+def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool = True):
 
     # resetting the variables in the .json file#
     json_file = open(r'components\constants.json', 'r')

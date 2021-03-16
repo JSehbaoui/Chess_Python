@@ -35,7 +35,7 @@ def settings(mode = 'STANDARD'):
     Player1 = InputBox(300, 200, 100, 32, (100, 100, 100), (10,10,10))
     Player2 = InputBox(300, 250, 100, 32, (100, 100, 100), (10,10,10))
     
-    Accept_Button = Button(screen, 300, 300, 100, 50, (0,0,0), (200,200,200), lambda:[main(player1 = Player1.export(), player2= Player2.export() ,mode=mode)])
+    Accept_Button = Button(300, 300, 100, 50, (0,0,0), (200,200,200), lambda:[main(player1 = Player1.export(), player2= Player2.export() ,mode=mode)])
     
     boxes_arr = [Player1, Player2]
 
@@ -51,7 +51,7 @@ def settings(mode = 'STANDARD'):
             for box in boxes_arr:
                 box.checkActivation(event)
 
-            Accept_Button.checkClick(event)
+            Accept_Button.processEvent(event)
 
             screen.fill(WHITE)
             screen.blit(Player1_label, (150, 200))
@@ -60,7 +60,7 @@ def settings(mode = 'STANDARD'):
             for box in boxes_arr:
                 box.draw(screen)
             
-            Accept_Button.draw()
+            Accept_Button.draw(screen)
 
             pygame.display.flip()
 
