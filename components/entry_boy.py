@@ -42,7 +42,7 @@ class InputBox:
                 else:
                     self.text += event.unicode
                 
-                self.txt_surface = self.font.render(self.text, True, self.color_now)
+                self.txt_surface = self.font.render(self.text, True, self.color_inact)
                 self.updateLength()
 
     def updateLength(self):

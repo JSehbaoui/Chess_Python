@@ -18,7 +18,7 @@ from components.clock import Clock
 from components.history import Hud
 
 
-def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool = True):
+def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool = True, bot_difficulty = 6):
 
     # resetting the variables in the .json file#
     json_file = open(r'components\constants.json', 'r')
@@ -202,7 +202,9 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
         Kings(master = s, name = '##King-W', tile_x = 4, tile_y = 7, farbe = 'weiss', image = white_king_img, value = 100)
         
     #creating the chessbot based on .json parameters
-    bot = Stockfish(b'C:\Users\yassi\Downloads\stockfish-11-win\stockfish-11-win\Windows\stockfish_20011801_x64.exe')
+    bot = Stockfish(b'components\stockfish_20011801_x64.exe')
+    bot.set_skill_level(bot_difficulty)
+    
 
     #the mainloop#
     while go:
@@ -310,6 +312,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
             for piece in Pieces.all_pieces_list:
                 if piece.farbe == (0,0,0):
                     piece.move_from_pos(move=opt_move, board=board, screen = screen)
+                    print(bot.get_board_visual())
 
         else:
             for event in pygame.event.get():

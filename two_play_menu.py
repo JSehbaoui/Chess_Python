@@ -15,12 +15,13 @@ def login(mode = 'STANDARD'):
 
     BLACK = (0, 0, 0)
     WHITE = (255, 255, 255)
+    BROWN = (138, 79, 28)
     font = pygame.font.SysFont("DejaVu Sans", 30)
     # RED = (255, 0, 0), GREEN = (0, 255, 0), BLUE = (0, 0, 255)
 
     
     screen = pygame.display.set_mode((720, 480))
-    screen.fill(WHITE)
+    screen.fill(BROWN)
     
     clock = pygame.time.Clock()
 
@@ -35,7 +36,7 @@ def login(mode = 'STANDARD'):
     Player1 = InputBox(300, 200, 100, 32, (100, 100, 100), (10,10,10))
     Player2 = InputBox(300, 250, 100, 32, (100, 100, 100), (10,10,10))
     
-    Accept_Button = Button(300, 300, 100, 50, (0,0,0), (200,200,200), lambda:[main(player1 = Player1.export(), player2= Player2.export() ,mode=mode)])
+    Accept_Button = Button(300, 300, 100, 50, (0,0,0), (200,200,200), lambda:[main(player1 = Player1.export(), player2= Player2.export() ,mode=mode)], text = 'Start Game')
     
     boxes_arr = [Player1, Player2]
 
@@ -53,7 +54,7 @@ def login(mode = 'STANDARD'):
 
             Accept_Button.processEvent(event)
 
-            screen.fill(WHITE)
+            screen.fill(BROWN)
             screen.blit(Player1_label, (150, 200))
             screen.blit(Player2_label, (150, 250))
             screen.blit(title_label, (pygame.display.get_window_size()[0]/2 - title_label.get_rect().w/2, 30))
