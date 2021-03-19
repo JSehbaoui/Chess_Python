@@ -110,7 +110,7 @@ class Pieces:
             
             # self.animate(self.master, self.x, self.y, newpos[0], newpos[1], 0.2, board)
             self.x, self.y = newpos
-            print('New_pos: ', self.x, self.y)
+            # print('New_pos: ', self.x, self.y)
 
             self.touched = True
 
