@@ -308,11 +308,10 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
         #checking for events#
         if round_int % 2 == 1 and bot_bool and not game_over:
             opt_move = bot.get_best_move()
-            print(opt_move)
             for piece in Pieces.all_pieces_list:
                 if piece.farbe == (0,0,0):
                     piece.move_from_pos(move=opt_move, board=board, screen = screen)
-                    print(bot.get_board_visual())
+
 
         else:
             for event in pygame.event.get():
@@ -343,6 +342,8 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                     #(TEMP) my information key (arrow down) to get certain information#
                     if event.key == pygame.K_DOWN:
                         print(bot.get_best_move())
+                        print(bot.get_board_visual())
+                        print(Pieces.moves_done)
                 #left mouse click#
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     #getting the mouseposition and than correcting it by the relative position of the subsurface#

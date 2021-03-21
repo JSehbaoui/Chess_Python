@@ -101,7 +101,7 @@ class Pieces:
         self.master.blit(self.image, (self.x+10, self.y+10))
         screen.blit(self.master, anchor_point)
 
-    def move_from_pos(self, move, board, screen):
+    def move_from_pos(self, move, board, screen, ignore_me = False):
         if Board.getcurrentTile(self.x, self.y, tile_size) == move[:2]:
             newpos = Board.translate_to_coordinates(move[2:], tile_size)
             self.animate(screen=screen, start_pos_x=self.x, start_pos_y= self.y, stop_pos_x=newpos[0], stop_pos_y=newpos[1], time=0.2, board = board)
@@ -116,7 +116,8 @@ class Pieces:
 
             Pieces.round_increment()
 
-            Pieces.moves_done.append(move)
+            if not ignore_me:
+                Pieces.moves_done.append(move)
 
             for piece in Pieces.all_pieces_list:
                 if (piece.x, piece.y) == (self.x, self.y) and self != piece:
@@ -243,13 +244,13 @@ class Pieces:
                                                     for rook in Pieces.all_pieces_list:
                                                         if rook.farbe == self.farbe and 'R-Rook' in rook.name:
                                                             move = Board.getcurrentTile(rook.x, rook.y, tile_size) + Board.getcurrentTile(rook.x-2*tile_size, rook.y, tile_size)
-                                                            rook.move_from_pos(move = move, board = board, screen = screen)
+                                                            rook.move_from_pos(move = move, board = board, screen = screen, ignore_me = True)
                                                             Pieces.round_decrement()
                                                 else:
                                                     for rook in Pieces.all_pieces_list:
                                                         if rook.farbe == self.farbe and 'L-Rook' in rook.name:
                                                             move = Board.getcurrentTile(rook.x, rook.y, tile_size) + Board.getcurrentTile(rook.x+3*tile_size, rook.y, tile_size)
-                                                            rook.move_from_pos(move = move, board = board, screen = screen)
+                                                            rook.move_from_pos(move = move, board = board, screen = screen, ignore_me = True)
                                                             Pieces.round_decrement()
                                                 
                                         self.touched = True
