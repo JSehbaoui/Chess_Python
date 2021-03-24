@@ -17,9 +17,8 @@ from components.board_cls import Board
 from components.clock import Clock
 from components.history import Hud
 from components.button import Button
+from components.external_funktions import *
 
-def print_hello():
-    print('hello')
 
 def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool = True, bot_difficulty = 6):
 
@@ -59,7 +58,6 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
     font = pygame.font.SysFont("DejaVu Sans", int(tile_size*0.2))
     font_titles = pygame.font.SysFont("DejaVu Sans", int(tile_size*0.25))
     go = True
-    game_over = False
     timer = Clock(time = 5)
 
     #creating the surfaces#
@@ -82,7 +80,6 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
     
     #creating the board on the subsurface#
     board = Board(master = s, width = 8, height = 8, tile_size = tile_size, color_a = (245, 216, 188), color_b = (176, 142, 109), anchor_point = anchor_point_s)
-    board.draw_board()
 
     #loading the images for the pieces#
     white_pawn_img = pygame.image.load(r'assets/white_pawn.png')
@@ -196,6 +193,31 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
     bot.set_skill_level(bot_difficulty)
     
 
+    quit_button = Button(x = 600,
+                             y = 30,
+                             w=40,
+                             h = 40,
+                             color_b=BLACK,
+                             color_t=(255,255,255),
+                             command = quit,
+                             text = 'quit',
+                             imaginary_x=anchor_point_hud[0],
+                             imaginary_y=anchor_point_hud[1]
+                             )
+
+    
+    resign_button = Button(x = 650,
+                             y = 30, 
+                             w=40,
+                             h = 40,
+                             color_b=BLACK,
+                             color_t=(255,255,255),
+                             command = lambda:[decideWhoLost(round_int, board, s)],
+                             text = 'resign',
+                             imaginary_x=anchor_point_hud[0],
+                             imaginary_y=anchor_point_hud[1]
+                             )
+
     #the mainloop#
     while go:
         #setting the framerate#
@@ -208,21 +230,23 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
         json_file.close()
 
         #drawing the board#
-        board.draw_board()
+        if not Board.game_over:
+            board.draw_board()
 
         #updating the bot with the new game state#
         bot.set_position(Pieces.moves_done)
         
         #detecting, if the game is over, or not
-        Pieces.detectingCheck()
-        game_over = Pieces.detectGameOver(round_int=round_int)
+        if not Board.game_over:
+            Pieces.detectingCheck()
+            Board.game_over = Pieces.detectGameOver(round_int=round_int)
 
         #end the game if the game is over#
-        if game_over:
+        if Board.game_over and not Board.resign:
             if Pieces.white_is_checked:
                 board.end_screen('BLACK', s)
             elif Pieces.black_is_checked:
-                board.end_screen('WHITE', s)    
+                board.end_screen('WHITE', s)
             else:
                 board.end_screen('STALEMATE', s)
 
@@ -244,8 +268,9 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                     board.check(king_pos = (king.x, king.y))
 
         #drawing all the pieces#
-        for pieces in Pieces.all_pieces_list:
-            pieces.draw(screen)
+        if not Board.game_over:
+            for pieces in Pieces.all_pieces_list:
+                pieces.draw(screen)
         
         #updating the mainsurface#
         pygame.display.update()
@@ -299,29 +324,18 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
         hud.blit(timer_label, (3.65*tile_size, 0.75*tile_size))
 
         #creating the buttons on the hud
-        quit_button = Button(x = 600,
-                             y = 30,
-                             w=40,
-                             h = 40,
-                             color_b=BLACK,
-                             color_t=(255,255,255),
-                             command = quit,
-                             text = 'quit',
-                             imaginary_x=anchor_point_hud[0],
-                             imaginary_y=anchor_point_hud[1]
-                             )
-
+        resign_button.draw(screen = hud)
         quit_button.draw(screen = hud)
+
+        items = [quit_button, resign_button]
 
         #bliting the subsurfaces on the mainsurface
         screen.blit(s, anchor_point_s)
         screen.blit(h, anchor_point_h)
         screen.blit(hud, anchor_point_hud)
 
-        
-
         #bot moves#   
-        if round_int % 2 == 1 and bot_bool and not game_over:
+        if round_int % 2 == 1 and bot_bool and not Board.game_over:
             opt_move = bot.get_best_move()
             for piece in Pieces.all_pieces_list:
                 if piece.farbe == (0,0,0):
@@ -333,7 +347,8 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
         else:
             for event in pygame.event.get():
 
-                quit_button.processEvent(event)
+                for item in items:
+                    item.processEvent(event)
 
                 #closing the screen by clicking the X#
                 if event.type == pygame.QUIT:
@@ -372,7 +387,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                     mouse_pos = (mouse_pos[0]-anchor_point_s[0], mouse_pos[1]-anchor_point_s[1])
 
                     #checking if a Piece stands on the clicked tile#
-                    if not game_over:
+                    if not Board.game_over:
                         for piece in Pieces.all_pieces_list:
                             if mouse_pos[0] >= piece.x and mouse_pos[1] >=piece.y:
                                 if mouse_pos[0] < piece.x+tile_size and mouse_pos[1] < piece.y+tile_size:

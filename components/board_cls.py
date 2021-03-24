@@ -3,6 +3,8 @@ import pygame
 class Board:
 
     game_draws = []
+    game_over = False
+    resign = False
 
     def __init__(self, master, width, height, tile_size, color_a, color_b, anchor_point, border_color = (152, 186, 0)):
         self.master = master
@@ -110,7 +112,7 @@ class Board:
     def translate_to_coordinates(tile, tile_size):
         return (int(ord(tile[0])-97)*tile_size, (8-int(tile[1]))*tile_size)
     
-    def end_screen(self, winner, screen):
+    def end_screen(self, winner, screen_):
         
         f = pygame.font.SysFont('Arial', self.tile_size)
         s = pygame.Surface((8*self.tile_size,8*self.tile_size))  # the size of your rect
@@ -120,8 +122,9 @@ class Board:
             label = f.render('STALEMATE', True, (0,0,0))
         else:
             label = f.render(winner+' WON', True, (0,0,0))
-        screen.blit(label, (s.get_width()/2 - label.get_width()/2,s.get_height()/2-label.get_height()/2))
-        screen.blit(s, (0,0))    # (0,0) are the top-left coordinates
+        screen_.blit(label, (s.get_width()/2 - label.get_width()/2,s.get_height()/2-label.get_height()/2))
+        screen_.blit(s, (0,0))    # (0,0) are the top-left coordinates
+        Board.game_over = True
 
 
         

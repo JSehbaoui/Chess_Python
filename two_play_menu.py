@@ -36,7 +36,7 @@ def login(mode = 'STANDARD'):
     Player1 = InputBox(300, 200, 100, 32, (100, 100, 100), (10,10,10))
     Player2 = InputBox(300, 250, 100, 32, (100, 100, 100), (10,10,10))
     
-    Accept_Button = Button(300, 300, 100, 50, (0,0,0), (200,200,200), lambda:[main(player1 = Player1.export(), player2= Player2.export() ,mode=mode)], text = 'Start Game')
+    Accept_Button = Button(300, 300, 100, 50, (0,0,0), (200,200,200), lambda:[main(player1 = Player1.export(), player2= Player2.export() ,mode=mode, bot_bool = False)], text = 'Start Game',)
     
     boxes_arr = [Player1, Player2]
 
