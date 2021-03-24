@@ -218,6 +218,23 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                              imaginary_y=anchor_point_hud[1]
                              )
 
+    if bot_bool:
+        command = lambda:[takeback(board, s), takeback(board, s)]
+    else:
+        command = lambda:[takeback(board, s)]
+
+    takeback_button = Button(x = 700,
+                             y = 30, 
+                             w = 40,
+                             h = 40,
+                             color_b=BLACK,
+                             color_t=(255,255,255),
+                             command = command,
+                             text = 'takeback',
+                             imaginary_x=anchor_point_hud[0],
+                             imaginary_y=anchor_point_hud[1]
+                             )
+
     #the mainloop#
     while go:
         #setting the framerate#
@@ -326,8 +343,9 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
         #creating the buttons on the hud
         resign_button.draw(screen = hud)
         quit_button.draw(screen = hud)
+        takeback_button.draw(screen = hud)
 
-        items = [quit_button, resign_button]
+        items = [quit_button, resign_button, takeback_button]
 
         #bliting the subsurfaces on the mainsurface
         screen.blit(s, anchor_point_s)
