@@ -69,6 +69,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
     screen.fill(BG_COLOR_1)
     hud.fill(BG_COLOR_2)
     h.fill(BG_COLOR_2)
+    h.print(pos = (20, 20), label = 'Spielhistorie', font = font)
 
     #window caption#
     pygame.display.set_caption("Chess")
@@ -94,20 +95,6 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
     black_queen_img = pygame.image.load(r'assets/black_queen.png')
     black_king_img = pygame.image.load(r'assets/black_king.png')
 
-    #resizing the images#
-    white_pawn_img = pygame.transform.scale(white_pawn_img, (tile_size, tile_size))
-    white_rook_img = pygame.transform.scale(white_rook_img, (tile_size, tile_size))
-    white_knight_img = pygame.transform.scale(white_knight_img, (tile_size, tile_size))
-    white_bishop_img = pygame.transform.scale(white_bishop_img, (tile_size, tile_size))
-    white_queen_img = pygame.transform.scale(white_queen_img, (tile_size, tile_size))
-    white_king_img = pygame.transform.scale(white_king_img, (tile_size, tile_size))
-    black_pawn_img = pygame.transform.scale(black_pawn_img, (tile_size, tile_size))
-    black_rook_img = pygame.transform.scale(black_rook_img, (tile_size, tile_size))
-    black_knight_img = pygame.transform.scale(black_knight_img, (tile_size, tile_size))
-    black_bishop_img = pygame.transform.scale(black_bishop_img, (tile_size, tile_size))
-    black_queen_img = pygame.transform.scale(black_queen_img, (tile_size, tile_size))
-    black_king_img = pygame.transform.scale(black_king_img, (tile_size, tile_size))
-
 
     #creating the pieces
     if mode == "CHESS 960":
@@ -127,8 +114,8 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
         Knights(master = s, name = 'R-Knight-W', tile_x = ran_list[1], tile_y = 7, farbe = 'weiss', image = white_knight_img, value = 3.001)
         Bishops(master = s, name = 'L-Bishop-W', tile_x = ran_list[2], tile_y = 7, farbe = 'weiss', image = white_bishop_img, value = 3)
         Bishops(master = s, name = 'R-Bishop-W', tile_x = ran_list[5], tile_y = 7, farbe = 'weiss', image = white_bishop_img, value = 3)
-        Queens(master = s, name = 'Queen-W', tile_x = ran_list[3], tile_y = 7, farbe = 'weiss', image = white_queen_img, value = 9)
-        Kings(master = s, name = 'King-W', tile_x = ran_list[4], tile_y = 7, farbe = 'weiss', image = white_king_img, value = 100)
+        Queens(master = s, name = '##Queen-W', tile_x = ran_list[3], tile_y = 7, farbe = 'weiss', image = white_queen_img, value = 9)
+        Kings(master = s, name = '##King-W', tile_x = ran_list[4], tile_y = 7, farbe = 'weiss', image = white_king_img, value = 100)
 
         BlackPawns(master = s, name = 'A-Pawn-B', tile_x = 0, tile_y = 1, farbe = 'schwarz', image = black_pawn_img, value = 1)
         BlackPawns(master = s, name = 'B-Pawn-B', tile_x = 1, tile_y = 1, farbe = 'schwarz', image = black_pawn_img, value = 1)
@@ -144,8 +131,8 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
         Knights(master = s, name = 'R-Knight-B', tile_x = ran_list[6], tile_y = 0, farbe = 'schwarz', image = black_knight_img, value = 3.001)
         Bishops(master = s, name = 'L-Bishop-B', tile_x = ran_list[2], tile_y = 0, farbe = 'schwarz', image = black_bishop_img, value = 3)
         Bishops(master = s, name = 'R-Bishop-B', tile_x = ran_list[5], tile_y = 0, farbe = 'schwarz', image = black_bishop_img, value = 3)
-        Queens(master = s, name = 'Queen-B', tile_x = ran_list[3], tile_y = 0, farbe = 'schwarz', image = black_queen_img, value = 9)
-        Kings(master = s, name = 'King-B', tile_x = ran_list[4], tile_y = 0, farbe = 'schwarz', image = black_king_img, value = 100)
+        Queens(master = s, name = '##Queen-B', tile_x = ran_list[3], tile_y = 0, farbe = 'schwarz', image = black_queen_img, value = 9)
+        Kings(master = s, name = '##King-B', tile_x = ran_list[4], tile_y = 0, farbe = 'schwarz', image = black_king_img, value = 100)
 
     elif mode == "STANDARD":
         # STANDARD
@@ -276,6 +263,13 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
         #printing the labes on the subsurfaces#        
         p1.blit(Player_1_label, (p1.get_width()/2 - Player_1_label.get_width()/2,0))
         p2.blit(Player_2_label, (p2.get_width()/2 - Player_2_label.get_width()/2,0))
+
+        #creating the history
+        h.fill(BG_COLOR_2)
+        h.print((20, 20), 'Spielhistorie', font)
+        for i in range(len(Pieces.moves_done)):
+            h.print(pos = ((i%2)*50+20, (i//2)*20+40), label = Pieces.moves_done[i], font= font)
+
         
         #showing the taken pieces#
         Pieces.taken_pieces.sort(key= lambda x: x.value, reverse = False)
@@ -310,8 +304,14 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
             opt_move = bot.get_best_move()
             for piece in Pieces.all_pieces_list:
                 if piece.farbe == (0,0,0):
-                    piece.move_from_pos(move=opt_move, board=board, screen = screen)
+                    move = piece.move_from_pos(move=opt_move, board=board, screen = screen)
+                    if move != None:
+                        break
+            
+            # print(move)
+            # move = move[1][2:3] + move[2] +str(move[0][2:])
 
+            # h.print(pos=(80, round_int//2*20+40), label=move, font= font)
 
         else:
             for event in pygame.event.get():
@@ -369,9 +369,10 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                                         #...wait for the second mouse input#
                                         move_ = piece.move(board = board, screen = screen)
 
-                                        h.print(((round_int%2)*80+30, round_int//2*30+70), move_, font = font)
-                                        if round_int % 2 == 0:
-                                            h.print((0, round_int//2*30+70), str(round_int//2+1), font) 
+                                        move_ = move_[1][2:3] + move_[2] +str(move_[0][2:])
+
+                                        # h.print(((round_int%2)*80+30, round_int//2*20+40), move_, font = font)
+                                        # h.print((0, round_int//2*20+40), str(round_int//2+1), font) 
 
                                         #check if the white kiung is checked#
                                         Pieces.detectingCheck()

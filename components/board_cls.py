@@ -27,6 +27,7 @@ class Board:
 
     def draw_board(self):
         tile_dir_list = []
+        font = pygame.font.Font(None, 20)
 
         for y in range(8):
             tile_dir_list.append([])
@@ -42,6 +43,25 @@ class Board:
                         pygame.draw.rect(self.master, (176, 142, 109), [x*self.tile_size, y*self.tile_size, self.tile_size, self.tile_size])
                     else:
                         pygame.draw.rect(self.master, (245, 216, 188), [x*self.tile_size, y*self.tile_size, self.tile_size, self.tile_size])
+
+        for x in range(8):
+            if x%2 == 0:
+                color = (245, 216, 188)
+            else:
+                color = (176, 142, 109)
+            
+            label = font.render(chr(97+x), True, color)
+            self.master.blit(label, (x*self.tile_size+5, 8*self.tile_size-15))
+
+        for y in range(8):
+            if y%2 == 0:
+                color = (245, 216, 188)
+            else:
+                color = (176, 142, 109)
+            
+            label = font.render(str(8-y), True, color)
+            self.master.blit(label, (8*self.tile_size-15, y*self.tile_size+5))
+
 
     def changeTilecolor(self, tile, newColor):
         

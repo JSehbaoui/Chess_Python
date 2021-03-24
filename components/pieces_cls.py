@@ -32,7 +32,7 @@ class Pieces:
         self.master = master
         self.value = value
         self.name = name
-        self.image = pygame.transform.scale(image, (tile_size-20, tile_size-20))
+        self.image = pygame.transform.scale(image, (int(tile_size*0.7), int(tile_size*0.7)))
         if farbe == 'schwarz':
             self.farbe = (0,0,0)
         elif farbe == 'weiss':
@@ -98,7 +98,7 @@ class Pieces:
 
     def draw(self, screen):
         #pygame.draw.rect(self.master, self.farbe, [self.x+10, self.y+10, 30, 30])
-        self.master.blit(self.image, (self.x+10, self.y+10))
+        self.master.blit(self.image, (self.x+11, self.y+11))
         screen.blit(self.master, anchor_point)
 
     def move_from_pos(self, move, board, screen, ignore_me = False):
@@ -119,12 +119,15 @@ class Pieces:
             if not ignore_me:
                 Pieces.moves_done.append(move)
 
+            taken = ''
+
             for piece in Pieces.all_pieces_list:
                 if (piece.x, piece.y) == (self.x, self.y) and self != piece:
                     Pieces.append_taken_piece(piece)
+                    taken = 'x'
 
-            
-
+            output = move, self.name, taken
+            return output
 
     
     def move(self, board, screen):
@@ -162,6 +165,7 @@ class Pieces:
 
                 pygame.display.update()
 
+            taken = ''
 
 
             #checking for events
@@ -209,6 +213,8 @@ class Pieces:
 
                                                     self.append_taken_piece(piece)
 
+                                                    taken = 'x'
+
                                                     
 
 
@@ -230,6 +236,8 @@ class Pieces:
                                         Pieces.draw(self, screen)
                                         Pieces.round_increment()
                                         go = False
+
+                                        
 
                                         self.touched = True
                                         move = Board.getcurrentTile(old_pos[0], old_pos[1], tile_size) + Board.getcurrentTile(self.x, self.y, tile_size) 
@@ -264,7 +272,8 @@ class Pieces:
                                 go = False        
                     go = False     
         
-        return move
+        
+        return move, self.name, taken
 
     @staticmethod
     def append_taken_piece(piece):
