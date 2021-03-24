@@ -16,7 +16,10 @@ from components.kings_cls import Kings
 from components.board_cls import Board
 from components.clock import Clock
 from components.history import Hud
+from components.button import Button
 
+def print_hello():
+    print('hello')
 
 def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool = True, bot_difficulty = 6):
 
@@ -270,7 +273,8 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
         for i in range(len(Pieces.moves_done)):
             h.print(pos = ((i%2)*50+20, (i//2)*20+40), label = Pieces.moves_done[i], font= font)
 
-        
+
+
         #showing the taken pieces#
         Pieces.taken_pieces.sort(key= lambda x: x.value, reverse = False)
         white_loss = []
@@ -294,12 +298,29 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
         hud.blit(p2, (4.5*tile_size, 0.25*tile_size))
         hud.blit(timer_label, (3.65*tile_size, 0.75*tile_size))
 
+        #creating the buttons on the hud
+        quit_button = Button(x = 600,
+                             y = 30,
+                             w=40,
+                             h = 40,
+                             color_b=BLACK,
+                             color_t=(255,255,255),
+                             command = quit,
+                             text = 'quit',
+                             imaginary_x=anchor_point_hud[0],
+                             imaginary_y=anchor_point_hud[1]
+                             )
+
+        quit_button.draw(screen = hud)
+
         #bliting the subsurfaces on the mainsurface
         screen.blit(s, anchor_point_s)
         screen.blit(h, anchor_point_h)
         screen.blit(hud, anchor_point_hud)
 
-        #checking for events#
+        
+
+        #bot moves#   
         if round_int % 2 == 1 and bot_bool and not game_over:
             opt_move = bot.get_best_move()
             for piece in Pieces.all_pieces_list:
@@ -307,14 +328,12 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                     move = piece.move_from_pos(move=opt_move, board=board, screen = screen)
                     if move != None:
                         break
-            
-            # print(move)
-            # move = move[1][2:3] + move[2] +str(move[0][2:])
 
-            # h.print(pos=(80, round_int//2*20+40), label=move, font= font)
-
+        #checking for events#
         else:
             for event in pygame.event.get():
+
+                quit_button.processEvent(event)
 
                 #closing the screen by clicking the X#
                 if event.type == pygame.QUIT:
@@ -346,6 +365,8 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                         print(Pieces.moves_done)
                 #left mouse click#
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+
+                    
                     #getting the mouseposition and than correcting it by the relative position of the subsurface#
                     mouse_pos = pygame.mouse.get_pos()
                     mouse_pos = (mouse_pos[0]-anchor_point_s[0], mouse_pos[1]-anchor_point_s[1])
