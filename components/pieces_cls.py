@@ -133,18 +133,37 @@ class Pieces:
 
             if 'King' in self.name:
                 if old_pos[0] - self.x > tile_size or self.x - old_pos[0] > tile_size:
-                    if self.x > 4*tile_size:
-                        for rook in Pieces.all_pieces_list:
-                            if rook.farbe == self.farbe and 'R-Rook' in rook.name:
-                                move = Board.getcurrentTile(rook.x, rook.y, tile_size) + Board.getcurrentTile(rook.x-2*tile_size, rook.y, tile_size)
-                                rook.move_from_pos(move = move, board = board, screen = screen, ignore_me = True)
-                                Pieces.round_decrement()
+                    if self.touched == False:
+                        if self.x > 4*tile_size:
+                            for rook in Pieces.all_pieces_list:
+                                if rook.farbe == self.farbe and 'R-Rook' in rook.name:
+                                    move = Board.getcurrentTile(rook.x, rook.y, tile_size) + Board.getcurrentTile(rook.x-2*tile_size, rook.y, tile_size)
+                                    rook.move_from_pos(move = move, board = board, screen = screen,takeback_button = takeback_button, ignore_me = True)
+                                    Pieces.round_decrement()
+                        else:
+                            for rook in Pieces.all_pieces_list:
+                                if rook.farbe == self.farbe and 'L-Rook' in rook.name:
+                                    move = Board.getcurrentTile(rook.x, rook.y, tile_size) + Board.getcurrentTile(rook.x+3*tile_size, rook.y, tile_size)
+                                    rook.move_from_pos(move = move, board = board, screen = screen,takeback_button = takeback_button, ignore_me = True)
+                                    Pieces.round_decrement()
+
+                    #only if taken back
                     else:
-                        for rook in Pieces.all_pieces_list:
-                            if rook.farbe == self.farbe and 'L-Rook' in rook.name:
-                                move = Board.getcurrentTile(rook.x, rook.y, tile_size) + Board.getcurrentTile(rook.x+3*tile_size, rook.y, tile_size)
-                                rook.move_from_pos(move = move, board = board, screen = screen, ignore_me = True)
-                                Pieces.round_decrement()
+                        if old_pos[0] == 6*tile_size:
+                            for rook in Pieces.all_pieces_list:
+                                if rook.farbe == self.farbe and 'R-Rook' in rook.name:
+                                    move = Board.getcurrentTile(rook.x, rook.y, tile_size) + Board.getcurrentTile(rook.x+2*tile_size, rook.y, tile_size)
+                                    rook.move_from_pos(move = move, board = board, screen = screen,takeback_button = takeback_button, ignore_me = True)
+                                    Pieces.round_decrement()
+                                    self.touched = False
+                        elif old_pos[0] == 2*tile_size:
+                            for rook in Pieces.all_pieces_list:
+                                if rook.farbe == self.farbe and 'L-Rook' in rook.name:
+                                    move = Board.getcurrentTile(rook.x, rook.y, tile_size) + Board.getcurrentTile(rook.x-3*tile_size, rook.y, tile_size)
+                                    rook.move_from_pos(move = move, board = board, screen = screen,takeback_button = takeback_button, ignore_me = True)
+                                    Pieces.round_decrement()
+                                    self.touched = False
+
 
             output = move, self.name, taken
             return output
@@ -276,13 +295,13 @@ class Pieces:
                                                     for rook in Pieces.all_pieces_list:
                                                         if rook.farbe == self.farbe and 'R-Rook' in rook.name:
                                                             move = Board.getcurrentTile(rook.x, rook.y, tile_size) + Board.getcurrentTile(rook.x-2*tile_size, rook.y, tile_size)
-                                                            rook.move_from_pos(move = move, board = board, screen = screen, ignore_me = True)
+                                                            rook.move_from_pos(move = move, board = board, screen = screen, takeback_button = takeback_button,ignore_me = True)
                                                             Pieces.round_decrement()
                                                 else:
                                                     for rook in Pieces.all_pieces_list:
                                                         if rook.farbe == self.farbe and 'L-Rook' in rook.name:
                                                             move = Board.getcurrentTile(rook.x, rook.y, tile_size) + Board.getcurrentTile(rook.x+3*tile_size, rook.y, tile_size)
-                                                            rook.move_from_pos(move = move, board = board, screen = screen, ignore_me = True)
+                                                            rook.move_from_pos(move = move, board = board, screen = screen, takeback_button = takeback_button,ignore_me = True)
                                                             Pieces.round_decrement()
                                                 
                                         self.touched = True
