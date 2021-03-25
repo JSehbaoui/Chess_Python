@@ -101,7 +101,7 @@ class Pieces:
         self.master.blit(self.image, (self.x+11, self.y+11))
         screen.blit(self.master, anchor_point)
 
-    def move_from_pos(self, move, board, screen, ignore_me = False):
+    def move_from_pos(self, move, board, screen, takeback_button, ignore_me = False):
         if Board.getcurrentTile(self.x, self.y, tile_size) == move[:2]:
             newpos = Board.translate_to_coordinates(move[2:], tile_size)
             self.animate(screen=screen, start_pos_x=self.x, start_pos_y= self.y, stop_pos_x=newpos[0], stop_pos_y=newpos[1], time=0.2, board = board)
@@ -122,10 +122,13 @@ class Pieces:
 
             taken = ''
 
+            takeback_button.active = True
+
             for piece in Pieces.all_pieces_list:
                 if (piece.x, piece.y) == (self.x, self.y) and self != piece:
                     Pieces.append_taken_piece(piece)
                     taken = 'x'
+                    takeback_button.active = False
 
             if 'King' in self.name:
                 if old_pos[0] - self.x > tile_size or self.x - old_pos[0] > tile_size:
@@ -146,7 +149,7 @@ class Pieces:
             return output
 
     
-    def move(self, board, screen):
+    def move(self, board, screen, takeback_button):
     
         go = True
         ok = True
@@ -231,6 +234,10 @@ class Pieces:
 
                                                     taken = 'x'
 
+                                                    takeback_button.active = False
+
+
+
                                                     
 
 
@@ -278,6 +285,8 @@ class Pieces:
                                                             Pieces.round_decrement()
                                                 
                                         self.touched = True
+
+                                        takeback_button.active = True
 
                                         # if 'Pawn_B' in self.name and self.x == 350 or 'Pawn_W' in self.name and self.x == 0:
                                         #     self.promotion()

@@ -16,7 +16,7 @@ def decideWhoLost(round_int, board, screen):
     else:
         board.end_screen(winner = 'WHITE', screen_ = screen)
 
-def takeback(board, screen):
+def takeback(board, screen, takeback_button):
     if len(Pieces.moves_done) > 0:
         taken_back = Pieces.moves_done[-1]
 
@@ -28,7 +28,7 @@ def takeback(board, screen):
 
         for piece in Pieces.all_pieces_list:
             if (piece.x, piece.y) ==  (coordinates[0], coordinates[1]):
-                piece.move_from_pos(move_to_do, board, screen, ignore_me = True)
+                piece.move_from_pos(move_to_do, board, screen, takeback_button, ignore_me = True)
                 # Pieces.round_decrement()
         
         

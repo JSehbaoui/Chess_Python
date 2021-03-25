@@ -17,6 +17,7 @@ class Button:
         self.x_ = imaginary_x
         self.y_ = imaginary_y
         self.icon = icon
+        self.active = True
 
 
     def draw(self, screen):
@@ -30,7 +31,7 @@ class Button:
             screen.blit(label, (self.x + self.w/2 - label_rect.w/2, self.y + self.h/2 - label_rect.h/2))
 
     def processEvent(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pygame.MOUSEBUTTONDOWN and self.active:
             mouse_pos = pygame.mouse.get_pos()
             mouse_pos = mouse_pos[0]-self.x_, mouse_pos[1]-self.y_
 

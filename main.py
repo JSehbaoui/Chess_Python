@@ -225,9 +225,9 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                              )
 
     if bot_bool:
-        command = lambda:[takeback(board, s), takeback(board, s)]
+        command = lambda:[takeback(board, s, takeback_button), takeback(board, s, takeback_button)]
     else:
-        command = lambda:[takeback(board, s)]
+        command = lambda:[takeback(board, s, takeback_button)]
 
     takeback_button = Button(x = 600,
                              y = 80, 
@@ -363,7 +363,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
             opt_move = bot.get_best_move()
             for piece in Pieces.all_pieces_list:
                 if piece.farbe == (0,0,0):
-                    move = piece.move_from_pos(move=opt_move, board=board, screen = screen)
+                    move = piece.move_from_pos(move=opt_move, board=board, screen = screen, takeback_button = takeback_button)
                     if move != None:
                         break
 
@@ -429,7 +429,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                                     if with_bool or without_bool:
 
                                         #...wait for the second mouse input#
-                                        move_ = piece.move(board = board, screen = screen)
+                                        move_ = piece.move(board = board, screen = screen, takeback_button = takeback_button)
 
                                         move_ = move_[1][2:3] + move_[2] +str(move_[0][2:])
 
