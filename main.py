@@ -40,6 +40,8 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
 
     #Constants#
     BLACK = (0,0,0)
+    GREY = (50,50,50)
+    WHITE = (255,255,255)
     BG_COLOR_1 = (0, 152, 163)
     BG_COLOR_2 = (2, 112, 120)
 
@@ -204,7 +206,8 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                              w=40,
                              h = 40,
                              color_b=BLACK,
-                             color_t=(255,255,255),
+                             color_in = GREY,
+                             color_t=WHITE,
                              command = quit,
                              icon = quit_icon,
                              imaginary_x=anchor_point_hud[0],
@@ -217,7 +220,8 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                              w=40,
                              h = 40,
                              color_b=BLACK,
-                             color_t=(255,255,255),
+                             color_in = GREY,
+                             color_t=WHITE,
                              command = lambda:[decideWhoLost(round_int, board, s)],
                              icon = resign_icon,
                              imaginary_x=anchor_point_hud[0],
@@ -234,7 +238,8 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                              w = 40,
                              h = 40,
                              color_b=BLACK,
-                             color_t=(255,255,255),
+                             color_in = GREY,
+                             color_t=WHITE,
                              command = command,
                              icon = takeback_icon,
                              imaginary_x=anchor_point_hud[0],
@@ -281,13 +286,13 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
         #highlighting the checked king#
         if Pieces.white_is_checked:
             for king in Pieces.all_pieces_list:
-                if isinstance(king, Kings) and king.farbe == (255,255,255):
+                if isinstance(king, Kings) and king.farbe == WHITE:
                     board.check(king_pos = (king.x, king.y))
 
         #highlighting the checked king#            
         elif Pieces.black_is_checked: 
             for king in Pieces.all_pieces_list:
-                if isinstance(king, Kings) and king.farbe == (0,0,0):
+                if isinstance(king, Kings) and king.farbe == BLACK:
                     board.check(king_pos = (king.x, king.y))
 
         #drawing all the pieces#
@@ -330,7 +335,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
         for piece in Pieces.taken_pieces:
             if piece.farbe == (0,0,0):
                 black_loss.append(piece)
-            elif piece.farbe == (255,255,255):
+            elif piece.farbe == WHITE:
                 white_loss.append(piece)
         for piece in black_loss:
             p1.blit(pygame.transform.scale(piece.image, (tile_size//3, tile_size//3)), (black_loss.index(piece)*15+20, 70))
@@ -362,7 +367,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
         if round_int % 2 == 1 and bot_bool and not Board.game_over:
             opt_move = bot.get_best_move()
             for piece in Pieces.all_pieces_list:
-                if piece.farbe == (0,0,0):
+                if piece.farbe == BLACK:
                     move = piece.move_from_pos(move=opt_move, board=board, screen = screen, takeback_button = takeback_button)
                     if move != None:
                         break

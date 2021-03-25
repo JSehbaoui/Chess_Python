@@ -3,13 +3,14 @@ pygame.init()
 
 class Button:
     
-    def __init__(self, x, y, w, h, color_b, color_t, command, text = 'Button', imaginary_x = 0, imaginary_y = 0, icon = None):
+    def __init__(self, x, y, w, h, color_b, color_in, color_t, command, text = 'Button', imaginary_x = 0, imaginary_y = 0, icon = None):
         self.x = x
         self.y = y
         self.w = w
         self.h = h
         self.button_rect = pygame.Rect(x, y, w, h)
         self.color_b = color_b
+        self.color_in = color_in
         self.color_t = color_t
         self.text = text
         self.font = pygame.font.Font(None, self.h//3)
@@ -21,7 +22,12 @@ class Button:
 
 
     def draw(self, screen):
-        pygame.draw.rect(screen, self.color_b, self.button_rect)
+        if self.active:
+            color = self.color_b
+        else:
+            color = self.color_in
+
+        pygame.draw.rect(screen, color , self.button_rect)
         if self.icon != None:
             icon = pygame.transform.scale(self.icon, (self.w-10, self.h-10))
             screen.blit(icon, (self.x+5,self.y+5))
@@ -36,6 +42,7 @@ class Button:
             mouse_pos = mouse_pos[0]-self.x_, mouse_pos[1]-self.y_
 
             if self.button_rect.collidepoint(mouse_pos):
+                self.active = False
                 self.command()
             
 def printHello():

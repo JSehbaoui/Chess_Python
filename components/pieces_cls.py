@@ -122,7 +122,8 @@ class Pieces:
 
             taken = ''
 
-            takeback_button.active = True
+            if not ignore_me:
+                takeback_button.active = True
 
             for piece in Pieces.all_pieces_list:
                 if (piece.x, piece.y) == (self.x, self.y) and self != piece:
