@@ -3,7 +3,7 @@ pygame.init()
 
 class Button:
     
-    def __init__(self, x, y, w, h, color_b, color_t, command, text = 'Button', imaginary_x = 0, imaginary_y = 0):
+    def __init__(self, x, y, w, h, color_b, color_t, command, text = 'Button', imaginary_x = 0, imaginary_y = 0, icon = None):
         self.x = x
         self.y = y
         self.w = w
@@ -16,13 +16,18 @@ class Button:
         self.command = command
         self.x_ = imaginary_x
         self.y_ = imaginary_y
+        self.icon = icon
 
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.color_b, self.button_rect)
-        label = self.font.render(self.text, True, self.color_t)
-        label_rect = label.get_rect()
-        screen.blit(label, (self.x + self.w/2 - label_rect.w/2, self.y + self.h/2 - label_rect.h/2))
+        if self.icon != None:
+            icon = pygame.transform.scale(self.icon, (self.w-10, self.h-10))
+            screen.blit(icon, (self.x+5,self.y+5))
+        else:
+            label = self.font.render(self.text, True, self.color_t)
+            label_rect = label.get_rect()
+            screen.blit(label, (self.x + self.w/2 - label_rect.w/2, self.y + self.h/2 - label_rect.h/2))
 
     def processEvent(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:

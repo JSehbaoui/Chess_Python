@@ -20,7 +20,7 @@ from components.button import Button
 from components.external_funktions import *
 
 
-def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool = True, bot_difficulty = 6):
+def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool = False, bot_difficulty = 6):
 
     # resetting the variables in the .json file#
     json_file = open(r'components\constants.json', 'r')
@@ -82,18 +82,23 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
     board = Board(master = s, width = 8, height = 8, tile_size = tile_size, color_a = (245, 216, 188), color_b = (176, 142, 109), anchor_point = anchor_point_s)
 
     #loading the images for the pieces#
-    white_pawn_img = pygame.image.load(r'assets/white_pawn.png')
-    white_rook_img = pygame.image.load(r'assets/white_rook.png')
-    white_knight_img = pygame.image.load(r'assets/white_knight.png')
-    white_bishop_img = pygame.image.load(r'assets/white_bishop.png')
-    white_queen_img = pygame.image.load(r'assets/white_queen.png')
-    white_king_img = pygame.image.load(r'assets/white_king.png')
-    black_pawn_img = pygame.image.load(r'assets/black_pawn.png')
-    black_rook_img = pygame.image.load(r'assets/black_rook.png')
-    black_knight_img = pygame.image.load(r'assets/black_knight.png')
-    black_bishop_img = pygame.image.load(r'assets/black_bishop.png')
-    black_queen_img = pygame.image.load(r'assets/black_queen.png')
-    black_king_img = pygame.image.load(r'assets/black_king.png')
+    white_pawn_img =    pygame.image.load(r'assets/white_pawn.png')
+    white_rook_img =    pygame.image.load(r'assets/white_rook.png')
+    white_knight_img =  pygame.image.load(r'assets/white_knight.png')
+    white_bishop_img =  pygame.image.load(r'assets/white_bishop.png')
+    white_queen_img =   pygame.image.load(r'assets/white_queen.png')
+    white_king_img =    pygame.image.load(r'assets/white_king.png')
+    black_pawn_img =    pygame.image.load(r'assets/black_pawn.png')
+    black_rook_img =    pygame.image.load(r'assets/black_rook.png')
+    black_knight_img =  pygame.image.load(r'assets/black_knight.png')
+    black_bishop_img =  pygame.image.load(r'assets/black_bishop.png')
+    black_queen_img =   pygame.image.load(r'assets/black_queen.png')
+    black_king_img =    pygame.image.load(r'assets/black_king.png')
+
+    #loading the icons for the buttons#
+    quit_icon =     pygame.image.load(r'assets/quit.png')
+    takeback_icon = pygame.image.load(r'assets/takeback.png')
+    resign_icon =   pygame.image.load(r'assets/resign_flag.png')
 
 
     #creating the pieces
@@ -181,6 +186,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
         WhitePawns(master = s, name = 'G-Pawn-W', tile_x = 6, tile_y = 6, farbe = 'weiss', image = white_pawn_img, value = 1)
         WhitePawns(master = s, name = 'H-Pawn-W', tile_x = 7, tile_y = 6, farbe = 'weiss', image = white_pawn_img, value = 1)
         Kings(master = s, name = '##King-B', tile_x = 4, tile_y = 0, farbe = 'schwarz', image = black_king_img, value = 100)
+        Rooks(master = s, name = 'L-Rook-B', tile_x = 0, tile_y = 0, farbe = 'schwarz', image = black_rook_img, value = 5)
 
         BlackPawns(master = s, name = 'A-Pawn-B', tile_x = 0, tile_y = 1, farbe = 'schwarz', image = black_pawn_img, value = 1)
         BlackPawns(master = s, name = 'B-Pawn-B', tile_x = 1, tile_y = 1, farbe = 'schwarz', image = black_pawn_img, value = 1)
@@ -193,14 +199,14 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
     bot.set_skill_level(bot_difficulty)
     
 
-    quit_button = Button(x = 600,
+    quit_button = Button(    x = 600,
                              y = 30,
                              w=40,
                              h = 40,
                              color_b=BLACK,
                              color_t=(255,255,255),
                              command = quit,
-                             text = 'quit',
+                             icon = quit_icon,
                              imaginary_x=anchor_point_hud[0],
                              imaginary_y=anchor_point_hud[1]
                              )
@@ -213,7 +219,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                              color_b=BLACK,
                              color_t=(255,255,255),
                              command = lambda:[decideWhoLost(round_int, board, s)],
-                             text = 'resign',
+                             icon = resign_icon,
                              imaginary_x=anchor_point_hud[0],
                              imaginary_y=anchor_point_hud[1]
                              )
@@ -223,14 +229,14 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
     else:
         command = lambda:[takeback(board, s)]
 
-    takeback_button = Button(x = 700,
-                             y = 30, 
+    takeback_button = Button(x = 600,
+                             y = 80, 
                              w = 40,
                              h = 40,
                              color_b=BLACK,
                              color_t=(255,255,255),
                              command = command,
-                             text = 'takeback',
+                             icon = takeback_icon,
                              imaginary_x=anchor_point_hud[0],
                              imaginary_y=anchor_point_hud[1]
                              )
@@ -393,9 +399,11 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                     
                     #(TEMP) my information key (arrow down) to get certain information#
                     if event.key == pygame.K_DOWN:
-                        print(bot.get_best_move())
-                        print(bot.get_board_visual())
-                        print(Pieces.moves_done)
+                        pass
+                        for piece in Pieces.all_pieces_list:
+                            if piece.farbe == (0,0,0) and 'King' in piece.name:
+                                pass
+
                 #left mouse click#
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
 

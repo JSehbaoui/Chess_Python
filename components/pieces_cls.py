@@ -107,6 +107,7 @@ class Pieces:
             self.animate(screen=screen, start_pos_x=self.x, start_pos_y= self.y, stop_pos_x=newpos[0], stop_pos_y=newpos[1], time=0.2, board = board)
             
             # print(move[2:])
+            old_pos = self.x, self.y
             
             # self.animate(self.master, self.x, self.y, newpos[0], newpos[1], 0.2, board)
             self.x, self.y = newpos
@@ -125,6 +126,21 @@ class Pieces:
                 if (piece.x, piece.y) == (self.x, self.y) and self != piece:
                     Pieces.append_taken_piece(piece)
                     taken = 'x'
+
+            if 'King' in self.name:
+                if old_pos[0] - self.x > tile_size or self.x - old_pos[0] > tile_size:
+                    if self.x > 4*tile_size:
+                        for rook in Pieces.all_pieces_list:
+                            if rook.farbe == self.farbe and 'R-Rook' in rook.name:
+                                move = Board.getcurrentTile(rook.x, rook.y, tile_size) + Board.getcurrentTile(rook.x-2*tile_size, rook.y, tile_size)
+                                rook.move_from_pos(move = move, board = board, screen = screen, ignore_me = True)
+                                Pieces.round_decrement()
+                    else:
+                        for rook in Pieces.all_pieces_list:
+                            if rook.farbe == self.farbe and 'L-Rook' in rook.name:
+                                move = Board.getcurrentTile(rook.x, rook.y, tile_size) + Board.getcurrentTile(rook.x+3*tile_size, rook.y, tile_size)
+                                rook.move_from_pos(move = move, board = board, screen = screen, ignore_me = True)
+                                Pieces.round_decrement()
 
             output = move, self.name, taken
             return output
