@@ -283,6 +283,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
             if 'Pawn-B' in pawn.name and pawn.y == 8*tile_size or 'Pawn-W' in pawn.name and pawn.y == 0*tile_size:
                 pawn.promotion()
 
+        Pieces.detectingCheck()
         #highlighting the checked king#
         if Pieces.white_is_checked:
             for king in Pieces.all_pieces_list:

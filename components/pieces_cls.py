@@ -88,7 +88,7 @@ class Pieces:
             for piece in Pieces.all_pieces_list:
                 if piece != self:
                     piece.draw(screen)
-            self.master.blit(self.image, (self.x+10+newx, self.y+10+newy))
+            self.master.blit(self.image, (self.x+11+newx, self.y+11+newy))
             screen.blit(self.master, anchor_point)
 
             pygame.display.update()
@@ -467,16 +467,17 @@ class Pieces:
         return tuple[0] >= 0 and tuple[1] >= 0 and tuple[0] <= 7*tile_size and tuple[1] <= 7*tile_size
 
     def filter_method_foresight(self, move):
+        self.x, self.y = move #setting the position of the piece to the move, that you want to check
+        ignoring_piece = None #currently no piece has to be ignored
 
-        self.x, self.y = move
-
-        ignoring_piece = None
-
-        # if you want to simulate to take a piece, without taking it, you can just ignore it in the .detectingCheck method
+        ### if you want to simulate to take a piece, 
+        # without actually taking it, you can just 
+        ### ignore it in the .detectingCheck method 
         for piece in Pieces.all_pieces_list:
             if (self.x, self.y) == (piece.x, piece.y) and not (piece == self):
                 ignoring_piece = piece
 
+        #checking if the king is checked, after the move
         Pieces.detectingCheck(ignoring_piece = ignoring_piece)
 
         white_check = bool(Pieces.white_is_checked)
@@ -484,6 +485,7 @@ class Pieces:
         white_bool = bool(self.farbe == (255,255,255))
         black_bool = bool(self.farbe == (0,0,0))
 
+        #returning if the move is legal or not
         return (white_bool and not white_check) or (black_bool and not black_check)
 
     @staticmethod
