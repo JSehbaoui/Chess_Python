@@ -280,7 +280,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
 
         #checking if a pawn is promotable#
         for pawn in Pieces.all_pieces_list:
-            if 'Pawn-B' in pawn.name and pawn.y == 8*tile_size or 'Pawn-W' in pawn.name and pawn.y == 0*tile_size:
+            if 'Pawn-B' in pawn.name and pawn.y == 7*tile_size or 'Pawn-W' in pawn.name and pawn.y == 0*tile_size:
                 pawn.promotion()
 
         Pieces.detectingCheck()
@@ -339,9 +339,39 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
             elif piece.farbe == WHITE:
                 white_loss.append(piece)
         for piece in black_loss:
-            p1.blit(pygame.transform.scale(piece.image, (tile_size//3, tile_size//3)), (black_loss.index(piece)*15+20, 70))
+            if not black_loss.index(piece)*25+5 >2.9*tile_size:
+                p1.blit(pygame.transform.scale(piece.image, (tile_size//3, tile_size//3)), (black_loss.index(piece)*25+5, 40))
+            else:
+                p1.blit(pygame.transform.scale(piece.image, (tile_size//3, tile_size//3)), (black_loss.index(piece)*25+10-3*tile_size, 70))
         for piece in white_loss: 
-            p2.blit(pygame.transform.scale(piece.image, (tile_size//3, tile_size//3)), (white_loss.index(piece)*15+20, 70))
+            if not white_loss.index(piece)*25+5 > 2.9*tile_size:
+                p2.blit(pygame.transform.scale(piece.image, (tile_size//3, tile_size//3)), (white_loss.index(piece)*25+5, 40))
+            else:
+                p2.blit(pygame.transform.scale(piece.image, (tile_size//3, tile_size//3)), (white_loss.index(piece)*25+10-3*tile_size, 70))
+
+        value_white = 0
+        value_black = 0
+
+        for piece in Pieces.taken_pieces:
+            if piece.farbe == (0,0,0):
+                value_black += piece.value
+            elif piece.farbe == WHITE:
+                value_white += piece.value
+
+        label = font.render('+'+str(abs(int(value_white-value_black))), True, BLACK)
+        if int(value_white-value_black) > 0:
+            if not len(white_loss)*25+5 > 2.9*tile_size:
+                p2.blit(label, ((len(white_loss))*25+5, 45))
+            else:
+                p2.blit(label, ((len(white_loss))*25+10-3*tile_size, 75))
+            
+        elif int(value_white-value_black) < 0:
+            if not len(black_loss)*25+5 > 2.9*tile_size:
+                p1.blit(label, ((len(black_loss))*25+5, 45))
+            else:
+                p1.blit(label, ((len(black_loss))*25+10-3*tile_size, 75))
+            
+
 
         #updating the hud#
         if round_int % 2 == 0:
