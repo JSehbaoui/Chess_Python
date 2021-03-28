@@ -16,10 +16,12 @@ I first of all created a parent class "Pieces" that would contain basic methods 
 Then I created a class for every other of the pieces, that would inherit for the parent "Pieces"
 
 ## Requirements for the current state
-Use the package manager [pip](https://www.liquidweb.com/kb/install-pip-windows/) to install pygame.
+Use the package manager [pip](https://www.liquidweb.com/kb/install-pip-windows/) to install pygame, stcokfish and pygame-widgets.
 
 ```bash
 pip install pygame
+pip install pygame-widgets
+pip install stockfish
 ```
 
 ## How to play
@@ -29,19 +31,10 @@ Now by clicking at one of the pieces you can see where you can move it. By click
 You can exit the game by pressing ESC or by closing it as an usial window
 
 ## Bugs, I am aware of
-- There is a bug where the tile under the king stays red after the check were denied (FIXED)
-- If a knight check a king and the king wants to move, it ends in a recursive loop, and the game crashes. (FIXED)
-- Sometimes you can't take a piece that is checking the king (FIXED)
-- King can move behind at a tile that is currently not attacked by any piece, because he himself is blocking it (FIXED)
-- The King can't take an attacking piece (FIXED)
-- You can move a piece that is currently blocking a check
+-None
 
 ## Missing features and rules
-- The ["castling"-rule](https://en.wikipedia.org/wiki/Castling) from chess is missing
 - The ["En passant"-rule](https://en.wikipedia.org/wiki/En_passant) from chess is missing
-- The Player vs. AI mode is not available 
-- The GUI features are not yet available
-- COMMENTING
 
 ## Contribute?
 It is currently not possible to collaborate on this project because the school requires a self made result
