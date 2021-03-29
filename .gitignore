@@ -1,3 +1,7 @@
 .vscode
-dokumentation
-__pycache__
+dokumentation/*
+!dokumentation/assets
+!dokumentation/dokumentation.pdf
+!dokumentation/dokumentation.tex
+__pycache__/
+*.py[cod]
