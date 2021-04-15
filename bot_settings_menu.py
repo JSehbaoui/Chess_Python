@@ -40,7 +40,16 @@ def settings(mode = 'STANDARD'):
     bot_diff = Slider(screen, 350, 260, 120, 15, min=1, max=20, step=1, initial= 6)
 
     
-    Accept_Button = Button(300, 300, 100, 50, BLACK, WHITE, lambda:[main(player1 = Player1.export(), player2= 'Computer', mode=mode, bot_difficulty=bot_diff.getValue())], text = 'Start Game')
+    Accept_Button = Button(x = 300,
+                           y = 300,
+                           w = 100,
+                           h = 50,
+                           color_b = BLACK,
+                           color_in = WHITE,
+                           color_t = WHITE, 
+                           command = lambda:[main(player1 = Player1.export(), player2= 'Computer', mode=mode, bot_difficulty=bot_diff.getValue())],
+                           text = 'Start Game'
+                           )
   
     while True:
         clock.tick(60)

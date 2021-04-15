@@ -18,7 +18,8 @@
 \usepackage{fancyhdr}
 \usepackage{sidecap}
 \usepackage{placeins}
-
+\usepackage{wrapfig}
+\usepackage[export]{adjustbox}
 
 \sidecaptionvpos{figure}{t}
 
@@ -119,7 +120,7 @@ Allgemeingültige Regeln sind folgende:
     
 \end{itemize}
 
-\subsubsection{Läufer}
+\subsubsection*{Läufer}
 \begin{SCfigure}[4][h]
         \caption{\protect\rule{0ex}{4ex}
         Der Läufer darf auf ein beliebiges 
@@ -131,7 +132,7 @@ Allgemeingültige Regeln sind folgende:
 \pagebreak
 
 \FloatBarrier
-\subsubsection{Turm}
+\subsubsection*{Turm}
 \begin{SCfigure}[4][h]
         \caption{\protect\rule{0ex}{4ex}
         Der Turm darf auf ein beliebiges Feld 
@@ -142,7 +143,7 @@ Allgemeingültige Regeln sind folgende:
 
 \FloatBarrier
 
-\subsubsection{Dame}
+\subsubsection*{Dame}
 \begin{SCfigure}[4][h]
         \caption{\protect\rule{0ex}{4ex}
         Die Dame darf auf ein beliebiges Feld 
@@ -151,7 +152,7 @@ Allgemeingültige Regeln sind folgende:
         \includegraphics[width=0.15\textwidth]{assets/queen_split.png}
 \end{SCfigure}
 
-\subsubsection{Springer}
+\subsubsection*{Springer}
 \begin{SCfigure}[4][h]
         \caption{\protect\rule{0ex}{4ex}
         Der Springer darf auf eines der Felder ziehen, 
@@ -161,21 +162,25 @@ Allgemeingültige Regeln sind folgende:
         \includegraphics[width=0.15\textwidth]{assets/knight_split.png}
 \end{SCfigure}
 
-\subsubsection{Bauer}
-%\begin{SCfigure}[4][h]
-%        \caption{\protect\rule{0ex}{4ex}
-%        Der Bauer darf
-%        \begin{itemize}
-%                \item vorwärts auf das unbesetzte Feld direkt vor ihm auf derselben Linie ziehen
-%                \item in seinem ersten Zug entweder wie unter (a) beschrieben ziehen oder um zwei Felder entlang derselben Linie vorrücken, vorausgesetzt, dass beide Felder frei sind, oder
-%                \item auf ein von einer gegnerischen Figur besetztes Feld diagonal vor ihm auf einer benachbarten Linie ziehen, indem er jene Figur schlägt.
-%                \item sobald er diejenige Reihe erreicht hat, die am weitesten von seinem Ursprungsfeld entfernt ist, muss er sich als Teil desselben Zuges gegen eine Dame, einen Turm, einen Läufer oder einen Springer derselben Farbe austauschen. Die Auswahl des Spielers ist nicht auf bereits geschlagene Figuren beschränkt. Dieser Austausch eines Bauern für eine andere Figur wird «Umwandlung» genannt, und die Wirkung der neuen Figur tritt sofort ein.
-%        \end{itemize}
-%        }
-%        \includegraphics[width=0.15\textwidth]{assets/pawn_split.png}
-%\end{SCfigure}
+\subsubsection*{Bauer}
 
-\subsubsection{König}
+\begin{wrapfigure}{l}{0.28\textwidth}
+        \includegraphics[width=0.15\textwidth, right]{assets/pawn_split.png}
+\end{wrapfigure}
+Der Bauer darf
+\begin{itemize}
+        \item vorwärts auf das unbesetzte Feld direkt vor ihm auf derselben Linie ziehen
+        \item in seinem ersten Zug entweder wie unter (a) beschrieben ziehen oder um zwei Felder entlang derselben Linie vorrücken, vorausgesetzt, dass beide Felder frei sind, oder
+        \item auf ein von einer gegnerischen Figur besetztes Feld diagonal vor ihm auf einer benachbarten Linie ziehen, indem er jene Figur schlägt.
+        \item sobald er diejenige Reihe erreicht hat, die am weitesten von seinem Ursprungsfeld entfernt ist, muss er sich als Teil desselben Zuges gegen eine Dame, einen Turm, einen Läufer oder einen Springer derselben Farbe austauschen. Die Auswahl des Spielers ist nicht auf bereits geschlagene Figuren beschränkt. Dieser Austausch eines Bauern für eine andere Figur wird «Umwandlung» genannt, und die Wirkung der neuen Figur tritt sofort ein.
+\end{itemize}
+
+
+\subsubsection*{König}
+
+\begin{wrapfigure}{l}{0.28\textwidth}
+        \includegraphics[width=0.15\textwidth, right]{assets/king_split.png}
+\end{wrapfigure}
 Es gibt zwei verschiedene Arten den König zu ziehen:
 \begin{enumerate}
         \item Er zieht auf ein beliebiges angrenzendes Feld, das nicht von einer oder mehreren gegnerischen Figuren angegriffen wird. Von den gegnerischen Figuren gilt, dass sie ein Feld auch dann angreifen, wenn sie selbst nicht ziehen können. Oder
@@ -235,8 +240,15 @@ zu erreichen.
 \section{Bedienung des Programmes}
 %BILDER
 \subsection{Wie spiele ich?}
-Um das Schachprogramm zu starten muss man die init.py datei in python starten. Anschließend öffnet sich ein Fenster, in welchem man zwischen verschiedenen Spielmodi
-wählen kann. Die beiden Modi die hier zur Auswahl stehen sind einmal die Standard-Schach-Variante und die Chess 960 Variante, bei der die Figuren in der hinteren Reihe
+Um das Schachprogramm zu starten muss man die \glqq init.py\grqq Datei in python starten. Anschließend öffnet sich ein Fenster, in welchem man zwischen verschiedenen Spielmodi
+wählen kann.
+
+\begin{figure}
+        \centering
+        %\includegraphics{assets/}
+\end{figure}
+
+Die beiden Modi die hier zur Auswahl stehen sind einmal die Standard-Schach-Variante und die Chess 960 Variante, bei der die Figuren in der hinteren Reihe
 zufällig angeordnet werden.
 Für jeden der beiden Modi lässt sich optional ein zweiter virtueller Spieler hinzufügen, falls man keinen realen Gegner bei sich hat.
 Nachdem man sich für einen Modus entschieden hat, lässt sich der Spielername und je nach Option die Computerschwierigkeit oder der Name des zweiten Spielers einstellen.
@@ -248,27 +260,40 @@ sich die ausgewählte Figur auf das gewünschte Feld.
 
 \subsubsection{Spielerinformationstabs}
 Im oberen Bereich des Spielfelds befindet sich zum einen eine Uhr, welche die aktuelle Spielzeit anzeigt. Links und rechts danaben befinden sich die Spielerinformationen.
+
+\begin{figure}[h]
+        \centering
+        \includegraphics[scale=0.7]{assets/infotabs.PNG}
+        \caption{Informations-Tabs und Spielzeit}
+\end{figure}
 In diesen werden die geschlagenen Figuren sowie der Spielername angezeigt. Außerdem wird das Spielerinformationsfeld von dem Spieler hervorgehoben, welcher daram ist, den
 nächsten Zug zu machen.
 
 \subsubsection{Spielhistorie}
+
 In dem rechten Teil des Fensters befindet sich die Spielhistorie. Diese zeigt die bereits gezogenen Spielzüge an. 
 
 \subsubsection{Buttons}
 Oben im rechten Eck finden sich insgesammt drei Buttons mit folgenden Funktionen:
+\begin{wrapfigure}{r}{0.5\textwidth}
+        \centering
+        \includegraphics{assets/Buttons.PNG}
+        \caption{Bedienungs-Knöpfe}
+\end{wrapfigure}
+
 \begin{itemize}
-        \item "Quit"-Button
+        \item \glqq Quit\grqq-Button
         \begin{itemize}
                 \item Der Quit-Button beendet sofort das Spiel und schließt das Fenster.
         \end{itemize}
-        \item "Resign"-Button
+        \item \glqq Resign\grqq-Button
         \begin{itemize}
                 \item Beendet das Spiel mit einem Sieg für den anderen Spieler
         \end{itemize}
-        \item "Takeback"-Button
+        \item \glqq Takeback\grqq-Button
         \begin{itemize}
                 \item Macht den letzten Zug rückgängig
-                \item Funktioniert nur, wenn keine Figur im letzten zug geschlagen wurde, um große Patzer zu bestrafen.
+                \item Ist nur zu benutzen, wenn keine Figur im letzten zug geschlagen wurde, um große Patzer zu bestrafen.
         \end{itemize}
 \end{itemize}
 
@@ -392,7 +417,7 @@ gestartet habe und auf jegliche Hilfen von API's verzichtet habe. Dennoch war di
 sehr Umfangreich und spannend, da ich das erste Mal im Frontend entwickelt habe und ich,
 trotz vieler Hürden, meinen Spaß daran hatte. 
 
-Ich bin mit dem Endresultat sehr zufrieden, obwohl mir es bis Dato  (\date{}) 
+Ich bin mit dem Endresultat sehr zufrieden, obwohl mir es bis Dato  (\date) 
 nicht gelungen ist, die Regel \glqq en passant \grqq{} zu implementieren.
 
 \subsection{Zukünftige Aussichten}

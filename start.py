@@ -31,8 +31,27 @@ def start():
     screen.blit(choose_label, (200, 60))
 
     bot_box = TickBox(posx = 320, posy = 350, size = 30)
-    button_standard =   Button(100, 200, 200, 100, BLACK, WHITE, lambda:[intermediary(bot = bot_box.getStatus(), mode = "STANDARD")], 'STANDARD')
-    button_960 =        Button(400, 200, 200, 100, BLACK, WHITE, lambda:[intermediary(bot = bot_box.getStatus(), mode = "CHESS 960")], 'CHESS 960')
+    button_standard =   Button(x = 100,
+                               y = 200,
+                               w = 200,
+                               h = 100, 
+                               color_b = BLACK,
+                               color_in = WHITE,
+                               color_t = WHITE,
+                               command = lambda: [intermediary(bot = bot_box.getStatus(), mode = "STANDARD")],
+                               text = 'STANDARD'
+                               )
+
+    button_960 =        Button(x = 400,
+                               y = 200,
+                               w= 200,
+                               h= 100,
+                               color_b = BLACK,
+                               color_in = WHITE,
+                               color_t = WHITE,
+                               command = lambda:[intermediary(bot = bot_box.getStatus(), mode = "CHESS 960")],
+                               text = 'CHESS 960'
+                               )
     
 
     bot_label = font_small.render("Play against AI", 1, BLACK)
