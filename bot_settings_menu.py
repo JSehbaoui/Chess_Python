@@ -47,7 +47,7 @@ def settings(mode = 'STANDARD'):
                            color_b = BLACK,
                            color_in = WHITE,
                            color_t = WHITE, 
-                           command = lambda:[main(player1 = Player1.export(), player2= 'Computer', mode=mode, bot_difficulty=bot_diff.getValue())],
+                           command = lambda:[main(player1 = Player1.export(), player2= 'Computer', mode=mode, bot_bool = True, bot_difficulty=bot_diff.getValue())],
                            text = 'Start Game'
                            )
   
