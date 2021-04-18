@@ -20,6 +20,7 @@
 \usepackage{placeins}
 \usepackage{wrapfig}
 \usepackage[export]{adjustbox}
+\usepackage{tikz-uml}
 
 \sidecaptionvpos{figure}{t}
 
@@ -78,7 +79,14 @@
 %THE DOCUMENTATION:%
 \section{Vorwort}
 Dieses Projekt findet im Rahmen des Informatikunterrichts des Luisengymnasiums 	Bergedorf statt und wird als zusätzliche Lernleistung entsprechend gewertet.
-Ich bin Julian Y. Sehbaoui und habe ein Schachprogramm „from scratch“ in python3 geschrieben
+Ich bin Julian Y. Sehbaoui und habe ein Schachprogramm „from scratch“ in python3 geschrieben.
+
+\section{Das Ziel}
+Mein Ziel war es ein vollfunktionalles Schachspiel ausschließlich in Python
+zu erschaffen, welches alle klassischen Regeln des Schachs beachtet. 
+Hierbei wollte ich auf jegliche äußerliche Hilfe, wie zum Beispiel API's oder schon
+existierende Algorhytmen verzichten, mit Ausnahme eines Schachcomputers. 
+Außerdem soll man zwischen PvP (Player versus Player) und PvE (Player versus)
 
 \section{Ideenfindung}
 Ich persönlich habe mich schon seit dem ich klein bin für Schach interessiert.
@@ -86,125 +94,125 @@ Es ist ein recht simples Spiel, welches aber durch seine Zahlreichen Zugmöglich
 Als ich mich nach einem neuen Projekt umgesehen habe, kam mir direkt Schach in den Sinn, weil es an strikte Regeln gebunden ist, nicht viele Ausnahmen existieren
 und ich es wie schon erwähnt sehr gerne spiele.
 
-\section{Die Regeln im Schach}
-Im Folgenden finden Sie alle offiziellen Regeln des standartmäßigen Schachspiels
-
-\subsection{Das Spielprinzip}
-Ein Schachspiel wird zwischen zwei Gegnern ausgetragen, die ihre Spielfiguren auf einem quadratischen Spielbrett ziehen. 
-Das Ziel des Spiels für beide Spieler ist es den gegnerischen König „Schachmatt“ zu setzten. Dieser Zustand ist erreicht, wenn der gegnerische Spieler keine Möglichkeit hat, den König mit dem nächsten Zug aus dem „Schach“ (angegriffener Zustand des Königs) zu bewegen. 
-Falls es für keinen der Beiden Spieler möglich ist den Gegner Schachmatt zu setzten, wird das Spiel mit einem Remis (=Unentschieden/Gleichstand) beendet.
-
-\subsection{Anfangsstellung der Figuren}
-Das Schachbrett besteht aus einem 8x8 Gitter mit 64 gleichgroßen Quadraten, welche abwechselnd hell und dunkel sind (meist weiß und schwarz).
-Die Spieler positionieren sich gegenüber voneinander, sodass bei beiden Spielern ein weißes Feld in der unteren rechten Ecke vorhanden ist.
-Zu Beginn des Spiels hat jeder Spieler 16 Figuren; Ein Spieler die die Hellen (weiß) und einer die Dunklen (schwarz).
-Beide Spieler starten mit 8 Bauern, 2 Türmen, 2 Springern, 2 Läufern, einer Dame und einem König.
-Die Figuren sind wie folgt anzuordnen:
-
-\begin{figure}
-        \centering
-        \includegraphics[scale=0.5]{assets/chess-opening.png}
-        \caption{Anfangsaufstellung der Schachfiguren im Standardschach}
-\end{figure}
-
-
-Die senkrechten Spalten sind die „Linien“, die waagerechten Zeilen sind die „Reihen“ und die gradlinige Folge der Felder, die sich an den Ecken Berühren sind die „Diagonalen“.
-
-\subsection{Gangart der Figuren}
-Allgemeingültige Regeln sind folgende:
-\begin{itemize}
-        \item Eine Figur darf nicht auf das Feld einer verbündeten Figur ziehen
-        \item Es ist nicht möglich eine Figur durch ein Feld hindurch zu ziehen, welches von einer anderen Figur besetzt ist (Ausnahme siehe 3.3.4.)
-        \item Wenn eine Figur auf ein Feld zieht, welches von einer gegnerischen Figur besetzt ist, dann wird die Gegnerfigur geschlagen (=entfernt)
-        \item Keine Figur darf einen Zug machen, welcher den eigenen König einem Schachgebot aussetzt oder ihn in einem Schachgebot stehen lässt.
-    
-\end{itemize}
-
-\subsubsection*{Läufer}
-\begin{SCfigure}[4][h]
-        \caption{\protect\rule{0ex}{4ex}
-        Der Läufer darf auf ein beliebiges 
-        Feld entlang der Diagonale ziehen, auf der er steht.
-        }
-        \includegraphics[width=0.15\textwidth]{assets/bishop_split.png}
-\end{SCfigure}
-
-\pagebreak
-
-\FloatBarrier
-\subsubsection*{Turm}
-\begin{SCfigure}[4][h]
-        \caption{\protect\rule{0ex}{4ex}
-        Der Turm darf auf ein beliebiges Feld 
-        entlang der Linie oder der Reihe ziehen, auf der er steht.
-        }
-        \includegraphics[width=0.15\textwidth]{assets/rook_split.png}
-\end{SCfigure}
-
-\FloatBarrier
-
-\subsubsection*{Dame}
-\begin{SCfigure}[4][h]
-        \caption{\protect\rule{0ex}{4ex}
-        Die Dame darf auf ein beliebiges Feld 
-        entlang der Linie, Reihe oder Diagonalen ziehen, auf der die steht.
-        }
-        \includegraphics[width=0.15\textwidth]{assets/queen_split.png}
-\end{SCfigure}
-
-\subsubsection*{Springer}
-\begin{SCfigure}[4][h]
-        \caption{\protect\rule{0ex}{4ex}
-        Der Springer darf auf eines der Felder ziehen, 
-        die seinem Standfeld am nächsten, aber nicht auf gleicher Linie, 
-        Reihe oder Diagonalen mit diesem liegen.
-        }
-        \includegraphics[width=0.15\textwidth]{assets/knight_split.png}
-\end{SCfigure}
-
-\subsubsection*{Bauer}
-
-\begin{wrapfigure}{l}{0.28\textwidth}
-        \includegraphics[width=0.15\textwidth, right]{assets/pawn_split.png}
-\end{wrapfigure}
-Der Bauer darf
-\begin{itemize}
-        \item vorwärts auf das unbesetzte Feld direkt vor ihm auf derselben Linie ziehen
-        \item in seinem ersten Zug entweder wie unter (a) beschrieben ziehen oder um zwei Felder entlang derselben Linie vorrücken, vorausgesetzt, dass beide Felder frei sind, oder
-        \item auf ein von einer gegnerischen Figur besetztes Feld diagonal vor ihm auf einer benachbarten Linie ziehen, indem er jene Figur schlägt.
-        \item sobald er diejenige Reihe erreicht hat, die am weitesten von seinem Ursprungsfeld entfernt ist, muss er sich als Teil desselben Zuges gegen eine Dame, einen Turm, einen Läufer oder einen Springer derselben Farbe austauschen. Die Auswahl des Spielers ist nicht auf bereits geschlagene Figuren beschränkt. Dieser Austausch eines Bauern für eine andere Figur wird «Umwandlung» genannt, und die Wirkung der neuen Figur tritt sofort ein.
-\end{itemize}
-
-
-\subsubsection*{König}
-
-\begin{wrapfigure}{l}{0.28\textwidth}
-        \includegraphics[width=0.15\textwidth, right]{assets/king_split.png}
-\end{wrapfigure}
-Es gibt zwei verschiedene Arten den König zu ziehen:
-\begin{enumerate}
-        \item Er zieht auf ein beliebiges angrenzendes Feld, das nicht von einer oder mehreren gegnerischen Figuren angegriffen wird. Von den gegnerischen Figuren gilt, dass sie ein Feld auch dann angreifen, wenn sie selbst nicht ziehen können. Oder
-        \item er «rochiert». Die «Rochade» ist ein Zug des Königs und eines gleichfarbigen Turmes auf der gleichen Reihe. Sie gilt als ein einziger Zug und wird folgendermaßen ausgeführt: Der König wird von seinem Ursprungsfeld um zwei Felder in Richtung des Turmes hin versetzt, dann wird dieser Turm auf das Feld gesetzt, das der König soeben überquert hat.
-        \begin{enumerate}
-                \item Die Rochade ist regelwidrig:
-                \begin{enumerate}
-                        \item wenn der König bereits gezogen hat, oder
-                        \item mit einem Turm, der bereits gezogen hat.
-                \end{enumerate}
-                \item Die Rochade ist vorübergehend verhindert,
-                \begin{enumerate}
-                        \item wenn das Standfeld des Königs oder das Feld, das er überqueren muss, oder sein Zielfeld von einer oder mehreren gegnerischen Figuren angegriffen wird,
-                        \item wenn sich zwischen dem König und dem Turm, mit dem rochiert werden soll, irgendeine Figur befindet.
-                \end{enumerate}
-        \end{enumerate}
-\end{enumerate}
-Ein König «steht im Schach», wenn er von einer oder mehreren gegnerischen Figuren angegriffen wird, auch wenn diese selbst nicht ziehen können.
-
-\subsection{Ende der Partie}
-Eine Partie endet entweder durch ein „Schachmatt“ oder durch ein „Remis“ (siehe 3.1.).
-Eine Partie kann auch durch eine Übereinstimmung beider Spieler mit einem Remis entschieden werden. 
-Ein Ende Partie ist auch durch eine dreifach wiederholte identische Zugfolge mit einem Remis zu beenden. 
-Falls 50 Züge ohne einen Bauernzug oder das schlagen einer Figur vergehen, ist dies ebenfalls ein Unentschieden.
+%\section{Die Regeln im Schach}
+%Im Folgenden finden Sie alle offiziellen Regeln des standartmäßigen Schachspiels
+%
+%\subsection{Das Spielprinzip}
+%Ein Schachspiel wird zwischen zwei Gegnern ausgetragen, die ihre Spielfiguren auf einem quadratischen Spielbrett ziehen. 
+%Das Ziel des Spiels für beide Spieler ist es den gegnerischen König „Schachmatt“ zu setzten. Dieser Zustand ist erreicht, wenn der gegnerische Spieler keine Möglichkeit hat, den König mit dem nächsten Zug aus dem „Schach“ (angegriffener Zustand des Königs) zu bewegen. 
+%Falls es für keinen der Beiden Spieler möglich ist den Gegner Schachmatt zu setzten, wird das Spiel mit einem Remis (=Unentschieden/Gleichstand) beendet.
+%
+%\subsection{Anfangsstellung der Figuren}
+%Das Schachbrett besteht aus einem 8x8 Gitter mit 64 gleichgroßen Quadraten, welche abwechselnd hell und dunkel sind (meist weiß und schwarz).
+%Die Spieler positionieren sich gegenüber voneinander, sodass bei beiden Spielern ein weißes Feld in der unteren rechten Ecke vorhanden ist.
+%Zu Beginn des Spiels hat jeder Spieler 16 Figuren; Ein Spieler die die Hellen (weiß) und einer die Dunklen (schwarz).
+%Beide Spieler starten mit 8 Bauern, 2 Türmen, 2 Springern, 2 Läufern, einer Dame und einem König.
+%Die Figuren sind wie folgt anzuordnen:
+%
+%\begin{figure}
+%        \centering
+%        \includegraphics[scale=0.5]{assets/chess-opening.png}
+%        \caption{Anfangsaufstellung der Schachfiguren im Standardschach}
+%\end{figure}
+%
+%
+%Die senkrechten Spalten sind die „Linien“, die waagerechten Zeilen sind die „Reihen“ und die gradlinige Folge der Felder, die sich an den Ecken Berühren sind die „Diagonalen“.
+%
+%\subsection{Gangart der Figuren}
+%Allgemeingültige Regeln sind folgende:
+%\begin{itemize}
+%        \item Eine Figur darf nicht auf das Feld einer verbündeten Figur ziehen
+%        \item Es ist nicht möglich eine Figur durch ein Feld hindurch zu ziehen, welches von einer anderen Figur besetzt ist (Ausnahme siehe 3.3.4.)
+%        \item Wenn eine Figur auf ein Feld zieht, welches von einer gegnerischen Figur besetzt ist, dann wird die Gegnerfigur geschlagen (=entfernt)
+%        \item Keine Figur darf einen Zug machen, welcher den eigenen König einem Schachgebot aussetzt oder ihn in einem Schachgebot stehen lässt.
+%    
+%\end{itemize}
+%
+%\subsubsection*{Läufer}
+%\begin{SCfigure}[4][h]
+%        \caption{\protect\rule{0ex}{4ex}
+%        Der Läufer darf auf ein beliebiges 
+%        Feld entlang der Diagonale ziehen, auf der er steht.
+%        }
+%        \includegraphics[width=0.15\textwidth]{assets/bishop_split.png}
+%\end{SCfigure}
+%
+%\pagebreak
+%
+%\FloatBarrier
+%\subsubsection*{Turm}
+%\begin{SCfigure}[4][h]
+%        \caption{\protect\rule{0ex}{4ex}
+%        Der Turm darf auf ein beliebiges Feld 
+%        entlang der Linie oder der Reihe ziehen, auf der er steht.
+%        }
+%        \includegraphics[width=0.15\textwidth]{assets/rook_split.png}
+%\end{SCfigure}
+%
+%\FloatBarrier
+%
+%\subsubsection*{Dame}
+%\begin{SCfigure}[4][h]
+%        \caption{\protect\rule{0ex}{4ex}
+%        Die Dame darf auf ein beliebiges Feld 
+%        entlang der Linie, Reihe oder Diagonalen ziehen, auf der die steht.
+%        }
+%        \includegraphics[width=0.15\textwidth]{assets/queen_split.png}
+%\end{SCfigure}
+%
+%\subsubsection*{Springer}
+%\begin{SCfigure}[4][h]
+%        \caption{\protect\rule{0ex}{4ex}
+%        Der Springer darf auf eines der Felder ziehen, 
+%        die seinem Standfeld am nächsten, aber nicht auf gleicher Linie, 
+%        Reihe oder Diagonalen mit diesem liegen.
+%        }
+%        \includegraphics[width=0.15\textwidth]{assets/knight_split.png}
+%\end{SCfigure}
+%
+%\subsubsection*{Bauer}
+%
+%\begin{wrapfigure}{l}{0.28\textwidth}
+%        \includegraphics[width=0.15\textwidth, right]{assets/pawn_split.png}
+%\end{wrapfigure}
+%Der Bauer darf
+%\begin{itemize}
+%        \item vorwärts auf das unbesetzte Feld direkt vor ihm auf derselben Linie ziehen
+%        \item in seinem ersten Zug entweder wie unter (a) beschrieben ziehen oder um zwei Felder entlang derselben Linie vorrücken, vorausgesetzt, dass beide Felder frei sind, oder
+%        \item auf ein von einer gegnerischen Figur besetztes Feld diagonal vor ihm auf einer benachbarten Linie ziehen, indem er jene Figur schlägt.
+%        \item sobald er diejenige Reihe erreicht hat, die am weitesten von seinem Ursprungsfeld entfernt ist, muss er sich als Teil desselben Zuges gegen eine Dame, einen Turm, einen Läufer oder einen Springer derselben Farbe austauschen. Die Auswahl des Spielers ist nicht auf bereits geschlagene Figuren beschränkt. Dieser Austausch eines Bauern für eine andere Figur wird «Umwandlung» genannt, und die Wirkung der neuen Figur tritt sofort ein.
+%\end{itemize}
+%
+%
+%\subsubsection*{König}
+%
+%\begin{wrapfigure}{l}{0.28\textwidth}
+%        \includegraphics[width=0.15\textwidth, right]{assets/king_split.png}
+%\end{wrapfigure}
+%Es gibt zwei verschiedene Arten den König zu ziehen:
+%\begin{enumerate}
+%        \item Er zieht auf ein beliebiges angrenzendes Feld, das nicht von einer oder mehreren gegnerischen Figuren angegriffen wird. Von den gegnerischen Figuren gilt, dass sie ein Feld auch dann angreifen, wenn sie selbst nicht ziehen können. Oder
+%        \item er «rochiert». Die «Rochade» ist ein Zug des Königs und eines gleichfarbigen Turmes auf der gleichen Reihe. Sie gilt als ein einziger Zug und wird folgendermaßen ausgeführt: Der König wird von seinem Ursprungsfeld um zwei Felder in Richtung des Turmes hin versetzt, dann wird dieser Turm auf das Feld gesetzt, das der König soeben überquert hat.
+%        \begin{enumerate}
+%                \item Die Rochade ist regelwidrig:
+%                \begin{enumerate}
+%                        \item wenn der König bereits gezogen hat, oder
+%                        \item mit einem Turm, der bereits gezogen hat.
+%                \end{enumerate}
+%                \item Die Rochade ist vorübergehend verhindert,
+%                \begin{enumerate}
+%                        \item wenn das Standfeld des Königs oder das Feld, das er überqueren muss, oder sein Zielfeld von einer oder mehreren gegnerischen Figuren angegriffen wird,
+%                        \item wenn sich zwischen dem König und dem Turm, mit dem rochiert werden soll, irgendeine Figur befindet.
+%                \end{enumerate}
+%        \end{enumerate}
+%\end{enumerate}
+%Ein König «steht im Schach», wenn er von einer oder mehreren gegnerischen Figuren angegriffen wird, auch wenn diese selbst nicht ziehen können.
+%
+%\subsection{Ende der Partie}
+%Eine Partie endet entweder durch ein „Schachmatt“ oder durch ein „Remis“ (siehe 3.1.).
+%Eine Partie kann auch durch eine Übereinstimmung beider Spieler mit einem Remis entschieden werden. 
+%Ein Ende Partie ist auch durch eine dreifach wiederholte identische Zugfolge mit einem Remis zu beenden. 
+%Falls 50 Züge ohne einen Bauernzug oder das schlagen einer Figur vergehen, ist dies ebenfalls ein Unentschieden.
 
 \section{Benutze Pakete}
 Im Folgenden finden sie die verwendeten Pakete, sowie die Vorteile, welche mich zu der Entscheidung geführt haben.
@@ -213,7 +221,24 @@ Im Folgenden finden sie die verwendeten Pakete, sowie die Vorteile, welche mich 
 „pygame“ ist eine Ansammlung von Python-Modulen welche auf das programmieren von Videospielen ausgelegt sind. Es ist auf sämtlichen OS verfügbar und hat schon mehrere Millionen Benutzer.
 
 \subsubsection{Warum pygame?}
-„pygame“ ist aufgrund der großen Community sehr gut dokumentiert. Außerdem bietet es eine wundervolle SDL (Simple Direct Media) Bibliothek. Ein weiterer Grund für die Verwendung von pygame war, dass ich schon ein wenig Erfahrung mit dem Modul sammeln konnte und daher für mich die erste oberflächliche Benutzung erleichtert wurde. 
+„pygame“ ist aufgrund der großen Community sehr gut dokumentiert.
+Außerdem bietet es eine wundervolle SDL (Simple Direct Media) Bibliothek.
+Ein weiterer Grund für die Verwendung von pygame war, dass ich schon ein
+wenig Erfahrung mit dem Modul sammeln konnte und daher für mich die erste
+oberflächliche Benutzung erleichtert wurde.
+Eine Alternative für mich war die \href{https://processing.org/}{Processing}.
+Processing ist ein \glqq Scetchbook \grqq , welches einem erlaubt
+auf einer graphischen Oberfläche zu programmieren. Es ist ein leichtverständliches
+Prinzip, da man hier mit der Syntax von entweder Java oder Python funktionell programmieren
+kann. Außerdem, da Processing für graphische Arbeiten und kleine Spiele geschaffen wurde,
+lässt sich schnell und einfach die Mausposition und weitere Inputs abfragen und
+Figuren und Bilder auf der graphischen Oberfläche abbilden.
+Des Grund warum ich mich dennoch für pygame entschieden habe war, dass man in pygame
+Objektorientiert arbeiten kann. Kurz gesagt verwendet man bei der Objektorientierten Programierung
+Grundgerüste (sogenannte Klassen), mitwelchen sich Objekte mit durch die Klasse definierten Attributen
+erstellen lassen. Dieses Konzept ist hilfreich bei der Programmierung eines Schachspiels,
+da sich alle Figuren an den selben \glqq Bauplan\grqq halten und sich über das Prinzip der Vererbung
+sich die Figurtypischen Eigentschaften in dieses Grundgerüst implementieren lassen.
 
 \subsection{Stockfish}
 Stockfish ist eine berühmte Schachengine, welche von vielen großen Schachanalysten und Schachwebsites benutzt wird.
@@ -293,7 +318,8 @@ Oben im rechten Eck finden sich insgesammt drei Buttons mit folgenden Funktionen
         \item \glqq Takeback\grqq-Button
         \begin{itemize}
                 \item Macht den letzten Zug rückgängig
-                \item Ist nur zu benutzen, wenn keine Figur im letzten zug geschlagen wurde, um große Patzer zu bestrafen.
+                \item Ist nur zu benutzen, wenn keine Figur im 
+                letzten zug geschlagen wurde, um große Patzer zu bestrafen.
         \end{itemize}
 \end{itemize}
 
@@ -302,21 +328,107 @@ Oben im rechten Eck finden sich insgesammt drei Buttons mit folgenden Funktionen
 \section{Code}
 In dem folgenden Kapitel werde ich das Konzept meines Codes erläutern und die Entwicklung darstellen. 
 
+\pagebreak
 \subsection{Klassenbeziehungen}
-Neben einzelnen unabhängigen Klassen, wie zum Beispiel
-\glqq Board\grqq{},\glqq Button\grqq{}oder\glqq Entry-Box\grqq{}
-gibt es die Figurenklassen. Angefangen bei dem Parent aller folgenden Figuren, der "Pieces"-Class.
-Diese enthält Methoden, welche von allen anderen Figuren benötigt werden, wie zum Beispiel
-\begin{itemize}
-        \item move()
-        \item draw()
-        \item animate()
-        \item foresight()
-\end{itemize}
-Alle spezifischen Figuren, also Dame, König, Läufer, Springer, Turm und Bauern, erben von Pieces.
-Die einzelnen Figuren haben, neben der init()-Methode, nur die Methoden um die möglichen Züge auszugeben. 
-Der Output der Methode wird dann an Pieces.move() weiter gegeben, welche zunächst die Felder hervorhebt, auf welche man gehen kann und anschließend
-die Events verarbeitet um zu bestimmen, ob man auf ein legales Feld geclickt hat. 
+
+\begin{figure}[!h]
+\begin{center}
+\begin{tikzpicture}
+%\begin{umlpackage}{Chess}
+\begin{umlpackage}{Figuren}
+\umlclass{Pieces}{
+	master : pygame.Surface \\ 
+	name : String \\
+	tile x : int \\
+	tile y : int \\
+	color : Tuple \\
+	image : pygame.image \\
+	value : int 
+}{
+        draw() : void \\
+        animate() : void \\
+        move() : void \\
+        foresight() : bool \\
+}
+\umlclass[x=-3,y=-5]{BlackPawn}{}
+{
+        getPossibleMoves() : array \\
+        promotion() : void \\
+        attacked\_tiles : array
+}
+\umlclass[x=3,y=-5]{WhitePawn}{}
+{
+        getPossibleMoves() : array \\
+        promotion() : void \\
+        attacked\_tiles : array
+}
+\umlclass[x=-3,y=-7.5]{Knight}{}
+{
+        getPossibleMoves() : array \\
+        attacked\_tiles : array
+}
+\umlclass[x=3,y=-7.5]{Bishop}{}
+{
+        getPossibleMoves() : array \\
+        attacked\_tiles : array
+}
+\umlclass[x=-3,y=-10]{Rook}{}
+{
+        getPossibleMoves() : array \\
+        attacked\_tiles : array
+}
+\umlclass[x=3,y=-10]{Queen}{}
+{
+        getPossibleMoves() : array \\
+        attacked\_tiles : array
+}
+\umlclass[x=0,y=-12.5]{King}{}
+{
+        getPossibleMoves() : array \\
+        attacked\_tiles : array
+}
+\umlinherit[geometry = |-]{Pieces}{WhitePawn}
+\umlinherit[geometry = |-]{Pieces}{BlackPawn}
+\umlinherit[geometry = |-]{Pieces}{Knight}
+\umlinherit[geometry = |-]{Pieces}{Bishop}
+\umlinherit[geometry = |-]{Pieces}{Rook}
+\umlinherit[geometry = |-]{Pieces}{Queen}
+\umlinherit{Pieces}{King}
+
+\end{umlpackage}
+
+%\begin[x=5,y=0]{umlpackage}{Tools}
+%\umlclass{Button}
+%{command : funktion}
+%{draw() : void \\
+%processEvent(event : pygame.Event) : void}
+%
+%\umlclass[x=0, y=-3]{Entry\_Box}
+%{}
+%{draw() : void \\
+%export() : any}
+%        
+%\end{umlpackage}
+
+%\umlclass[x=5, y=-10]{Board}
+%{tile\_size : int}
+%{drawBoard() : void}
+
+%\end{umlpackage}
+\end{tikzpicture}
+%\caption{UML-Diagram der Figurenklassen}
+\end{center}
+\end{figure}
+
+Oben zu sehen ist ein UML-Diagramm um die Beziehungen von den verschiedenen
+Klassen zu visualisieren. Zu erkennen ist eine Parentclass \glqq{}Pieces\grqq ,
+welche alle Methoden enthällt, die für eine beliebige Schachfigur von nöten sind.
+Von dieser Klasse erben insgesammt sieben andere Klassen. Jede Klasse hat ihre eigene
+Methode, um die möglichen Züge zu berechnen. Getrennt sind hierbei die Bauern, in
+BlackPawn und WhitePawn. Das war nötig, da sich die Bauern der verschiedenen Teams als
+einzige Figur nicht exakt so wegbewegt, wie die des gegnerischen Teams. So bewegt sich
+der weiße Bauer aufsteigend der Reihen, wohingegen sich der schwarze Bauer absteigend der
+Reihen bewegt. 
 
 \subsection{Probleme und Problemlösungen}
 Während des Programierens bin ich auf viele Probleme gestoßen, die mich an meine Grenzen trieben, welche ich aber immer wieder überwinden konnte.
@@ -427,7 +539,7 @@ zu gestallten.
 Eine weitere Idee von mir war, dass ich eventuell das Programm auf meine eigene Website
 hochlade und somit ein Onlinespiel zu schaffen.
 
-
+%WAS HAB ICH GELERNT???
 
 
 \end{document}
