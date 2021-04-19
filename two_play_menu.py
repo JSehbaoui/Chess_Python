@@ -33,8 +33,8 @@ def login(mode = 'STANDARD'):
     Player1_label = font.render("Player 1:", True, BLACK)
     Player2_label = font.render("Player 2:", True, BLACK)
 
-    Player1 = InputBox(300, 200, 100, 32, (100, 100, 100), (10,10,10))
-    Player2 = InputBox(300, 250, 100, 32, (100, 100, 100), (10,10,10))
+    Player1 = InputBox(300, 200, 100, 32, WHITE, (10,10,10))
+    Player2 = InputBox(300, 250, 100, 32, WHITE, (10,10,10))
     
     Accept_Button = Button(x = 300,
                            y = 300,
