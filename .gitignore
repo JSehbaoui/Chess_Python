@@ -3,5 +3,7 @@ dokumentation/*
 !dokumentation/assets
 !dokumentation/dokumentation.pdf
 !dokumentation/dokumentation.tex
+!dokumentation/rules.tex
+!dokumentation/rules.pdf
 __pycache__/
 *.py[cod]
