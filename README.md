@@ -25,7 +25,7 @@ pip install stockfish
 ```
 
 ## How to play
-For this, simply open main.py
+For this, simply open init.py file
 
 Now by clicking at one of the pieces you can see where you can move it. By clicking at one of the marked tiles the piece will move to this square
 You can exit the game by pressing ESC or by closing it as an usual window
