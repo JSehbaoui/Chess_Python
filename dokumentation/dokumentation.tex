@@ -57,6 +57,7 @@
 \author{Julian Sehbaoui}
 \date{\today}
 
+\parindent 0pt
 %begin the document
 \begin{document}
 
@@ -83,50 +84,57 @@ Dieses Projekt findet im Rahmen des Informatikunterrichts des Luisengymnasiums 	
 Ich bin Julian Y. Sehbaoui und habe ein Schachprogramm „from scratch“ in python3 geschrieben.
 
 \section{Mein Ziel}
-Mein Ziel war es ein vollfunktionalles Schachspiel ausschließlich in Python
+Mein Ziel war es, ein vollfunktionales Schachspiel ausschließlich in Python
 zu erschaffen, welches alle klassischen Regeln von Schach beinhaltet. 
 Hierbei wollte ich auf jegliche äußerliche Hilfe, wie zum Beispiel API's oder schon
-existierende Algorhytmen verzichten, mit Ausnahme eines Schachcomputers, gegen den man spielen kann. 
+existierende Algorhytmen, verzichten, mit Ausnahme eines Schachcomputers, gegen den man spielen kann. 
 Außerdem soll man zwischen PvP (Player versus Player) und PvE (Player versus Enviroment) wählen können,
 um das Endprodukt entweder mit Freunden oder auch alleine benutzen zu können.
 
 \section{Ideenfindung}
 Ich persönlich habe mich schon seit dem ich klein bin für Schach interessiert.
-Es ist ein Spiel mit recht simplen Regeln, welches aber durch seine Zahlreichen Zugmöglichkeiten schnell sehr komplex werden kann.
+Es ist ein Spiel mit relativ simplen Regeln, welches aber durch seine zahlreichen Zugmöglichkeiten schnell sehr komplex werden kann.
 Als ich mich nach einem neuen Projekt umgesehen habe, kam mir direkt Schach in den Sinn, weil es an strikte Regeln gebunden ist und
 ich zu dem Zeitpunkt dachte, dass es wenige Sonderregeln existieren.
 Außerdem wollte ich mich immer weiter vom Terminal entfernen und mehr mit
-GUI's (Graphical User Interfaces) arbeiten. Ein weiterer Grund für meine Entscheidung war, dass ich mal wieder eine Herausforderung suchte
-und mit Schach als gute Möglichkeit erschien mich selbst zu fordern. 
+GUI's (Graphical User Interfaces) arbeiten. Ein weiterer Grund für meine Entscheidung war,
+dass mir Schach als Herausforderung in den Sinn kam, um meine aktuellen Fertigkeiten
+unter Beweiß zu stellen und mich selbst zu fordern.
+
+Außerdem wollte ich eine Offline Schachversion für meinen Laptop haben
+damit ich nicht immer zu einer Webbasierten Version zurückgreifen muss. Da mir aber die
+Alternativen nicht gefielen habe ich mich an meine eigene Version gemacht. Sie sollte
+alles können, was die Onlinespiele können, also die Basisregeln beachten und eine benutzerfreundliche
+Oberfläche bieten. 
 
 \section{Die Regeln im Schach}
-Die Regeln des Schachspiels finden Sie unter \begin{verbatim}"\dokumentation\rules.pdf" \end{verbatim}
+Die Regeln des Schachspiels finden sich unter \begin{verbatim}"\dokumentation\rules.pdf" \end{verbatim}
 
 \section{Benutze Pakete}
-Im Folgenden finden sie die verwendeten Pakete, sowie die Vorteile, welche mich zu der Entscheidung geführt haben.
+Im Folgenden finden sich die verwendeten Pakete sowie deren Vorteile, welche mich zu der Entscheidung geführt haben.
 
 \subsection{pygame}
-„pygame“ ist eine Ansammlung von Python-Modulen welche auf das programmieren von Videospielen ausgelegt sind. Es ist auf sämtlichen OS verfügbar und hat schon mehrere Millionen Benutzer.
+„pygame“ ist eine Ansammlung von Python-Modulen, welche auf das programmieren von Videospielen ausgelegt sind. Es ist auf sämtlichen OS verfügbar und hat schon mehrere Millionen Benutzer.
 
 \subsubsection{Warum pygame?}
 „pygame“ ist aufgrund der großen Community sehr gut dokumentiert.
-Außerdem bietet es eine wundervolle SDL (Simple Direct Media) Bibliothek.
+Außerdem bietet es eine wundervolle SDL-Bibliothek(Simple Direct Media).
 Ein weiterer Grund für die Verwendung von pygame war, dass ich schon ein
 wenig Erfahrung mit dem Modul sammeln konnte und daher für mich die erste
 oberflächliche Benutzung erleichtert wurde.
 Eine Alternative für mich war die \href{https://processing.org/}{Processing}.
-Processing ist ein \glqq Scetchbook \grqq , welches einem erlaubt
+Processing ist ein \glqq Scetchbook \grqq , welches einem erlaubt,
 auf einer graphischen Oberfläche zu programmieren. Es ist ein leichtverständliches
 Prinzip, da man hier mit der Syntax von entweder Java oder Python funktionell programmieren
 kann. Außerdem, da Processing für graphische Arbeiten und kleine Spiele geschaffen wurde,
 lässt sich schnell und einfach die Mausposition und weitere Inputs abfragen und
 Figuren und Bilder auf der graphischen Oberfläche abbilden.
-Des Grund warum ich mich dennoch für pygame entschieden habe war, dass man in pygame
-Objektorientiert arbeiten kann. Kurz gesagt verwendet man bei der Objektorientierten Programierung
-Grundgerüste (sogenannte Klassen), mitwelchen sich Objekte mit durch die Klasse definierten Attributen
+Der Grundm, warum ich mich dennoch für pygame entschieden habe, war, dass man in pygame
+objektorientiert arbeiten kann. Kurz gesagt verwendet man bei der objektorientierten Programierung
+Grundgerüste (sogenannte Klassen), mittels welchen sich Objekte mit durch die Klasse definierten Attributen
 erstellen lassen. Dieses Konzept ist hilfreich bei der Programmierung eines Schachspiels,
-da sich alle Figuren an den selben \glqq Bauplan\grqq halten und sich über das Prinzip der Vererbung
-sich die Figurtypischen Eigentschaften in dieses Grundgerüst implementieren lassen.
+da sich alle Figuren an den selben \glqq Bauplan\grqq  halten und über das Prinzip der Vererbung
+die figurtypischen Eigentschaften in dieses Grundgerüst implementieren lassen.
 
 \subsection{Stockfish}
 Stockfish ist eine berühmte Schachengine, welche von vielen großen Schachanalysten und Schachwebsites benutzt wird.
@@ -142,22 +150,22 @@ Auf der Suche nach einer Schach-KI hatte ich gewisse ansprüche.
 Von meinen bisherigen Schacherfahrungen aus der Vergangenheit blieb mir
 der Name Stockfish im Kopf. Als ich recherchierte sah ich, dass die 
 Stockfish-Engine nicht nur Open-Source ist, sondern sogar in pip vorhanden war.
-Somit hatte Stockfish alle meine Anforderungen erfüllt und ich hatte keinen Grund mehr
+Somit hatte Stockfish alle meine Anforderungen erfüllt und ich hatte keinen Grund mehr,
 nach Alternativen zu suchen.
 Zudem ist Stockfish sehr populär unter den Schachspielern, weswegen ich mir eine
 gute Dokumentation erhoffte.\\
 Alternativen zu Stockfish wären noch Alpha Zero (Eine Schach-KI von Google)
 sowie viele kleine selbstgeschriebene Engines, jedoch überzeugte Stockfish auch mit
 seiner hervorragenden Informationsübermittlung, da man zur Kommunikation zwischen
-meinem Skript und Stockfish nur das Format ein bisschen ändern musste und schon funktionierte
+meinem Skript und Stockfish nur das Format geringfügig ändern musste und schon funktionierte
 die Engine einwandfrei.  
 
 
 \section{Installation}
 Mein Skript kann kostenlos von der Seite \href{https://github.com/Aetherion-dot/Chess_Python}{\color{blue}{github}} herutergeladen werden.
-Offensichtlicher Weise muss man um das Python-Skript auszuführen, \href{https://www.python.org/downloads/}{\color{blue}{python3}} installiert haben.
+Natürlich muss man, um das Python-Skript auszuführen, \href{https://www.python.org/downloads/}{\color{blue}{python3}} installiert haben.
 Hierbei ist jede Version von python3 möglich, jedoch arbeitete ich mit Python 3.8.X, weswegen ich diese Version empfehlen würde.
-Um dieses dann zu starten sind die Pakete „Stockfish“, „pygame“ und "pygame-widgets" über \href{https://pypi.org/project/pip/}{\color{blue}{pip}} herunter zuladen.
+Um dieses dann zu starten sind die Pakete „Stockfish“, „pygame“ und "pygame-widgets" über \href{https://pypi.org/project/pip/}{\color{blue}{pip}} herunterzuladen.
 Dies ist über die Konsole mit den Befehlen
 \begin{lstlisting}[language=bash]
         pip install pygame
@@ -169,33 +177,33 @@ Dies ist über die Konsole mit den Befehlen
         pip install pygame-widgets
 \end{lstlisting}
 zu erreichen.
-
+\pagebreak
 \section{Bedienung des Programmes}
 %BILDER
 \subsection{Wie spiele ich?}
-Um das Schachprogramm zu starten muss man die \glqq init.py\grqq  Datei in python starten. Anschließend öffnet sich ein Fenster, in welchem man zwischen verschiedenen Spielmodi
+Um das Schachprogramm zu starten, muss man die \glqq init.py\grqq  Datei in python starten. Anschließend öffnet sich ein Fenster, in welchem man zwischen verschiedenen Spielmodi
 wählen kann.
 
 \begin{figure}[h]
         \centering
-        \includegraphics[scale=0.5]{assets/start_screen.PNG}
-        \caption{Startbildschirm}
+        \includegraphics[scale=0.45]{assets/start_screen.PNG}
+        \caption{Startbildschirm \textit{(Eigenaufnahme)}}
 \end{figure}
-
-Die beiden Modi die hier zur Auswahl stehen sind einmal die Standard-Schach-Variante und die Chess 960 Variante,
+Die beiden Modi, die hier zur Auswahl stehen, sind einmal die Standard-Schach-Variante und die Chess 960 Variante,
 bei der die Figuren in der hinteren Reihe zufällig angeordnet werden.
-Für jeden der beiden Modi lässt sich optional ein zweiter virtueller Spieler hinzufügen, falls man keinen realen Gegner bei sich hat.
-Das kann durch das klicken des grauen Feldes neben der Nachricht \glqq{}Play against AI \grqq erreicht werden.
-Nachdem man sich für einen Modus entschieden hat, lässt sich der Spielername und je nach Option die Computerschwierigkeit oder der Name des zweiten Spielers einstellen.
-\begin{figure}[h]
-        \begin{minipage}[b]{.45\linewidth} % [b] => Ausrichtung an \caption
+Für jeden der beiden Modi lässt sich optional ein zweiter, virtueller Spieler hinzufügen, falls man keinen realen Gegner bei sich hat.
+Das kann durch das Klicken des grauen Feldes neben der Nachricht \glqq{}Play against AI \grqq erreicht werden.
+Nachdem man sich für einen Modus entschieden hat, lässt sich der Spielername, und je nach Option die Computerschwierigkeit oder der Name des zweiten Spielers, einstellen.
+\begin{figure}[!h]
+        \centering
+        \begin{minipage}[b]{.4\linewidth} % [b] => Ausrichtung an \caption
            \includegraphics[width=\linewidth]{assets/login_w_bot.PNG}
-           \caption{Modus mit Schachcomputer}
+           \caption{Modus mit Bot \textit{(Eigenaufnahme)}}
         \end{minipage}
         \hspace{.1\linewidth}% Abstand zwischen Bilder
-        \begin{minipage}[b]{.45\linewidth} % [b] => Ausrichtung an \caption
+        \begin{minipage}[b]{.4\linewidth} % [b] => Ausrichtung an \caption
            \includegraphics[width=\linewidth]{assets/login_wo_bot.PNG}
-           \caption{Modus ohne Schachcomputer}
+           \caption{Modus ohne Bot \textit{(Eigenaufnahme)}}
         \end{minipage}
 \end{figure}
 
@@ -207,7 +215,6 @@ Sobald man auf eine Figur klickt, öffnen sich auf dem Feld alle legalen Zugopti
         \includegraphics[width=0.5\linewidth]{assets/Spielbrett_pawn.PNG}
         \caption{Das Spielbrett nach klicken auf e2}
 \end{figure}
-
 Wenn man anschließend auf ein Feld klickt, welches die Figur betreten kann, bewegt
 sich die ausgewählte Figur auf das gewünschte Feld.
 
@@ -221,7 +228,7 @@ Im oberen Bereich des Spielfelds befindet sich zum einen eine Uhr, welche die ak
         \includegraphics[scale=0.7]{assets/infotabs.PNG}
         \caption{Informations-Tabs und Spielzeit}
 \end{figure}
-In diesen werden die geschlagenen Figuren sowie der Spielername angezeigt. Außerdem wird das Spielerinformationsfeld von dem Spieler hervorgehoben, welcher daram ist, den
+In diesen werden die geschlagenen Figuren sowie der Spielername angezeigt. Außerdem wird das Spielerinformationsfeld von dem Spieler hervorgehoben, welcher daran ist, den
 nächsten Zug zu machen.
 
 \subsubsection{Spielhistorie}
@@ -229,7 +236,7 @@ nächsten Zug zu machen.
 In dem rechten Teil des Fensters befindet sich die Spielhistorie. Diese zeigt die bereits gezogenen Spielzüge an. 
 
 \subsubsection{Buttons}
-Oben im rechten Eck finden sich insgesammt drei Buttons mit folgenden Funktionen:
+In der rechten, oberen Ecke finden sich insgesammt drei Buttons mit folgenden Funktionen:
 \begin{wrapfigure}{r}{0.5\textwidth}
         \centering
         \includegraphics{assets/Buttons.PNG}
@@ -239,7 +246,7 @@ Oben im rechten Eck finden sich insgesammt drei Buttons mit folgenden Funktionen
 \begin{itemize}
         \item \glqq Quit\grqq-Button
         \begin{itemize}
-                \item Der Quit-Button beendet sofort das Spiel und schließt das Fenster.
+                \item Der Quit-Button beendet sofort das Spiel und schließt das Fenster
         \end{itemize}
         \item \glqq Resign\grqq-Button
         \begin{itemize}
@@ -249,20 +256,21 @@ Oben im rechten Eck finden sich insgesammt drei Buttons mit folgenden Funktionen
         \begin{itemize}
                 \item Macht den letzten Zug rückgängig
                 \item Ist nur zu benutzen, wenn keine Figur im 
-                letzten zug geschlagen wurde, um große Patzer zu bestrafen.
+                letzten zug geschlagen wurde, um große Patzer zu bestrafen
         \end{itemize}
 \end{itemize}
 
 
-
+\pagebreak
 \section{Code}
 In dem folgenden Kapitel werde ich das Konzept meines Codes erläutern und die Entwicklung darstellen. 
 
-\pagebreak
+
 \subsection{Klassenbeziehungen}
 
 \begin{figure}[!h]
 \begin{center}
+\resizebox*{.7\textwidth}{.75\textheight}{%
 \begin{tikzpicture}
 %\begin{umlpackage}{Chess}
 \begin{umlpackage}{Figuren}
@@ -346,32 +354,30 @@ In dem folgenden Kapitel werde ich das Konzept meines Codes erläutern und die E
 
 %\end{umlpackage}
 \end{tikzpicture}
-%\caption{UML-Diagram der Figurenklassen}
+}
+\caption{UML-Diagram der Figurenklassen}
 \end{center}
 \end{figure}
-
-Oben zu sehen ist ein UML-Diagramm um die Beziehungen von den verschiedenen
+Oben zu sehen ist ein UML-Diagramm, um die Beziehungen von den verschiedenen
 Klassen zu visualisieren. Zu erkennen ist eine Parentclass \glqq{}Pieces\grqq ,
 welche alle Methoden enthällt, die für eine beliebige Schachfigur von nöten sind.
 Von dieser Klasse erben insgesammt sieben andere Klassen. Jede Klasse hat ihre eigene
 Methode, um die möglichen Züge zu berechnen. Getrennt sind hierbei die Bauern, in
-BlackPawn und WhitePawn. Das war nötig, da sich die Bauern der verschiedenen Teams als
+BlackPawn und WhitePawn. Das ist nötig, da sich die Bauern der verschiedenen Teams als
 einzige Figur nicht exakt so wegbewegt, wie die des gegnerischen Teams. So bewegt sich
 der weiße Bauer aufsteigend der Reihen, wohingegen sich der schwarze Bauer absteigend der
 Reihen bewegt. 
 
-\pagebreak
-
 \subsection{Probleme und Problemlösungen}
-Während des Programierens bin ich auf viele Probleme gestoßen, die mich an meine Grenzen trieben, welche ich aber immer wieder überwinden konnte.
+Während des Programierens bin ich auf viele Probleme gestoßen, die mich an meine Grenzen gebracht haben, welche ich aber immer wieder überwinden konnte.
 Das wohl größte Problem war, dass viele Regeln Voraussetzungen mit sich bringen, die man beim normalen Spielen gar nicht aktiv bedenkt, welche aber
-beim implementieren eine Hürde dar stellten.
+beim Implementieren eine Hürde darstellten.
 
-\subsection{Das verrücken des Spielbretts}
+\subsection{Das Verrücken des Spielbretts}
 Als ich grob mit dem Aufbau meines Schachprogramms
 fertig war, also die Figuren, welche sich noch ohne
 Einschränkungen bewegen konnten, auf einem richtig koloriertem
-Feld standen, wollte ich das Schachbrett verrücken, um platz für
+Feld standen, wollte ich das Schachbrett verrücken, um Platz für
 die zukünftigen Overlays zu schaffen.
 Die ersten Versuche hatten zur Folge, dass die Figuren nicht mehr auf die
 Events, wie zum Beispiel einen Mausklick, reagierten.\\
@@ -379,36 +385,33 @@ Als das Problem behoben war, traten aber viele visuelle Probleme auf.
 
 \begin{figure}[h]
         \centering
-        \includegraphics[scale=0.35]{assets/tf_have_I_done.png}
+        \includegraphics[scale=0.3]{assets/tf_have_I_done.png}
         \caption{Graphischer Fehler}
 \end{figure}
-
 Das Problem ließ sich durch die weiteren Einschränkungen
 der Bewegungsfreiheit der Figuren, sowie das Hinzufügen eines
 Anker-Punktes an der oberen-rechten Ecke des Spielbretts beheben. 
 
-\pagebreak
 
 \subsubsection{Der König, das Problemkind}
-Das wohl größte Problem war der König. Dieser muss nämlich abhängig von der Gegnerischen Position der Figuren
-in seinen Bewegungen eingeschränkt werden. Die Lösung der Felderbegrenzung, konnte durch einen simplen Filter gelöst werden. Das erste größe Problem kam nun aber mit dem
-Blocken eines Schachs. Wenn eine Figur zwischen König und der angreifenden Figur steht, dann ist das Schach aufgelöst. Nur was bedeutet nun dazwischen?
-Um dieses Problem zu lösen musste ich den König entlang der Angriffslinien "tracken". Als ich nach langer Zeit das Problem gelöst hatte kam nun leider ein weiteres Problem einher. 
+Das wohl größte Problem war der König. Dieser muss nämlich, abhängig von der Stellung des Bretts,
+in seinen Bewegungen eingeschränkt werden. Die Lösung der Felderbegrenzung konnte durch einen simplen Filter gelöst werden. Das erste, große Problem kam nun aber mit dem
+Blocken eines Schachs. Wenn eine Figur zwischen König und der angreifenden Figur steht, dann ist das Schach aufgelöst. Nur was bedeutet nun \glqq{}dazwischen \grqq?
+Um dieses Problem zu lösen, musste ich den König entlang der Angriffslinien \glqq{}tracken\grqq{}. Als ich nach langer Zeit das Problem gelöst hatte, kam nun leider ein weiteres Problem hinzu. 
 Der König konnte sich selbst blockieren bzw. das Schach im nächsten Zug verhindern, was wie folgt aussah: 
 \begin{figure}[!h]
 \centering
 \includegraphics[scale=0.6]{assets/Bug_king_blocking.png}
 \caption{Bug, König verhindert Schach}
-\end{figure}
-
-Um dieses Problem zu lösen hatte ich zunächst die Idee den König zu einer "transparenten
-Figur" zu machen, sodass der Angriffszug auch durch diesen hindurch wirkt, doch ich sah immer
-mehr Probleme kommen, die wieder aufwand gemacht hätten zu lösen, wie zum Beispiel, dass man die 
-Figur, die vor dem König steht und das Schach verhindert nicht wegbewegt werden darf. Dann kam mir
-aber die Idee, wie ich all diese Probleme auf einen Schlag lösen konnte.
+\end{figure}\\
+Um dieses Problem zu lösen, hatte ich zunächst die Idee, den König zu einer \glqq{}transparenten
+Figur\grqq{} zu machen, sodass der Angriffszug auch durch diesen hindurch geht. 
+Als ich jedoch dabei war die dieses Problem zu lösen, taten sich viele weitere Bugs auf, wie zum Beispiel, dass man die 
+Figur, die vor dem König steht und das Schach verhindert wegbewegt werden darf, obwohl das kein legaler Zug ist.
+Aufgrunddessen suchte ich nach einer Lösung, welche alle nicht-legalen Züge verhindern würde.
 
 \subsubsection{Foresight}
-Wenn man es schaffen könnte, in die Zukunft nach dem nächsten Zug zu sehen und erkennen könnte, ob
+Wenn man es schaffen könnte, nach dem nächsten Zug in die Zukunft zu sehen und erkennen könnte, ob
 der Zug als Konequenz hat, dass der König im Schach steht, könnte man diesen Zug verbieten. 
 Genau das war der Gedanke hinter dieser Lösung. Ich lasse, bevor ich die möglichen Züge
 einer Figur exportiere, die Liste durch einen Filter laufen, der oben Erwähntes prüft.
@@ -439,15 +442,15 @@ def filter_method_foresight(self, move):
         #returning if the move is legal or not
         return (white and not white_check) or (black and not black_check)
 \end{lstlisting}
-
-Nachdem ich diesem Filter für jede Figur angewendet hatte, hatte ich keinerlei Probleme mehr mit
+Nachdem ich diesem Filter für jede Figur angewendet hatte, gab es keinerlei Probleme mehr mit
 illegalen Zügen. 
 
+\pagebreak
 \subsubsection{Stockfish}
-Zunächst hatte ich noch an die Leinfachheit der Implementierung von Stockfish in
-python geglaubt, aber ich sollte falsch liegen. Zunächst hatte ich Stockfish wie in
+Zunächst glaubte ich noch an die Einfachheit der Implementierung von Stockfish in
+python, aber diese Vermutung erwies sich als falsch. Zunächst habe ich Stockfish wie in
 der Dokumentation beschrieben installiert und importiert. Als ich dann ein Objekt der
-Klasse \glqq Stockfish\grqq{} erstellen wollte bekam ich folgende Fehlermeldung:
+Klasse \glqq Stockfish\grqq{} erstellen wollte, bekam ich folgende Fehlermeldung:
 \begin{lstlisting}
         Traceback (most recent call last):
         File "D:\Julian\Coding\Sprachen\python\lib\site-packages\ stockfish\models.py", line 33, in __init__
@@ -464,46 +467,43 @@ Klasse \glqq Stockfish\grqq{} erstellen wollte bekam ich folgende Fehlermeldung:
         AttributeError: 'Stockfish' object has no attribute 'stockfish'
 \end{lstlisting}
 Als ich nach Lösungen gesucht hatte, war ich in einem Forum auf User gestoßen,
-die das selbe Problem hatten. Glücklicher Weise gab es die Möglichkeit eine .exe
-Datei herunterzuladen und den Bot von dort aus zu starten. 
-
-Ich fand die Lösung war nun nicht die Eleganteste, aber da das Programm für jeden
-auszuführen sein soll, wollte ich nichts bei mir lokal bei dem Paket \glqq Stockfish\grqq{} ändern. 
+die das gleiche Problem hatten. Glücklicherweise gab es die Möglichkeit, eine extrene Konsole in Form einer .exe Datei
+herunterzuladen und den Bot von dort aus zu starten. \\
+Obwohl mit die Lösung nicht als sehr elegant erschien, wollte ich keine Änderungen vornehmen, da das Programm für jeden
+auszuführen sein soll. Deshalb wollte ich nichts bei mir lokal bei dem Paket \glqq Stockfish\grqq{} ändern. 
 
 \section{Danke an\dots{}}
-Ich möchte zunächst dem Luisengymnasium und dem Kollegium, insbesondere Frau
+Ich möchte zunächst dem  Kollegium des Luisengymnasium, insbesondere Frau
 Swiebodzinski, dafür danken, dass ich das Projekt in diesem Rahmen bearbeiten durfte. 
 Ein besonderer Dank geht an zwei Mitschüler, Gero Beckmann und Vincent Piegsa, da ich
-mich bei Fragen immer die Möglichkeit hatte mich an sie zu wenden.
-
+bei Fragen immer die Möglichkeit hatte, mich an sie zu wenden.\\
 Außerdem möchte ich den Usern der Medien Youtube, Reddit, Stackoverflow und GitHub bedanken,
 da ich mir auch dort Hilfe holen konnte. 
-
+\pagebreak
 \section{Schlusswort und Fazit}
 Dieses Projekt war sehr anspruchsvoll, da ich das Schachprogramm \glqq from Scratch\grqq{}
-gestartet habe und auf jegliche Hilfen von API's verzichtet habe. Dennoch war dieses Projekt
-sehr Umfangreich und spannend, da ich das erste Mal im Frontend entwickelt habe und ich,
+gestartet und auf jegliche Hilfen von API's verzichtet habe. Dennoch war dieses Projekt
+sehr umfangreich und spannend, da ich das erste Mal im Frontend entwickelt habe und ich,
 trotz vieler Hürden, meinen Spaß daran hatte. \\
 Ich bin mit dem Endresultat sehr zufrieden, obwohl mir es bis Dato (\date{}) 
-nicht gelungen ist, die Regel \glqq en passant \grqq{} zu implementieren.
-Somit habe ich mein Ziel welches ich mir am Anfang gesetzt hatte nicht
+nicht gelungen ist, die Regel \glqq en passant\grqq{} zu implementieren.
+Somit habe ich mein Ziel, welches ich mir am Anfang gesetzt hatte, nicht
 erreicht, dennoch bin ich stolz auf das Produkt, da ich viele Hürden überwinden musste um
-dieses Programm zu schreiben und es einwandfrei zu benutzen ist. 
+dieses Programm zu schreiben und es nun einwandfrei zu benutzen ist. 
 
 \subsection{Was habe ich gelernt?}
-Ich habe in diesem Projekt viele Erfahrungen machen dürfen.
-Zum einen war dies eines meiner ersten großen Projekte, welches
+Zum einen war dies eines meiner ersten, großen Projekte, welches
 ich alleine bewältigen musste.\\
 Zum anderen habe ich gelernt mit Git umzugehen, zu debuggen,
 meinen Code zu organisieren und zu strukturieren, mit GUI's zu arbeiten,
-uns vieles mehr.
+und vieles mehr.
 
 
 \subsection{Zukünftige Aussichten}
-Wie eben erwähnt habe ich vor die mir fehlende Regel einzubauen. Ebenfalls hatte ich vor
+Wie bereits zuvor erwähnt habe ich vor, die mir fehlende Regel einzubauen. Ebenfalls hatte ich vor,
 den Code nocheinmal aufzuräumen und zu kommentieren, um ihn für Interessierte nachvollziebarer
 zu gestallten. 
 Eine weitere Idee von mir war, dass ich eventuell das Programm auf meine eigene Website
-hochlade und somit ein Onlinespiel zu schaffen.
+hochlade und somit ein Onlinespiel anbieten zu können.
 
 \end{document}

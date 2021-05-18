@@ -22,6 +22,8 @@ class Pieces:
     white_is_checked = False
     black_is_checked = False
 
+    ignore_me_standard = False
+
     checking_piece = None
 
     def __init__(self, master, name, tile_x, tile_y, farbe, image, value):
@@ -169,7 +171,7 @@ class Pieces:
             return output
 
     
-    def move(self, board, screen, takeback_button):
+    def move(self, board, screen, takeback_button, ignore_me = False):
     
         go = True
         ok = True
@@ -248,19 +250,14 @@ class Pieces:
                                                     self.touched = True
 
                                                     Pieces.draw(self, screen)
-                                                    Pieces.moves_done.append(move)
+                                                    if not ignore_me:
+                                                        Pieces.moves_done.append(move)
 
                                                     self.append_taken_piece(piece)
 
                                                     taken = 'x'
 
                                                     takeback_button.active = False
-
-
-
-                                                    
-
-
 
                                                     
                                                 else:
@@ -285,7 +282,8 @@ class Pieces:
                                         self.touched = True
                                         move = Board.getcurrentTile(old_pos[0], old_pos[1], tile_size) + Board.getcurrentTile(self.x, self.y, tile_size) 
 
-                                        Pieces.moves_done.append(move)
+                                        if not ignore_me:
+                                            Pieces.moves_done.append(move)
 
                                         print(move)
 
@@ -507,5 +505,11 @@ class Pieces:
         else:
             return False
 
-    
-    
+    @classmethod
+    def change_ignore_me_standard(cls):
+        cls.ignore_me_standard = not cls.ignore_me_standard
+
+    @classmethod
+    def kill_board(cls):
+        cls.all_pieces_list = []
+
