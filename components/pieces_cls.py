@@ -26,6 +26,8 @@ class Pieces:
 
     checking_piece = None
 
+    round_safe = 0
+
     def __init__(self, master, name, tile_x, tile_y, farbe, image, value):
         self.touched = False
         self.x = tile_x*tile_size
@@ -66,6 +68,25 @@ class Pieces:
         json_file.writelines(json.dumps(json_content))
         json_file.close()
 
+    @staticmethod
+    def set_round(round):
+        json_file = open(os.getcwd()+r"\components\constants.json", "r")
+        json_content = json.load(json_file)
+        json_content["round_int"] = round
+        json_file.close()
+
+        json_file = open(os.getcwd()+r"\components\constants.json", "w")
+        json_file.writelines(json.dumps(json_content))
+        json_file.close()
+
+    @staticmethod
+    def safe_round():
+        json_file = open(os.getcwd()+r"\components\constants.json", "r")
+        json_content = json.load(json_file)
+        Pieces.round_safe = json_content["round_int"]
+        json_file.close()
+        
+
     def animate(self, screen, start_pos_x, start_pos_y, stop_pos_x, stop_pos_y, time, board):
         newx = 0
         newy = 0
@@ -103,6 +124,16 @@ class Pieces:
         self.master.blit(self.image, (self.x+11, self.y+11))
         screen.blit(self.master, anchor_point)
 
+    def do_move(move):
+        move_start = Board.translate_to_coordinates(move[:2], tile_size) 
+        move_end = Board.translate_to_coordinates(move[2:], tile_size) 
+        for piece in Pieces.all_pieces_list:
+            if piece.x == move_start[0] and piece.y == move_start[1]:
+                piece.x = move_end[0]
+                piece.y = move_end[1]
+                break
+        
+        
     def move_from_pos(self, move, board, screen, takeback_button, ignore_me = False):
         if Board.getcurrentTile(self.x, self.y, tile_size) == move[:2]:
             newpos = Board.translate_to_coordinates(move[2:], tile_size)
@@ -512,4 +543,10 @@ class Pieces:
     @classmethod
     def kill_board(cls):
         cls.all_pieces_list = []
+
+    def build_from_list(screen):
+        for move in Pieces.moves_done:
+            Pieces.do_move(move)
+        for piece in Pieces.all_pieces_list:
+            piece.draw(screen)
 

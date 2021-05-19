@@ -4,20 +4,16 @@
 import pygame
 import json
 import os
-import random
+from components.test_mode_button_cls import Testmode_Button
 from stockfish import Stockfish
 from components.pieces_cls import Pieces
-from components.pawns_cls import WhitePawns, BlackPawns
-from components.bishops_cls import Bishops
-from components.rooks_cls import Rooks
-from components.knights_cls import Knights
-from components.queens_cls import Queens
 from components.kings_cls import Kings
 from components.board_cls import Board
 from components.clock import Clock
 from components.history import Hud
 from components.button import Button
 from components.external_funktions import *
+from components.takeback_func import takeback
 
 
 def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool = False, bot_difficulty = 6):
@@ -60,7 +56,6 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
     font = pygame.font.SysFont("DejaVu Sans", int(tile_size*0.2))
     font_titles = pygame.font.SysFont("DejaVu Sans", int(tile_size*0.25))
     go = True
-    ignore_me_standard = False
     timer = Clock(time = 5)
 
     #creating the surfaces#
@@ -141,18 +136,41 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
 
     
 
-    test_zone_button = Button(x=650,
+    # test_zone_button = Button(x=650,
+    #                             y = 80,
+    #                             w = 40,
+    #                             h = 40, 
+    #                             color_b=BLACK,
+    #                             color_in = GREY,
+    #                             color_t=WHITE,
+    #                             command = lambda:[Board.change_testmode(), Pieces.change_ignore_me_standard(),Pieces.kill_board(), build_board(mode, s, images), Pieces.build_from_list()], 
+    #                             imaginary_x=anchor_point_hud[0],
+    #                             imaginary_y=anchor_point_hud[1],
+    #                             deaf=False
+    #                             )
+
+    test_zone_button = Testmode_Button(x=650,
                                 y = 80,
                                 w = 40,
                                 h = 40, 
                                 color_b=BLACK,
                                 color_in = GREY,
                                 color_t=WHITE,
-                                command = lambda:[Board.change_testmode(), Pieces.change_ignore_me_standard()], 
+                                command1 = lambda:[Board.change_testmode(),
+                                                   Pieces.change_ignore_me_standard(),
+                                                   Pieces.kill_board(),
+                                                   build_board(mode, s, images),
+                                                   Pieces.build_from_list(screen=s),
+                                                   Pieces.set_round(Pieces.round_safe)
+                                                   ], 
+                                                   
+                                command2 = lambda:[Board.change_testmode(),
+                                                   Pieces.change_ignore_me_standard(),
+                                                   Pieces.safe_round()
+                                                   ],
                                 imaginary_x=anchor_point_hud[0],
                                 imaginary_y=anchor_point_hud[1],
-                                deaf=False
-                                )
+                                deaf=False)
 
     if bot_bool:
         command = lambda:[takeback(board, s, takeback_button), takeback(board, s, takeback_button)]
@@ -390,7 +408,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                                     if with_bool or without_bool:
 
                                         #...wait for the second mouse input#
-                                        move_ = piece.move(board = board, screen = screen, takeback_button = takeback_button, ignore_me = ignore_me_standard)
+                                        move_ = piece.move(board = board, screen = screen, takeback_button = takeback_button, ignore_me = Pieces.ignore_me_standard)
 
                                         move_ = move_[1][2:3] + move_[2] +str(move_[0][2:])
 

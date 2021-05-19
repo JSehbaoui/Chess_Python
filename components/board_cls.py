@@ -138,11 +138,6 @@ class Board:
     def change_testmode(cls):
         cls.test_mode = not cls.test_mode
 
-    def build_from_list():
-        pass
-
-
-
 
         
 print(Board.translate_to_coordinates('e2', 70))
