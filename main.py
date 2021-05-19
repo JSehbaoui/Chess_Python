@@ -98,6 +98,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
     quit_icon =     pygame.image.load(r'assets/quit.png')
     takeback_icon = pygame.image.load(r'assets/takeback.png')
     resign_icon =   pygame.image.load(r'assets/resign_flag.png')
+    test_icon =     pygame.image.load(r'assets/lightbulb.png')
 
     #creating the board
     build_board(mode, s, images)
@@ -163,11 +164,12 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                                                    Pieces.build_from_list(screen=s),
                                                    Pieces.set_round(Pieces.round_safe)
                                                    ], 
-                                                   
+
                                 command2 = lambda:[Board.change_testmode(),
                                                    Pieces.change_ignore_me_standard(),
                                                    Pieces.safe_round()
                                                    ],
+                                icon = test_icon,
                                 imaginary_x=anchor_point_hud[0],
                                 imaginary_y=anchor_point_hud[1],
                                 deaf=False)

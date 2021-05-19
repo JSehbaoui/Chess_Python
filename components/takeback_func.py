@@ -1,7 +1,14 @@
 from components.pieces_cls import Pieces
-# from components.board_cls import Board
+from components.board_cls import Board
+import json
+import os
 
 def takeback(board, screen, takeback_button):
+    json_file = open(os.getcwd()+r"\components\constants.json", "r")
+    json_content = json.load(json_file)
+    tile_size = json_content["tile_size"]
+    json_file.close()
+
     if len(Pieces.moves_done) > 0:
         taken_back = Pieces.moves_done[-1]
 
