@@ -16,7 +16,7 @@ from components.external_funktions import *
 from components.takeback_func import takeback
 
 
-def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool = True, bot_difficulty = 6):
+def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool = False, bot_difficulty = 6):
 
     # resetting the variables in the .json file#
     json_file = open(r'components\constants.json', 'r')

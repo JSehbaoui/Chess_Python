@@ -90,10 +90,16 @@ class Board:
         fac1 = x/self.tile_size
         fac2 = y/self.tile_size  
         prod = fac1+fac2
-        if prod % 2 == 0:
-            color = self.color_a
+
+        if Board.test_mode:
+            color_set = [self.color_t1, self.color_t2]
         else:
-            color = self.color_b
+            color_set = [self.color_a, self.color_b]
+
+        if prod % 2 == 0:
+            color = color_set[0]
+        else:
+            color = color_set[1]
 
         pygame.draw.rect(self.master, color , [x+10, y+10, self.tile_size-20, self.tile_size-20])
         screen.blit(self.master, self.anchor_point)
