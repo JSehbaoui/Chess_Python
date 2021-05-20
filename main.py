@@ -16,7 +16,7 @@ from components.external_funktions import *
 from components.takeback_func import takeback
 
 
-def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool = False, bot_difficulty = 6):
+def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool = True, bot_difficulty = 6):
 
     # resetting the variables in the .json file#
     json_file = open(r'components\constants.json', 'r')
@@ -342,11 +342,11 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
         screen.blit(hud, anchor_point_hud)
 
         #bot moves#   
-        if round_int % 2 == 1 and bot_bool and not Board.game_over:
+        if round_int % 2 == 1 and bot_bool and not Board.game_over and not Board.test_mode:
             opt_move = bot.get_best_move()
             for piece in Pieces.all_pieces_list:
                 if piece.farbe == BLACK:
-                    move = piece.move_from_pos(move=opt_move, board=board, screen = screen, takeback_button = takeback_button, ignore_me = ignore_me_standard)
+                    move = piece.move_from_pos(move=opt_move, board=board, screen = screen, takeback_button = takeback_button, ignore_me = Pieces.ignore_me_standard)
                     if move != None:
                         break
 
@@ -403,9 +403,6 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
 
                                     with_bool = round_int % 2 == 0 and piece.farbe == (255, 255, 255)
                                     without_bool = round_int % 2 == 1 and piece.farbe == (0,0,0)
-
-                                    if bot_bool:
-                                        without_bool = False
 
                                     if with_bool or without_bool:
 

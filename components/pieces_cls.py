@@ -128,6 +128,10 @@ class Pieces:
         move_start = Board.translate_to_coordinates(move[:2], tile_size) 
         move_end = Board.translate_to_coordinates(move[2:], tile_size) 
         for piece in Pieces.all_pieces_list:
+            if piece.x == move_end[0] and piece.y == move_end[1]:
+                Pieces.all_pieces_list.remove(piece)
+                break
+        for piece in Pieces.all_pieces_list:
             if piece.x == move_start[0] and piece.y == move_start[1]:
                 piece.x = move_end[0]
                 piece.y = move_end[1]
