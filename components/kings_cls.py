@@ -1,3 +1,4 @@
+from components.board_cls import Board
 from pygame.constants import APPACTIVE
 from .pieces_cls import Pieces
 
@@ -99,36 +100,75 @@ class Kings(Pieces):
 
     def is_castle_legal(self):
         left_castle = True
-        right_caste = True
-        if not self.touched:
-            for rook in Pieces.all_pieces_list:
-                if 'Rook' in rook.name and rook.farbe == self.farbe and not rook.touched:
-                    for enemy in Pieces.all_pieces_list:
-                        if not enemy.farbe == self.farbe:
-                            l = enemy.attacked_tiles()
-                    
-                            if 'L' in rook.name:
-                                weak_side = (self.x-tile_size, self.y)
-                            elif 'R' in rook.name:
-                                weak_side = (self.x-tile_size, self.y)
-                            
-                            if weak_side in l:
-                                return False, False, False
-    
-                    for piece in Pieces.all_pieces_list:
-                        if 'L' in rook.name:
-                            for i in range(1, 4):
-                                if (piece.x, piece.y) == (self.x-i*tile_size, self.y):
-                                    left_castle = False
-                        elif 'R' in rook.name:
-                            for i in range(1, 3):
-                                b = (piece.x, piece.y) == (self.x+i*tile_size, self.y)
-                                if b:
-                                    right_caste = False
-                    
-            if left_castle or right_caste:
-                return True, left_castle, right_caste
-            else:
-                return False, False, False
-        else:
-            return False, False, False
+        right_castle = True
+
+        left_castle_p1 = True
+        left_castle_p2 = True
+        left_castle_p3 = True
+        left_castle_p4 = True
+
+        right_castle_p1 = True
+        right_castle_p2 = True
+        right_castle_p3 = True
+        right_castle_p4 = True
+
+
+        for rook in Pieces.all_pieces_list:
+            #checking if left side castle is possible
+            if "L-Rook" in rook.name and rook.farbe == self.farbe:
+
+                #checking for property1: is a tile between the castles attacked
+                left_square = (self.x-tile_size, self.y)
+                for enemy in Pieces.all_pieces_list:
+                    #"defining" enemy
+                    if enemy.farbe != self.farbe:
+                        att = enemy.attacked_tiles()
+                        if left_square in att:
+                            left_castle_p1 = False
+
+                #checking for property2: is a piece between the castles
+                tiles_in_between = [(self.x-tile_size*x, self.y) for x in range(1, 4)]
+                for any_piece in Pieces.all_pieces_list:
+                    any_piece_pos = (any_piece.x, any_piece.y)
+                    if any_piece_pos in tiles_in_between:
+                        left_castle_p2 = False
+                
+                #checking for property3 and property4: is any of the pieces touched
+
+                left_castle_p3 = not self.touched
+                left_castle_p4 = not rook.touched
+
+                #asseble
+                left_castle = left_castle_p1 and left_castle_p2 and left_castle_p3 and left_castle_p4
+            
+
+            #checking if right side castle is possible
+            elif "R-Rook" in rook.name and rook.farbe == self.farbe:
+
+                #checking for property1: is a tile between the castles attacked
+                right_square = (self.x+tile_size, self.y)
+                for enemy in Pieces.all_pieces_list:
+                    #"defining" enemy
+                    if enemy.farbe != self.farbe:
+                        att = enemy.attacked_tiles()
+                        if right_square in att:
+                            right_castle_p1 = False
+
+                #checking for property2: is a piece between the castles
+                tiles_in_between = [(self.x+tile_size*x, self.y) for x in range(1, 3)]
+                for any_piece in Pieces.all_pieces_list:
+                    any_piece_pos = (any_piece.x, any_piece.y)
+                    if any_piece_pos in tiles_in_between:
+                        right_castle_p2 = False
+                
+                #checking for property3 and property4: is any of the pieces touched
+
+                right_castle_p3 = not self.touched
+                right_castle_p4 = not rook.touched
+
+                #asseble
+                right_castle = right_castle_p1 and right_castle_p2 and right_castle_p3 and right_castle_p4
+        
+        general = right_castle or left_castle
+
+        return general, left_castle, right_castle
