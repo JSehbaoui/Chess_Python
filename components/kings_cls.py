@@ -106,11 +106,13 @@ class Kings(Pieces):
         left_castle_p2 = True
         left_castle_p3 = True
         left_castle_p4 = True
+        left_castle_p5 = True
 
         right_castle_p1 = True
         right_castle_p2 = True
         right_castle_p3 = True
         right_castle_p4 = True
+        right_castle_p5 = True
 
 
         for rook in Pieces.all_pieces_list:
@@ -138,8 +140,15 @@ class Kings(Pieces):
                 left_castle_p3 = not self.touched
                 left_castle_p4 = not rook.touched
 
+                #checking for property5: is the king checked
+                Pieces.detectingCheck()
+                if self.farbe == (0,0,0):
+                    left_castle_p5 = not Pieces.black_is_checked
+                else:
+                    left_castle_p5 = not Pieces.white_is_checked
+
                 #asseble
-                left_castle = left_castle_p1 and left_castle_p2 and left_castle_p3 and left_castle_p4
+                left_castle = left_castle_p1 and left_castle_p2 and left_castle_p3 and left_castle_p4 and left_castle_p5
             
 
             #checking if right side castle is possible
@@ -166,8 +175,15 @@ class Kings(Pieces):
                 right_castle_p3 = not self.touched
                 right_castle_p4 = not rook.touched
 
+                #checking for property5: is the king checked
+                Pieces.detectingCheck()
+                if self.farbe == (0,0,0):
+                    right_castle_p5 = not Pieces.black_is_checked
+                else:
+                    right_castle_p5 = not Pieces.white_is_checked
+
                 #asseble
-                right_castle = right_castle_p1 and right_castle_p2 and right_castle_p3 and right_castle_p4
+                right_castle = right_castle_p1 and right_castle_p2 and right_castle_p3 and right_castle_p4 and right_castle_p5
         
         general = right_castle or left_castle
 
