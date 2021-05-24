@@ -68,7 +68,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
     screen.fill(BG_COLOR_1)
     hud.fill(BG_COLOR_2)
     h.fill(BG_COLOR_2)
-    h.print(pos = (20, 20), label = 'Spielhistorie', font = font)
+    h.print(pos = (0.6*tile_size, 20), label = 'Spielhistorie', font = font)
 
     #window caption#
     pygame.display.set_caption("Chess")
@@ -108,10 +108,10 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
     bot.set_skill_level(bot_difficulty)
     
 
-    quit_button = Button(    x = 600,
-                             y = 30,
-                             w=40,
-                             h = 40,
+    quit_button = Button(    x = 8.5*tile_size,
+                             y = 0.4*tile_size,
+                             w = int(0.6*tile_size),
+                             h = int(0.6*tile_size),
                              color_b=BLACK,
                              color_in = GREY,
                              color_t=WHITE,
@@ -122,10 +122,10 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                              )
 
     
-    resign_button = Button(x = 650,
-                             y = 30, 
-                             w=40,
-                             h = 40,
+    resign_button = Button(x = 9.2*tile_size,
+                             y = 0.4*tile_size, 
+                             w = int(0.6*tile_size),
+                             h = int(0.6*tile_size),
                              color_b=BLACK,
                              color_in = GREY,
                              color_t=WHITE,
@@ -135,25 +135,11 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                              imaginary_y=anchor_point_hud[1]
                              )
 
-    
 
-    # test_zone_button = Button(x=650,
-    #                             y = 80,
-    #                             w = 40,
-    #                             h = 40, 
-    #                             color_b=BLACK,
-    #                             color_in = GREY,
-    #                             color_t=WHITE,
-    #                             command = lambda:[Board.change_testmode(), Pieces.change_ignore_me_standard(),Pieces.kill_board(), build_board(mode, s, images), Pieces.build_from_list()], 
-    #                             imaginary_x=anchor_point_hud[0],
-    #                             imaginary_y=anchor_point_hud[1],
-    #                             deaf=False
-    #                             )
-
-    test_zone_button = Testmode_Button(x=650,
-                                y = 80,
-                                w = 40,
-                                h = 40, 
+    test_zone_button = Testmode_Button(x=9.2*tile_size,
+                                y = 0.4*tile_size+0.74*tile_size,
+                                w = int(0.6*tile_size),
+                                h = int(0.6*tile_size), 
                                 color_b=BLACK,
                                 color_in = GREY,
                                 color_t=WHITE,
@@ -179,10 +165,10 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
     else:
         command = lambda:[takeback(board, s, takeback_button)]
 
-    takeback_button = Button(x = 600,
-                             y = 80, 
-                             w = 40,
-                             h = 40,
+    takeback_button = Button(x = 8.5*tile_size,
+                             y = 0.4*tile_size+0.74*tile_size, 
+                             w = int(0.6*tile_size),
+                             h = int(0.6*tile_size),
                              color_b=BLACK,
                              color_in = GREY,
                              color_t=WHITE,
@@ -204,8 +190,8 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
         json_file.close()
 
         #drawing the board#
-        if not Board.game_over:
-            board.draw_board()
+        # if not Board.game_over:
+        board.draw_board()
 
         #updating the bot with the new game state#
         bot.set_position(Pieces.moves_done)
@@ -243,9 +229,9 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                     board.check(king_pos = (king.x, king.y))
 
         #drawing all the pieces#
-        if not Board.game_over:
-            for pieces in Pieces.all_pieces_list:
-                pieces.draw(screen)
+        # if not Board.game_over:
+        for pieces in Pieces.all_pieces_list:
+            pieces.draw(screen)
         
         #updating the mainsurface#
         pygame.display.update()
@@ -269,9 +255,11 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
 
         #creating the history
         h.fill(BG_COLOR_2)
-        h.print((20, 20), 'Spielhistorie', font)
+        h.print((0.31*tile_size, 20), 'Spielhistorie', font)
         for i in range(len(Pieces.moves_done)):
-            h.print(pos = ((i%2)*50+20, (i//2)*20+40), label = Pieces.moves_done[i], font= font)
+            fac_50 = 5/7 *tile_size
+            fac_20 = 2/7 *tile_size
+            h.print(pos = ((i%2)*fac_50+fac_20, (i//2)*fac_20+2*fac_20), label = Pieces.moves_done[i], font= font)
 
 
 
@@ -285,15 +273,15 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
             elif piece.farbe == WHITE:
                 white_loss.append(piece)
         for piece in black_loss:
-            if not black_loss.index(piece)*25+5 >2.9*tile_size:
-                p1.blit(pygame.transform.scale(piece.image, (tile_size//3, tile_size//3)), (black_loss.index(piece)*25+5, 40))
+            if not black_loss.index(piece)*0.4*tile_size+0.08*tile_size >2.9*tile_size:
+                p1.blit(pygame.transform.scale(piece.image, (tile_size//3, tile_size//3)), (black_loss.index(piece)*0.4*tile_size+0.08*tile_size, 0.57*tile_size))
             else:
-                p1.blit(pygame.transform.scale(piece.image, (tile_size//3, tile_size//3)), (black_loss.index(piece)*25+10-3*tile_size, 70))
+                p1.blit(pygame.transform.scale(piece.image, (tile_size//3, tile_size//3)), (black_loss.index(piece)*0.4*tile_size+0.08*tile_size-3*tile_size, 0.57*tile_size+0.43*tile_size))
         for piece in white_loss: 
             if not white_loss.index(piece)*25+5 > 2.9*tile_size:
-                p2.blit(pygame.transform.scale(piece.image, (tile_size//3, tile_size//3)), (white_loss.index(piece)*25+5, 40))
+                p2.blit(pygame.transform.scale(piece.image, (tile_size//3, tile_size//3)), (white_loss.index(piece)*0.4*tile_size+0.08*tile_size, 0.57*tile_size))
             else:
-                p2.blit(pygame.transform.scale(piece.image, (tile_size//3, tile_size//3)), (white_loss.index(piece)*25+10-3*tile_size, 70))
+                p2.blit(pygame.transform.scale(piece.image, (tile_size//3, tile_size//3)), (white_loss.index(piece)*0.4*tile_size+0.08*tile_size-3*tile_size, 0.57*tile_size+0.43*tile_size))
 
         value_white = 0
         value_black = 0
@@ -306,16 +294,16 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
 
         label = font.render('+'+str(abs(int(value_white-value_black))), True, BLACK)
         if int(value_white-value_black) > 0:
-            if not len(white_loss)*25+5 > 2.9*tile_size:
-                p2.blit(label, ((len(white_loss))*25+5, 45))
+            if not len(white_loss)*0.4*tile_size+0.08*tile_size > 2.9*tile_size:
+                p2.blit(label, ((len(white_loss))*0.4*tile_size+0.08*tile_size, 0.6*tile_size))
             else:
-                p2.blit(label, ((len(white_loss))*25+10-3*tile_size, 75))
+                p2.blit(label, ((len(white_loss))*0.4*tile_size+0.08*tile_size-3*tile_size, 0.57*tile_size+0.6*tile_size))
             
         elif int(value_white-value_black) < 0:
-            if not len(black_loss)*25+5 > 2.9*tile_size:
-                p1.blit(label, ((len(black_loss))*25+5, 45))
+            if not len(black_loss)*0.4*tile_size+0.08*tile_size > 2.9*tile_size:
+                p1.blit(label, ((len(black_loss))*0.4*tile_size+0.08*tile_size, 0.6*tile_size))
             else:
-                p1.blit(label, ((len(black_loss))*25+10-3*tile_size, 75))
+                p1.blit(label, ((len(black_loss))*0.4*tile_size+0.08*tile_size-3*tile_size, 0.57*tile_size+0.55*tile_size))
             
 
 

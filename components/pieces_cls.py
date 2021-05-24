@@ -111,7 +111,7 @@ class Pieces:
             for piece in Pieces.all_pieces_list:
                 if piece != self:
                     piece.draw(screen)
-            self.master.blit(self.image, (self.x+11+newx, self.y+11+newy))
+            self.master.blit(self.image, (self.x+0.16*tile_size+newx, self.y+0.16*tile_size+newy))
             screen.blit(self.master, anchor_point)
 
             pygame.display.update()
@@ -121,7 +121,7 @@ class Pieces:
 
     def draw(self, screen):
         #pygame.draw.rect(self.master, self.farbe, [self.x+10, self.y+10, 30, 30])
-        self.master.blit(self.image, (self.x+11, self.y+11))
+        self.master.blit(self.image, (self.x+0.16*tile_size, self.y+0.16*tile_size))
         screen.blit(self.master, anchor_point)
 
     def do_move(move):
@@ -141,7 +141,7 @@ class Pieces:
     def move_from_pos(self, move, board, screen, takeback_button, ignore_me = False):
         if Board.getcurrentTile(self.x, self.y, tile_size) == move[:2]:
             newpos = Board.translate_to_coordinates(move[2:], tile_size)
-            self.animate(screen=screen, start_pos_x=self.x, start_pos_y= self.y, stop_pos_x=newpos[0], stop_pos_y=newpos[1], time=0.2, board = board)
+            self.animate(screen=screen, start_pos_x=self.x, start_pos_y= self.y, stop_pos_x=newpos[0], stop_pos_y=newpos[1], time=0.3, board = board)
             
             # print(move[2:])
             old_pos = self.x, self.y
@@ -150,7 +150,7 @@ class Pieces:
             self.x, self.y = newpos
             # print('New_pos: ', self.x, self.y)
 
-            self.touched = True
+            
 
             Pieces.round_increment()
 
@@ -201,6 +201,7 @@ class Pieces:
                                     Pieces.round_decrement()
                                     self.touched = False
 
+            self.touched = True
 
             output = move, self.name, taken
             return output
@@ -273,7 +274,7 @@ class Pieces:
 
                                                     old_pos = (self.x, self.y)
 
-                                                    self.animate(screen = screen, start_pos_x = self.x, start_pos_y = self.y, stop_pos_x = possible_move[0], stop_pos_y = possible_move[1], time = 0.2, board = board)
+                                                    self.animate(screen = screen, start_pos_x = self.x, start_pos_y = self.y, stop_pos_x = possible_move[0], stop_pos_y = possible_move[1], time = 0.3, board = board)
                                                     self.x = possible_move[0]
                                                     self.y = possible_move[1]
 
@@ -302,7 +303,7 @@ class Pieces:
                                         
                                     if ok: 
 
-                                        self.animate(screen, self.x, self.y, possible_move[0], possible_move[1], 0.2, board = board)
+                                        self.animate(screen, self.x, self.y, possible_move[0], possible_move[1], 0.3, board = board)
                                     
                                         old_pos = (self.x, self.y)
 
