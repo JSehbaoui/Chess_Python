@@ -265,23 +265,26 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
 
         #showing the taken pieces#
         Pieces.taken_pieces.sort(key= lambda x: x.value, reverse = False)
-        white_loss = []
-        black_loss = []
+        white_loss = [[], []]
+        black_loss = [[], []]
         for piece in Pieces.taken_pieces:
             if piece.farbe == (0,0,0):
-                black_loss.append(piece)
+                if len(black_loss[0]) < 8:
+                    black_loss[0].append(piece)
+                else:
+                    black_loss[1].append(piece)
             elif piece.farbe == WHITE:
-                white_loss.append(piece)
-        for piece in black_loss:
-            if not black_loss.index(piece)*0.4*tile_size+0.08*tile_size >2.9*tile_size:
-                p1.blit(pygame.transform.scale(piece.image, (tile_size//3, tile_size//3)), (black_loss.index(piece)*0.4*tile_size+0.08*tile_size, 0.57*tile_size))
-            else:
-                p1.blit(pygame.transform.scale(piece.image, (tile_size//3, tile_size//3)), (black_loss.index(piece)*0.4*tile_size+0.08*tile_size-3*tile_size, 0.57*tile_size+0.43*tile_size))
-        for piece in white_loss: 
-            if not white_loss.index(piece)*25+5 > 2.9*tile_size:
-                p2.blit(pygame.transform.scale(piece.image, (tile_size//3, tile_size//3)), (white_loss.index(piece)*0.4*tile_size+0.08*tile_size, 0.57*tile_size))
-            else:
-                p2.blit(pygame.transform.scale(piece.image, (tile_size//3, tile_size//3)), (white_loss.index(piece)*0.4*tile_size+0.08*tile_size-3*tile_size, 0.57*tile_size+0.43*tile_size))
+                if len(white_loss[0]) < 8:
+                    white_loss[0].append(piece)
+                else:
+                    white_loss[1].append(piece)
+
+        for line in black_loss:
+            for piece in line:
+                p1.blit(pygame.transform.scale(piece.image, (tile_size//3, tile_size//3)), ((line.index(piece)*11/32 + 6/40 )*tile_size, (black_loss.index(line)+1)*0.5*tile_size))
+        for line in white_loss:
+            for piece in line:
+                p2.blit(pygame.transform.scale(piece.image, (tile_size//3, tile_size//3)), ((line.index(piece)*11/32 + 6/40 )*tile_size, (white_loss.index(line)+1)*0.5*tile_size))
 
         value_white = 0
         value_black = 0
@@ -294,18 +297,15 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
 
         label = font.render('+'+str(abs(int(value_white-value_black))), True, BLACK)
         if int(value_white-value_black) > 0:
-            if not len(white_loss)*0.4*tile_size+0.08*tile_size > 2.9*tile_size:
-                p2.blit(label, ((len(white_loss))*0.4*tile_size+0.08*tile_size, 0.6*tile_size))
+            if len(white_loss[0]) < 8:
+                p2.blit(label, ((len(white_loss[0])*11/32 + 6/40 )*tile_size, 0.55*tile_size))
             else:
-                p2.blit(label, ((len(white_loss))*0.4*tile_size+0.08*tile_size-3*tile_size, 0.57*tile_size+0.6*tile_size))
-            
+                p2.blit(label, ((len(white_loss[1])*11/32 + 6/40 )*tile_size, 1.05*tile_size))
         elif int(value_white-value_black) < 0:
-            if not len(black_loss)*0.4*tile_size+0.08*tile_size > 2.9*tile_size:
-                p1.blit(label, ((len(black_loss))*0.4*tile_size+0.08*tile_size, 0.6*tile_size))
+            if len(black_loss[0]) < 8:
+                p1.blit(label, ((len(black_loss[0])*11/32 + 6/40 )*tile_size, 0.55*tile_size))
             else:
-                p1.blit(label, ((len(black_loss))*0.4*tile_size+0.08*tile_size-3*tile_size, 0.57*tile_size+0.55*tile_size))
-            
-
+                p1.blit(label, ((len(black_loss[1])*11/32 + 6/40 )*tile_size, 1.05*tile_size))
 
         #updating the hud#
         if round_int % 2 == 0:

@@ -107,6 +107,11 @@ Alternativen nicht gefielen habe ich mich an meine eigene Version gemacht. Sie s
 alles können, was die Onlinespiele können, also die Basisregeln beachten und eine benutzerfreundliche
 Oberfläche bieten. 
 
+\section{Warum Schach?}
+Warum schreibe ich mein eigenes Schachprogramm, wenn es diese zuhauf online gibt und die meisten Versionen kostenlos sind?
+Zu nächst wollte ich mich wie bereits erwähnt mit einem neues Projekt fordern und vorallem mich mit GUI's vertraut machen.
+Zum anderen gibt es Features, die ich gerne bei der \glqq Konkurenz\grqq gesehen hätte, zum Beispiel den Testmodus (später erläutert).
+
 \section{Die Regeln im Schach}
 Die Regeln des Schachspiels finden sich unter \begin{verbatim}"\dokumentation\rules.pdf" \end{verbatim}
 
@@ -129,12 +134,29 @@ Prinzip, da man hier mit der Syntax von entweder Java oder Python funktionell pr
 kann. Außerdem, da Processing für graphische Arbeiten und kleine Spiele geschaffen wurde,
 lässt sich schnell und einfach die Mausposition und weitere Inputs abfragen und
 Figuren und Bilder auf der graphischen Oberfläche abbilden.
-Der Grundm, warum ich mich dennoch für pygame entschieden habe, war, dass man in pygame
+Der Grund, warum ich mich dennoch für pygame entschieden habe, war, dass man in pygame
 objektorientiert arbeiten kann. Kurz gesagt verwendet man bei der objektorientierten Programierung
 Grundgerüste (sogenannte Klassen), mittels welchen sich Objekte mit durch die Klasse definierten Attributen
 erstellen lassen. Dieses Konzept ist hilfreich bei der Programmierung eines Schachspiels,
 da sich alle Figuren an den selben \glqq Bauplan\grqq  halten und über das Prinzip der Vererbung
 die figurtypischen Eigentschaften in dieses Grundgerüst implementieren lassen.
+
+\subsubsection{Was habe ich verwendet?}
+Von dem Paket \glqq pygame\grqq habe ich zunächst das \glqq Display\grqq benutzt, welches das Fenster erstellt habe. Außerdem habe ich
+die Funktion \glqq draw\grqq benutzt, um Formen, wie zum Beispiel die einzelnen Quadrate des Bretts, Bilder, wie zum Beispiel die der Figuren,
+und Schriftzüge auf das Display zu bringen. Ebenfalls hilfreich war die Klasse \glqq Surface\grqq , mit der man einzelne kleine Bereiche abgrenzen konnte,
+um so mehr Struktur in das GUI zu bringen.  
+
+\subsection{pygame-widgets}
+\glqq pygame-widgets\grqq ist eine Art Erweiterung für pygame, welche Klassen für zum Beispiel Buttons und Schieberegler mitsich bringt.
+
+\subsubsection{Warum pygame-widgets}
+Die Erweiterung war sehr hilfreich, da ich somit einzelne Widgets nicht selber schreiben musste.
+
+\subsubsection{Was habe ich verwendet?}
+Von \glqq pygame-widgets\grqq habe ich nur den Schieberegler für die Anpassung der Computerschwierigkeit verwendet. Obwohl ich Buttons verwendet
+habe, programmierte ich diese selber, da ich so viel mehr Freiheit hatte, was Funktion und Design anging hatte. Für den Schieberegler hingegen
+war das Paket jedoch ausreichend, weswegen ich mir die Arbeit des Selberschreibens hier gespart habe.
 
 \subsection{Stockfish}
 Stockfish ist eine berühmte Schachengine, welche von vielen großen Schachanalysten und Schachwebsites benutzt wird.
@@ -159,6 +181,11 @@ sowie viele kleine selbstgeschriebene Engines, jedoch überzeugte Stockfish auch
 seiner hervorragenden Informationsübermittlung, da man zur Kommunikation zwischen
 meinem Skript und Stockfish nur das Format geringfügig ändern musste und schon funktionierte
 die Engine einwandfrei.  
+
+%\subsubsection{Was habe ich verwendet?}
+%Von Stockfish habe ich die Klasse Stockfish verwendet. 
+%Von dieser wiederum habe ich die Methode get_best_move verwendet,
+%um einen legalen und taktisch Sinnvollen Zug für den Computer zu ermitteln. 
 
 
 \section{Installation}
@@ -257,6 +284,13 @@ In der rechten, oberen Ecke finden sich insgesammt drei Buttons mit folgenden Fu
                 \item Macht den letzten Zug rückgängig
                 \item Ist nur zu benutzen, wenn keine Figur im 
                 letzten zug geschlagen wurde, um große Patzer zu bestrafen
+        \end{itemize}
+        \item \glqq Testmodus\grqq
+        \begin{itemize}
+                \item Bei erstmaligem Drücken betritt man einen Testmodus, indem es einem möglich
+                einem möglich ist, Züge auszutesten.
+                \item Bei erneutem Drücken werden alle Züge zurückgestellt und man beginnt dort
+                wo man aufgehört hat.
         \end{itemize}
 \end{itemize}
 
