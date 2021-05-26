@@ -102,12 +102,14 @@ class Kings(Pieces):
         left_castle = True
         right_castle = True
 
+        left_castle_p0 = False
         left_castle_p1 = True
         left_castle_p2 = True
         left_castle_p3 = True
         left_castle_p4 = True
         left_castle_p5 = True
 
+        right_castle_p0 = False
         right_castle_p1 = True
         right_castle_p2 = True
         right_castle_p3 = True
@@ -118,7 +120,8 @@ class Kings(Pieces):
         for rook in Pieces.all_pieces_list:
             #checking if left side castle is possible
             if "L-Rook" in rook.name and rook.farbe == self.farbe:
-
+                
+                left_castle_p0 = True
                 #checking for property1: is a tile between the castles attacked
                 left_square = (self.x-tile_size, self.y)
                 for enemy in Pieces.all_pieces_list:
@@ -147,12 +150,12 @@ class Kings(Pieces):
                 else:
                     left_castle_p5 = not Pieces.white_is_checked
 
-                #asseble
-                left_castle = left_castle_p1 and left_castle_p2 and left_castle_p3 and left_castle_p4 and left_castle_p5
+                
             
 
             #checking if right side castle is possible
             elif "R-Rook" in rook.name and rook.farbe == self.farbe:
+                right_castle_p0 = True
 
                 #checking for property1: is a tile between the castles attacked
                 right_square = (self.x+tile_size, self.y)
@@ -182,8 +185,9 @@ class Kings(Pieces):
                 else:
                     right_castle_p5 = not Pieces.white_is_checked
 
-                #asseble
-                right_castle = right_castle_p1 and right_castle_p2 and right_castle_p3 and right_castle_p4 and right_castle_p5
+        #asseble
+        right_castle = right_castle_p0 and right_castle_p1 and right_castle_p2 and right_castle_p3 and right_castle_p4 and right_castle_p5
+        left_castle = left_castle_p0 and left_castle_p1 and left_castle_p2 and left_castle_p3 and left_castle_p4 and left_castle_p5
         
         general = right_castle or left_castle
 
