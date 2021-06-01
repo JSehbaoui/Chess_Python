@@ -17,7 +17,7 @@ from components.external_funktions import *
 from components.takeback_func import takeback
 
 
-def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool = False, bot_difficulty = 6):
+def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool = True, bot_difficulty = 6):
 
     # resetting the variables in the .json file#
     json_file = open(r'components\constants.json', 'r')
@@ -198,7 +198,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
         board.draw_board()
 
         #updating the bot with the new game state#
-        bot.set_position(Pieces.moves_done)
+        bot.set_fen_position(Pieces.give_FEN())
         
         #detecting, if the game is over, or not
         if not Board.game_over:
@@ -335,7 +335,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
 
         #bot moves#   
         if round_int % 2 == 1 and bot_bool and not Board.game_over and not Board.test_mode:
-            opt_move = bot.get_best_move()
+            opt_move = bot.get_best_move_time(random.randint(400,1200))
             for piece in Pieces.all_pieces_list:
                 if piece.farbe == BLACK:
                     move = piece.move_from_pos(move=opt_move, board=board, screen = screen, takeback_button = takeback_button, ignore_me = Pieces.ignore_me_standard)
@@ -374,7 +374,10 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                     
                     #(TEMP) my information key (arrow down) to get certain information#
                     if event.key == pygame.K_DOWN:
-                        pass
+                        Pieces.give_FEN()
+                        # for king in Pieces.all_pieces_list:
+                        #     if "King-W" in king.name:
+                        #         print(list(king.is_castle_legal()))
                         
 
                 #left mouse click#

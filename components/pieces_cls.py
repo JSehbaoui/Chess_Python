@@ -1,3 +1,4 @@
+from numpy.lib.shape_base import tile
 import pygame
 import json
 import os
@@ -548,3 +549,177 @@ class Pieces:
         for piece in Pieces.all_pieces_list:
             piece.draw(screen)
 
+    def is_castle_legal(self):
+        left_castle = True
+        right_castle = True
+
+        left_castle_p0 = False
+        left_castle_p1 = True
+        left_castle_p2 = True
+        left_castle_p3 = True
+        left_castle_p4 = True
+        left_castle_p5 = True
+
+        right_castle_p0 = False
+        right_castle_p1 = True
+        right_castle_p2 = True
+        right_castle_p3 = True
+        right_castle_p4 = True
+        right_castle_p5 = True
+
+
+        for rook in Pieces.all_pieces_list:
+            #checking if left side castle is possible
+            if "L-Rook" in rook.name and rook.farbe == self.farbe:
+                
+                left_castle_p0 = True
+                #checking for property1: is a tile between the castles attacked
+                left_square = (self.x-tile_size, self.y)
+                for enemy in Pieces.all_pieces_list:
+                    #"defining" enemy
+                    if enemy.farbe != self.farbe:
+                        att = enemy.attacked_tiles()
+                        if left_square in att:
+                            left_castle_p1 = False
+
+                #checking for property2: is a piece between the castles
+                tiles_in_between = [(self.x-tile_size*x, self.y) for x in range(1, 4)]
+                for any_piece in Pieces.all_pieces_list:
+                    any_piece_pos = (any_piece.x, any_piece.y)
+                    if any_piece_pos in tiles_in_between:
+                        left_castle_p2 = False
+                
+                #checking for property3 and property4: is any of the pieces touched
+
+                left_castle_p3 = not self.touched
+                left_castle_p4 = not rook.touched
+
+                #checking for property5: is the king checked
+                Pieces.detectingCheck()
+                if self.farbe == (0,0,0):
+                    left_castle_p5 = not Pieces.black_is_checked
+                else:
+                    left_castle_p5 = not Pieces.white_is_checked
+
+                
+            
+
+            #checking if right side castle is possible
+            elif "R-Rook" in rook.name and rook.farbe == self.farbe:
+                right_castle_p0 = True
+
+                #checking for property1: is a tile between the castles attacked
+                right_square = (self.x+tile_size, self.y)
+                for enemy in Pieces.all_pieces_list:
+                    #"defining" enemy
+                    if enemy.farbe != self.farbe:
+                        att = enemy.attacked_tiles()
+                        if right_square in att:
+                            right_castle_p1 = False
+
+                #checking for property2: is a piece between the castles
+                tiles_in_between = [(self.x+tile_size*x, self.y) for x in range(1, 3)]
+                for any_piece in Pieces.all_pieces_list:
+                    any_piece_pos = (any_piece.x, any_piece.y)
+                    if any_piece_pos in tiles_in_between:
+                        right_castle_p2 = False
+                
+                #checking for property3 and property4: is any of the pieces touched
+
+                right_castle_p3 = not self.touched
+                right_castle_p4 = not rook.touched
+
+                #checking for property5: is the king checked
+                Pieces.detectingCheck()
+                if self.farbe == (0,0,0):
+                    right_castle_p5 = not Pieces.black_is_checked
+                else:
+                    right_castle_p5 = not Pieces.white_is_checked
+
+        #asseble
+        right_castle = right_castle_p0 and right_castle_p1 and right_castle_p2 and right_castle_p3 and right_castle_p4 and right_castle_p5
+        left_castle = left_castle_p0 and left_castle_p1 and left_castle_p2 and left_castle_p3 and left_castle_p4 and left_castle_p5
+        
+        general = right_castle or left_castle
+
+        return general, left_castle, right_castle
+
+    @classmethod
+    def give_FEN(cls):
+        import numpy
+
+        fen_output = ""
+
+        #creating a helpful array to create fen
+        board_arr = numpy.ndarray.tolist(numpy.zeros(shape = (8,8), dtype=numpy.int8))
+        for piece in cls.all_pieces_list:
+            if not "Knight" in piece.name:
+                letter = piece.name[2] if piece.farbe == (255,255,255) else piece.name[2].lower()
+            else:
+                letter = "N" if piece.farbe == (255,255,255) else "n"
+            
+            x_ = int(piece.x //tile_size)
+            y_ = int(piece.y //tile_size)
+
+            board_arr[y_][x_] = letter
+
+        #creating the first part of fen (board position)
+        for line in board_arr:
+            counter = 0
+            for piece in line:
+                if piece == 0:
+                    counter += 1
+                else:
+                    if counter != 0:
+                        fen_output = fen_output + str(counter)
+                        counter = 0
+                    fen_output = fen_output + piece
+            if counter != 0:
+                fen_output = fen_output + str(counter)
+            fen_output = fen_output + "/"
+
+        fen_output = fen_output[:-1] # removing the last "/"
+
+        #creating the second part of fen (whos turn is it)
+        json_file = open(os.getcwd()+r"\components\constants.json", "r")
+        json_content = json.load(json_file)
+
+        round_int = json_content["round_int"]
+
+        json_file.close()
+        
+        turn = "w" if round_int % 2 == 0 else "b"
+        fen_output = fen_output + " " + turn
+
+        #creating the third part of fen (is castling possible)
+        for king in cls.all_pieces_list:
+            if "King-W" in king.name:
+                o = list(king.is_castle_legal())
+                K, Q = o[2], o[1]
+            elif "King-B" in king.name:
+                o = list(king.is_castle_legal())
+                k, q = o[2], o[1]
+            else:
+                pass
+        fen_output = fen_output+" "
+        
+        if K:
+            fen_output = fen_output + "K"
+        elif Q:
+            fen_output = fen_output + "Q"
+        elif k:
+            fen_output = fen_output + "k"
+        elif q:
+            fen_output = fen_output + "q"
+        else:
+            fen_output = fen_output + "-"
+
+        fen_output = fen_output + f" - 0 {round_int//2 +1}"
+
+        return fen_output
+        # for line in board_arr:
+        #     print(line)
+
+
+if __name__ == "__main__":
+    pass
