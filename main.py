@@ -4,6 +4,7 @@
 import pygame
 import json
 import os
+from pygame import mixer
 from components.test_mode_button_cls import Testmode_Button
 from stockfish import Stockfish
 from components.pieces_cls import Pieces
@@ -33,7 +34,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
 
     #initiating pygame#
     pygame.init()
-
+    
     #Constants#
     BLACK = (0,0,0)
     GREY = (50,50,50)
@@ -177,6 +178,9 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                              imaginary_x=anchor_point_hud[0],
                              imaginary_y=anchor_point_hud[1]
                              )
+
+    start_sound = mixer.Sound("assets/sounds/board-start.mp3")
+    start_sound.play()
 
     #the mainloop#
     while go:
@@ -370,13 +374,13 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                     
                     #(TEMP) my information key (arrow down) to get certain information#
                     if event.key == pygame.K_DOWN:
-                        print("Board.test_mode: ", Board.test_mode)
-                        print("Pieces.ignore_me_standard: ", Pieces.ignore_me_standard)
+                        pass
+                        
 
                 #left mouse click#
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
 
-                    
+                                      
                     #getting the mouseposition and than correcting it by the relative position of the subsurface#
                     mouse_pos = pygame.mouse.get_pos()
                     mouse_pos = (mouse_pos[0]-anchor_point_s[0], mouse_pos[1]-anchor_point_s[1])
@@ -398,9 +402,6 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                                         move_ = piece.move(board = board, screen = screen, takeback_button = takeback_button, ignore_me = Pieces.ignore_me_standard)
 
                                         move_ = move_[1][2:3] + move_[2] +str(move_[0][2:])
-
-                                        # h.print(((round_int%2)*80+30, round_int//2*20+40), move_, font = font)
-                                        # h.print((0, round_int//2*20+40), str(round_int//2+1), font) 
 
                                         #check if the white kiung is checked#
                                         Pieces.detectingCheck()

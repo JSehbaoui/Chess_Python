@@ -104,21 +104,7 @@ def build_board(mode, s, images):
 
     elif mode == "TESTING":
         #TESTING
-        WhitePawns(master = s, name = 'A-Pawn-W', tile_x = 0, tile_y = 6, farbe = 'weiss', image = images["white_pawn_img"], value = 1)
-        WhitePawns(master = s, name = 'B-Pawn-W', tile_x = 1, tile_y = 6, farbe = 'weiss', image = images["white_pawn_img"], value = 1)
-        WhitePawns(master = s, name = 'C-Pawn-W', tile_x = 2, tile_y = 6, farbe = 'weiss', image = images["white_pawn_img"], value = 1)
-        WhitePawns(master = s, name = 'D-Pawn-W', tile_x = 3, tile_y = 6, farbe = 'weiss', image = images["white_pawn_img"], value = 1)
-        WhitePawns(master = s, name = 'E-Pawn-W', tile_x = 4, tile_y = 6, farbe = 'weiss', image = images["white_pawn_img"], value = 1)
-        WhitePawns(master = s, name = 'F-Pawn-W', tile_x = 5, tile_y = 6, farbe = 'weiss', image = images["white_pawn_img"], value = 1)
-        WhitePawns(master = s, name = 'G-Pawn-W', tile_x = 6, tile_y = 6, farbe = 'weiss', image = images["white_pawn_img"], value = 1)
-        WhitePawns(master = s, name = 'H-Pawn-W', tile_x = 7, tile_y = 6, farbe = 'weiss', image = images["white_pawn_img"], value = 1)
-        Kings(master = s, name = '##King-B', tile_x = 4, tile_y = 0, farbe = 'schwarz', image = images["black_king_img"], value = 100)
-        Rooks(master = s, name = 'L-Rook-B', tile_x = 0, tile_y = 0, farbe = 'schwarz', image = images["black_rook_img"], value = 5)
-
-        BlackPawns(master = s, name = 'A-Pawn-B', tile_x = 0, tile_y = 1, farbe = 'schwarz', image = images["black_pawn_img"], value = 1)
-        BlackPawns(master = s, name = 'B-Pawn-B', tile_x = 1, tile_y = 1, farbe = 'schwarz', image = images["black_pawn_img"], value = 1)
-        BlackPawns(master = s, name = 'C-Pawn-B', tile_x = 2, tile_y = 1, farbe = 'schwarz', image = images["black_pawn_img"], value = 1)
-        BlackPawns(master = s, name = 'D-Pawn-B', tile_x = 3, tile_y = 1, farbe = 'schwarz', image = images["black_pawn_img"], value = 1)
-        Kings(master = s, name = '##King-W', tile_x = 4, tile_y = 7, farbe = 'weiss', image = images["white_king_img"], value = 100)
+        Queens(master = s, name = '##Queen-W', tile_x = 4, tile_y = 4, farbe = 'weiss', image = images["white_queen_img"], value = 9)
+        # Queens(master = s, name = '##Queen-B', tile_x = 4, tile_y = 4, farbe = 'schwarz', image = images["black_queen_img"], value = 9)
         
     

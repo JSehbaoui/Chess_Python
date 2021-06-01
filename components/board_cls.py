@@ -143,10 +143,3 @@ class Board:
     @classmethod
     def change_testmode(cls):
         cls.test_mode = not cls.test_mode
-
-
-        
-print(Board.translate_to_coordinates('e2', 70))
-# b = Board(None, None, None, 120, None, None, None, None)
-
-# print(Board.getcurrentTile(356, 270))

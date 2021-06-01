@@ -1,6 +1,7 @@
 import pygame
 import json
 import os
+from pygame import mixer
 from components.board_cls import Board
 
 json_file = open(os.getcwd()+r"\components\constants.json", "r")
@@ -143,14 +144,9 @@ class Pieces:
             newpos = Board.translate_to_coordinates(move[2:], tile_size)
             self.animate(screen=screen, start_pos_x=self.x, start_pos_y= self.y, stop_pos_x=newpos[0], stop_pos_y=newpos[1], time=0.3, board = board)
             
-            # print(move[2:])
             old_pos = self.x, self.y
-            
-            # self.animate(self.master, self.x, self.y, newpos[0], newpos[1], 0.2, board)
-            self.x, self.y = newpos
-            # print('New_pos: ', self.x, self.y)
 
-            
+            self.x, self.y = newpos
 
             Pieces.round_increment()
 
@@ -248,17 +244,13 @@ class Pieces:
             #checking for events
             for event in pygame.event.get():
 
-
-
                 #Mouse-Inputs
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     mouse_pos = pygame.mouse.get_pos()
                     mouse_pos = (mouse_pos[0]-anchor_point[0], mouse_pos[1]-anchor_point[1])
 
                     #if the clicked tile is a sqaure, where the pawn can go, move it
-                    
-                    
-                    
+                              
                     if not(self.getPossible_Moves() == None):
                         for possible_move in self.getPossible_Moves():
                             if mouse_pos[0] >= possible_move[0] and mouse_pos[1] >=possible_move[1]:
@@ -281,8 +273,6 @@ class Pieces:
                                                     
                                                     move = Board.getcurrentTile(old_pos[0], old_pos[1], tile_size) + Board.getcurrentTile(self.x, self.y, tile_size) 
 
-                                                    print(move)
-
                                                     self.touched = True
 
                                                     Pieces.draw(self, screen)
@@ -295,6 +285,9 @@ class Pieces:
 
                                                     takeback_button.active = False
 
+                                                    sound_take = mixer.Sound("./assets/sounds/piece-capture.mp3")
+                                                    sound_take.play()
+
                                                     
                                                 else:
                                                     ok = False 
@@ -303,6 +296,9 @@ class Pieces:
                                         
                                     if ok: 
 
+                                        sound_slide = mixer.Sound("./assets/sounds/piece-slide.mp3")
+                                        sound_slide.play()
+                                        
                                         self.animate(screen, self.x, self.y, possible_move[0], possible_move[1], 0.3, board = board)
                                     
                                         old_pos = (self.x, self.y)
@@ -320,8 +316,6 @@ class Pieces:
 
                                         if not ignore_me:
                                             Pieces.moves_done.append(move)
-
-                                        print(move)
 
                                         if 'King' in self.name:
                                             if old_pos[0] - self.x > tile_size or self.x - old_pos[0] > tile_size:
@@ -436,8 +430,7 @@ class Pieces:
         finite_moves = []
         if (Pieces.white_is_checked or Pieces.black_is_checked):
             if not ("King" in Pieces.checking_piece.name or "Pawn" in Pieces.checking_piece.name or "Knight" in Pieces.checking_piece.name):
-                
-                print(Pieces.checking_piece.name)
+
                 enemy_moves = Pieces.checking_piece.attacking_line()
                 for possible_move in possible_moves:
                     for enemy_move in enemy_moves:

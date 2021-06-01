@@ -22,6 +22,9 @@
 \usepackage[export]{adjustbox}
 \usepackage{tikz-uml}
 \usepackage{verbatim}
+\usepackage{lastpage}
+\usepackage{setspace}
+\usepackage{biblatex}
 
 \sidecaptionvpos{figure}{t}
 
@@ -48,16 +51,20 @@
 \fancyhf{}
 \lhead{Julian Sehbaoui}
 \chead{\glqq Schach.py\grqq{}}
-\rhead{Luisengymnasium Bergedorf}
-\rfoot{Seite \thepage}
+\rhead{Luisen-Gymnasium Bergedorf}
+\cfoot{\thepage\ von \pageref*{LastPage}}
 \renewcommand{\headrulewidth}{2pt}
+\renewcommand{\footrulewidth}{1pt}
 
 %setting document attributes for the titlepage%
-\title{Informatik Dokumentation "Schach.py"}
-\author{Julian Sehbaoui}
+\title{Informatik Dokumentation \glqq Schach.py\grqq}
+\author{Julian Sehbaoui S4 MINT}
 \date{\today}
 
 \parindent 0pt
+
+\bibliography{refs.bib}
+
 %begin the document
 \begin{document}
 
@@ -65,6 +72,10 @@
 \begin{titlepage}
         \maketitle
         \centering
+        \Large
+        Besondere Lernleistung: Fachbereich Informatik
+        \normalsize
+        \doublespacing
         \url{https://github.com/JSehbaoui/Chess_Python}\\
          \vspace{5pt} 
         \includegraphics[scale=0.35]{assets/luisengymnasium.png}\\
@@ -81,117 +92,115 @@
 %THE DOCUMENTATION:%
 \section{Vorwort}
 Dieses Projekt findet im Rahmen des Informatikunterrichts des Luisengymnasiums 	Bergedorf statt und wird als zusätzliche Lernleistung entsprechend gewertet.
-Ich bin Julian Y. Sehbaoui und habe ein Schachprogramm „from scratch“ in python3 geschrieben.
+Ich bin Julian Y. Sehbaoui und habe ein Schachprogramm „from scratch“ in Python 3 geschrieben.
 
 \section{Mein Ziel}
-Mein Ziel war es, ein vollfunktionales Schachspiel ausschließlich in Python
+Mein Ziel war es, ein vollfunktionales Schachspiel ausschließlich in Python 3
 zu erschaffen, welches alle klassischen Regeln von Schach beinhaltet. 
 Hierbei wollte ich auf jegliche äußerliche Hilfe, wie zum Beispiel API's oder schon
 existierende Algorhytmen, verzichten, mit Ausnahme eines Schachcomputers, gegen den man spielen kann. 
-Außerdem soll man zwischen PvP (Player versus Player) und PvE (Player versus Enviroment) wählen können,
+Außerdem soll man zwischen PvP\footnote{Player versus Player} und PvE\footnote{Player versus Enviroment} wählen können,
 um das Endprodukt entweder mit Freunden oder auch alleine benutzen zu können.
 
 \section{Ideenfindung}
-Ich persönlich habe mich schon seit dem ich klein bin für Schach interessiert.
+Ich persönlich habe mich schon seit dem ich klein war für Schach interessiert.
 Es ist ein Spiel mit relativ simplen Regeln, welches aber durch seine zahlreichen Zugmöglichkeiten schnell sehr komplex werden kann.
 Als ich mich nach einem neuen Projekt umgesehen habe, kam mir direkt Schach in den Sinn, weil es an strikte Regeln gebunden ist und
-ich zu dem Zeitpunkt dachte, dass es wenige Sonderregeln existieren.
+ich zu dem Zeitpunkt dachte, dass wenige Sonderregeln existieren.
 Außerdem wollte ich mich immer weiter vom Terminal entfernen und mehr mit
-GUI's (Graphical User Interfaces) arbeiten. Ein weiterer Grund für meine Entscheidung war,
+GUI's\footnote{Graphical User Interfaces} arbeiten. Ein weiterer Grund für meine Entscheidung war,
 dass mir Schach als Herausforderung in den Sinn kam, um meine aktuellen Fertigkeiten
 unter Beweiß zu stellen und mich selbst zu fordern.
 
 Außerdem wollte ich eine Offline Schachversion für meinen Laptop haben
-damit ich nicht immer zu einer Webbasierten Version zurückgreifen muss. Da mir aber die
-Alternativen nicht gefielen habe ich mich an meine eigene Version gemacht. Sie sollte
+damit ich nicht immer zu einer webbsierten Version zurückgreifen muss. Da mir aber die
+Alternativen nicht gefielen, habe ich mich an meine eigene Version gemacht. Sie sollte
 alles können, was die Onlinespiele können, also die Basisregeln beachten und eine benutzerfreundliche
 Oberfläche bieten. 
 
 \section{Warum Schach?}
 Warum schreibe ich mein eigenes Schachprogramm, wenn es diese zuhauf online gibt und die meisten Versionen kostenlos sind?
 Zu nächst wollte ich mich wie bereits erwähnt mit einem neues Projekt fordern und vorallem mich mit GUI's vertraut machen.
-Zum anderen gibt es Features, die ich gerne bei der \glqq Konkurenz\grqq gesehen hätte, zum Beispiel den Testmodus (später erläutert).
+Zum anderen gibt es Features, die ich gerne bei der \glqq Konkurenz\grqq{} gesehen hätte, zum Beispiel den Testmodus (später erläutert).
 
 \section{Die Regeln im Schach}
-Die Regeln des Schachspiels finden sich unter \begin{verbatim}"\dokumentation\rules.pdf" \end{verbatim}
+Die Regeln des modernen Schachspiels sind dokumtentiert und online abrufbar\cite{schachregeln}.
 
 \section{Benutze Pakete}
 Im Folgenden finden sich die verwendeten Pakete sowie deren Vorteile, welche mich zu der Entscheidung geführt haben.
 
 \subsection{pygame}
-„pygame“ ist eine Ansammlung von Python-Modulen, welche auf das programmieren von Videospielen ausgelegt sind. Es ist auf sämtlichen OS verfügbar und hat schon mehrere Millionen Benutzer.
+\glqq pygame\grqq{}~\cite{pygame} ist eine Ansammlung von Python 3-Modulen, welche auf das programmieren von Videospielen ausgelegt sind. Es ist auf sämtlichen OS verfügbar und hat schon mehrere Millionen Benutzer.
 
-\subsubsection{Warum pygame?}
-„pygame“ ist aufgrund der großen Community sehr gut dokumentiert.
-Außerdem bietet es eine wundervolle SDL-Bibliothek(Simple Direct Media).
-Ein weiterer Grund für die Verwendung von pygame war, dass ich schon ein
+\subsubsection*{Warum pygame?}
+\glqq pygame\grqq{} ist aufgrund der großen Community sehr gut dokumentiert.
+Außerdem basiert es auf SDL~\cite{SDL}, was eine gute Input-Abfrage ermöglicht.
+Ein weiterer Grund für die Verwendung von \glqq pygame\grqq{} war, dass ich schon ein
 wenig Erfahrung mit dem Modul sammeln konnte und daher für mich die erste
 oberflächliche Benutzung erleichtert wurde.
-Eine Alternative für mich war die \href{https://processing.org/}{Processing}.
-Processing ist ein \glqq Scetchbook \grqq , welches einem erlaubt,
+Eine Alternative für mich war die \href{https://processing.org/}{\color{blue}{\glqq Processing\grqq}}.
+\glqq Processing\grqq{} ist ein \glqq Sketchbook \grqq{} , welches einem erlaubt,
 auf einer graphischen Oberfläche zu programmieren. Es ist ein leichtverständliches
-Prinzip, da man hier mit der Syntax von entweder Java oder Python funktionell programmieren
+Prinzip, da man hier mit der Syntax von entweder Java oder Python 3 funktionell programmieren
 kann. Außerdem, da Processing für graphische Arbeiten und kleine Spiele geschaffen wurde,
 lässt sich schnell und einfach die Mausposition und weitere Inputs abfragen und
 Figuren und Bilder auf der graphischen Oberfläche abbilden.
-Der Grund, warum ich mich dennoch für pygame entschieden habe, war, dass man in pygame
-objektorientiert arbeiten kann. Kurz gesagt verwendet man bei der objektorientierten Programierung
-Grundgerüste (sogenannte Klassen), mittels welchen sich Objekte mit durch die Klasse definierten Attributen
-erstellen lassen. Dieses Konzept ist hilfreich bei der Programmierung eines Schachspiels,
-da sich alle Figuren an den selben \glqq Bauplan\grqq  halten und über das Prinzip der Vererbung
+Der Grund, warum ich mich dennoch für \glqq pygame\grqq{} entschieden habe, war, dass man in \glqq pygame\grqq{}
+objektorientiert~\cite{OOP} arbeiten kann. Dieses Konzept ist hilfreich bei der Programmierung eines Schachspiels,
+da sich alle Figuren an den selben \glqq Bauplan\grqq{}  halten und über das Prinzip der Vererbung
 die figurtypischen Eigentschaften in dieses Grundgerüst implementieren lassen.
 
-\subsubsection{Was habe ich verwendet?}
-Von dem Paket \glqq pygame\grqq habe ich zunächst das \glqq Display\grqq benutzt, welches das Fenster erstellt habe. Außerdem habe ich
-die Funktion \glqq draw\grqq benutzt, um Formen, wie zum Beispiel die einzelnen Quadrate des Bretts, Bilder, wie zum Beispiel die der Figuren,
+\subsubsection*{Was habe ich verwendet?}
+Von dem Paket \glqq pygame\grqq{} habe ich die \glqq Display\grqq{}-Methode benutzt, welche das Fenster erstellt hat. Außerdem habe ich
+die Funktion \glqq draw\grqq{} benutzt, um Formen, wie zum Beispiel die einzelnen Quadrate des Bretts, Bilder, wie zum Beispiel die der Figuren,
 und Schriftzüge auf das Display zu bringen. Ebenfalls hilfreich war die Klasse \glqq Surface\grqq , mit der man einzelne kleine Bereiche abgrenzen konnte,
 um so mehr Struktur in das GUI zu bringen.  
 
 \subsection{pygame-widgets}
-\glqq pygame-widgets\grqq ist eine Art Erweiterung für pygame, welche Klassen für zum Beispiel Buttons und Schieberegler mitsich bringt.
+\glqq pygame-widgets\grqq{} ist eine Art Erweiterung für \glqq pygame\grqq , welche Klassen für zum Beispiel Buttons und Schieberegler mitsich bringt.
 
-\subsubsection{Warum pygame-widgets}
+\subsubsection*{Warum pygame-widgets}
 Die Erweiterung war sehr hilfreich, da ich somit einzelne Widgets nicht selber schreiben musste.
 
-\subsubsection{Was habe ich verwendet?}
-Von \glqq pygame-widgets\grqq habe ich nur den Schieberegler für die Anpassung der Computerschwierigkeit verwendet. Obwohl ich Buttons verwendet
-habe, programmierte ich diese selber, da ich so viel mehr Freiheit hatte, was Funktion und Design anging hatte. Für den Schieberegler hingegen
+\subsubsection*{Was habe ich verwendet?}
+Von \glqq pygame-widgets\grqq{} habe ich nur den Schieberegler für die Anpassung der Computerschwierigkeit verwendet. Obwohl ich Buttons verwendet
+habe, programmierte ich diese selber, da ich so viel mehr Freiheit hatte, was Funktion und Design anging. Für den Schieberegler hingegen
 war das Paket jedoch ausreichend, weswegen ich mir die Arbeit des Selberschreibens hier gespart habe.
 
 \subsection{Stockfish}
-Stockfish ist eine berühmte Schachengine, welche von vielen großen Schachanalysten und Schachwebsites benutzt wird.
+\glqq Stockfish\grqq~\cite{Stockfish} ist eine berühmte Schachengine, welche von vielen großen Schachanalysten und Schachwebsites, wie zum Beispiel \url{lichess.org} oder \url{chess.com}, benutzt wird.
 
-\subsubsection{Warum Stockfish?}
+\subsubsection*{Warum Stockfish?}
 Auf der Suche nach einer Schach-KI hatte ich gewisse ansprüche.
 \begin{enumerate}
-        \item Die KI braucht eine python-Unterstützung
+        \item Die KI braucht eine Python 3-Unterstützung
         \item Der Service soll nicht über eine API laufen, da ich das Spiel auch
         offline benutzen möchte
         \item Die KI muss Open-Source sein.
 \end{enumerate}
 Von meinen bisherigen Schacherfahrungen aus der Vergangenheit blieb mir
-der Name Stockfish im Kopf. Als ich recherchierte sah ich, dass die 
-Stockfish-Engine nicht nur Open-Source ist, sondern sogar in pip vorhanden war.
-Somit hatte Stockfish alle meine Anforderungen erfüllt und ich hatte keinen Grund mehr,
+der Name \glqq Stockfish\grqq{} im Kopf. Als ich recherchierte sah ich, dass die 
+\glqq Stockfish\grqq{}-Engine nicht nur Open-Source ist, sondern sogar in pip\footnote{\textbf{P}ackage \textbf{I}nstaller for \textbf{P}ython} vorhanden war.
+Somit hatte \glqq Stockfish\grqq{} alle meine Anforderungen erfüllt und ich hatte keinen Grund mehr,
 nach Alternativen zu suchen.
-Zudem ist Stockfish sehr populär unter den Schachspielern, weswegen ich mir eine
+Zudem ist \glqq Stockfish\grqq{} sehr populär unter den Schachspielern, weswegen ich mir eine
 gute Dokumentation erhoffte.\\
-Alternativen zu Stockfish wären noch Alpha Zero (Eine Schach-KI von Google)
-sowie viele kleine selbstgeschriebene Engines, jedoch überzeugte Stockfish auch mit
+Alternativen zu \glqq Stockfish\grqq{} wären noch Alpha Zero\footnote{Eine Schach-KI von Google}
+sowie viele kleine selbstgeschriebene Engines. Jedoch überzeugte \glqq Stockfish\grqq{} auch mit
 seiner hervorragenden Informationsübermittlung, da man zur Kommunikation zwischen
-meinem Skript und Stockfish nur das Format geringfügig ändern musste und schon funktionierte
+meinem Skript und \glqq Stockfish\grqq{} nur das Format geringfügig ändern musste und schon funktionierte
 die Engine einwandfrei.  
 
-%\subsubsection{Was habe ich verwendet?}
-%Von Stockfish habe ich die Klasse Stockfish verwendet. 
-%Von dieser wiederum habe ich die Methode get_best_move verwendet,
-%um einen legalen und taktisch Sinnvollen Zug für den Computer zu ermitteln. 
+\subsubsection*{Was habe ich verwendet?}
+Von Stockfish habe ich die Klasse \glqq Stockfish\grqq{} verwendet. 
+Von dieser wiederum habe ich die Methode \glqq get\_best\_move\grqq{} verwendet,
+um einen legalen und taktisch sinnvollen Zug für den Computer zu ermitteln. 
 
 
 \section{Installation}
 Mein Skript kann kostenlos von der Seite \href{https://github.com/Aetherion-dot/Chess_Python}{\color{blue}{github}} herutergeladen werden.
-Natürlich muss man, um das Python-Skript auszuführen, \href{https://www.python.org/downloads/}{\color{blue}{python3}} installiert haben.
-Hierbei ist jede Version von python3 möglich, jedoch arbeitete ich mit Python 3.8.X, weswegen ich diese Version empfehlen würde.
+Natürlich muss man, um das Python 3-Skript auszuführen, \href{https://www.python.org/downloads/}{\color{blue}{python3}} installiert haben.
+Hierbei ist jede Version von Python 3 möglich, jedoch arbeitete ich mit Python 3.8.X, weswegen ich diese Version empfehlen würde.
 Um dieses dann zu starten sind die Pakete „Stockfish“, „pygame“ und "pygame-widgets" über \href{https://pypi.org/project/pip/}{\color{blue}{pip}} herunterzuladen.
 Dies ist über die Konsole mit den Befehlen
 \begin{lstlisting}[language=bash]
@@ -206,20 +215,20 @@ Dies ist über die Konsole mit den Befehlen
 zu erreichen.
 \pagebreak
 \section{Bedienung des Programmes}
-%BILDER
+Im Folgenden erläutere ich die Bedienung des Programmes.
 \subsection{Wie spiele ich?}
-Um das Schachprogramm zu starten, muss man die \glqq init.py\grqq  Datei in python starten. Anschließend öffnet sich ein Fenster, in welchem man zwischen verschiedenen Spielmodi
+Um das Schachprogramm zu starten, muss man die \glqq start.py\grqq{}-Datei in Python 3 starten. Anschließend öffnet sich ein Fenster, in welchem man zwischen verschiedenen Spielmodi
 wählen kann.
 
 \begin{figure}[h]
         \centering
-        \includegraphics[scale=0.45]{assets/start_screen.PNG}
+        \includegraphics[width=0.4\textwidth]{assets/start_screen.PNG}
         \caption{Startbildschirm \textit{(Eigenaufnahme)}}
 \end{figure}
-Die beiden Modi, die hier zur Auswahl stehen, sind einmal die Standard-Schach-Variante und die Chess 960 Variante,
+Die beiden Modi, die hier zur Auswahl stehen, sind einmal die Standard-Schach-Variante und die Chess 960 Variante~\cite{chess960},
 bei der die Figuren in der hinteren Reihe zufällig angeordnet werden.
 Für jeden der beiden Modi lässt sich optional ein zweiter, virtueller Spieler hinzufügen, falls man keinen realen Gegner bei sich hat.
-Das kann durch das Klicken des grauen Feldes neben der Nachricht \glqq{}Play against AI \grqq erreicht werden.
+Das kann durch das Klicken des grauen Feldes neben der Nachricht \glqq{}Play against AI\grqq{} erreicht werden.
 Nachdem man sich für einen Modus entschieden hat, lässt sich der Spielername, und je nach Option die Computerschwierigkeit oder der Name des zweiten Spielers, einstellen.
 \begin{figure}[!h]
         \centering
@@ -247,7 +256,7 @@ sich die ausgewählte Figur auf das gewünschte Feld.
 
 \subsection{Overlays}
 
-\subsubsection{Spielerinformationstabs}
+\subsubsection*{Spielerinformationstabs}
 Im oberen Bereich des Spielfelds befindet sich zum einen eine Uhr, welche die aktuelle Spielzeit anzeigt. Links und rechts danaben befinden sich die Spielerinformationen.
 
 \begin{figure}[h]
@@ -255,17 +264,19 @@ Im oberen Bereich des Spielfelds befindet sich zum einen eine Uhr, welche die ak
         \includegraphics[scale=0.7]{assets/infotabs.PNG}
         \caption{Informations-Tabs und Spielzeit}
 \end{figure}
-In diesen werden die geschlagenen Figuren sowie der Spielername angezeigt. Außerdem wird das Spielerinformationsfeld von dem Spieler hervorgehoben, welcher daran ist, den
+In diesen werden die geschlagenen Figuren sowie der Spielername angezeigt. Außerdem wird das Spielerinformationsfeld von dem Spieler hervorgehoben, welcher an der Reihe ist, den
 nächsten Zug zu machen.
 
-\subsubsection{Spielhistorie}
+\subsubsection*{Spielhistorie}
 
-In dem rechten Teil des Fensters befindet sich die Spielhistorie. Diese zeigt die bereits gezogenen Spielzüge an. 
+In dem rechten Teil des Fensters befindet sich die Spielhistorie.
+Diese zeigt die bereits gezogenen Spielzüge in der \glqq Ausführlichen Notation\grqq{} an. 
 
-\subsubsection{Buttons}
-In der rechten, oberen Ecke finden sich insgesammt drei Buttons mit folgenden Funktionen:
+\subsubsection*{Buttons}
+In der rechten, oberen Ecke finden sich insgesammt vier Buttons mit folgenden Funktionen:
 \begin{wrapfigure}{r}{0.5\textwidth}
         \centering
+        \vspace{48mm}
         \includegraphics{assets/Buttons.PNG}
         \caption{Bedienungs-Knöpfe}
 \end{wrapfigure}
@@ -289,8 +300,8 @@ In der rechten, oberen Ecke finden sich insgesammt drei Buttons mit folgenden Fu
         \begin{itemize}
                 \item Bei erstmaligem Drücken betritt man einen Testmodus, indem es einem möglich
                 einem möglich ist, Züge auszutesten.
-                \item Bei erneutem Drücken werden alle Züge zurückgestellt und man beginnt dort
-                wo man aufgehört hat.
+                \item alle Züge revidiert und die Figuren
+                auf ihre Ausgangsposition zu beginn des Testens zurückgestellt 
         \end{itemize}
 \end{itemize}
 
@@ -369,24 +380,6 @@ In dem folgenden Kapitel werde ich das Konzept meines Codes erläutern und die E
 
 \end{umlpackage}
 
-%\begin[x=5,y=0]{umlpackage}{Tools}
-%\umlclass{Button}
-%{command : funktion}
-%{draw() : void \\
-%processEvent(event : pygame.Event) : void}
-%
-%\umlclass[x=0, y=-3]{Entry\_Box}
-%{}
-%{draw() : void \\
-%export() : any}
-%        
-%\end{umlpackage}
-
-%\umlclass[x=5, y=-10]{Board}
-%{tile\_size : int}
-%{drawBoard() : void}
-
-%\end{umlpackage}
 \end{tikzpicture}
 }
 \caption{UML-Diagram der Figurenklassen}
@@ -397,7 +390,7 @@ Klassen zu visualisieren. Zu erkennen ist eine Parentclass \glqq{}Pieces\grqq ,
 welche alle Methoden enthällt, die für eine beliebige Schachfigur von nöten sind.
 Von dieser Klasse erben insgesammt sieben andere Klassen. Jede Klasse hat ihre eigene
 Methode, um die möglichen Züge zu berechnen. Getrennt sind hierbei die Bauern, in
-BlackPawn und WhitePawn. Das ist nötig, da sich die Bauern der verschiedenen Teams als
+\glqq BlackPawn\grqq{} und \glqq WhitePawn\grqq{}. Das ist nötig, da sich die Bauern der verschiedenen Teams als
 einzige Figur nicht exakt so wegbewegt, wie die des gegnerischen Teams. So bewegt sich
 der weiße Bauer aufsteigend der Reihen, wohingegen sich der schwarze Bauer absteigend der
 Reihen bewegt. 
@@ -407,7 +400,7 @@ Während des Programierens bin ich auf viele Probleme gestoßen, die mich an mei
 Das wohl größte Problem war, dass viele Regeln Voraussetzungen mit sich bringen, die man beim normalen Spielen gar nicht aktiv bedenkt, welche aber
 beim Implementieren eine Hürde darstellten.
 
-\subsection{Das Verrücken des Spielbretts}
+\subsubsection*{Das Verrücken des Spielbretts}
 Als ich grob mit dem Aufbau meines Schachprogramms
 fertig war, also die Figuren, welche sich noch ohne
 Einschränkungen bewegen konnten, auf einem richtig koloriertem
@@ -427,7 +420,7 @@ der Bewegungsfreiheit der Figuren, sowie das Hinzufügen eines
 Anker-Punktes an der oberen-rechten Ecke des Spielbretts beheben. 
 
 
-\subsubsection{Der König, das Problemkind}
+\subsubsection*{Der König, das Problemkind}
 Das wohl größte Problem war der König. Dieser muss nämlich, abhängig von der Stellung des Bretts,
 in seinen Bewegungen eingeschränkt werden. Die Lösung der Felderbegrenzung konnte durch einen simplen Filter gelöst werden. Das erste, große Problem kam nun aber mit dem
 Blocken eines Schachs. Wenn eine Figur zwischen König und der angreifenden Figur steht, dann ist das Schach aufgelöst. Nur was bedeutet nun \glqq{}dazwischen \grqq?
@@ -438,15 +431,15 @@ Der König konnte sich selbst blockieren bzw. das Schach im nächsten Zug verhin
 \includegraphics[scale=0.6]{assets/Bug_king_blocking.png}
 \caption{Bug, König verhindert Schach}
 \end{figure}\\
-Um dieses Problem zu lösen, hatte ich zunächst die Idee, den König zu einer \glqq{}transparenten
+Um dieses Problem zu lösen, hatte ich erst die Idee, den König zu einer \glqq{}transparenten
 Figur\grqq{} zu machen, sodass der Angriffszug auch durch diesen hindurch geht. 
 Als ich jedoch dabei war die dieses Problem zu lösen, taten sich viele weitere Bugs auf, wie zum Beispiel, dass man die 
 Figur, die vor dem König steht und das Schach verhindert wegbewegt werden darf, obwohl das kein legaler Zug ist.
 Aufgrunddessen suchte ich nach einer Lösung, welche alle nicht-legalen Züge verhindern würde.
 
-\subsubsection{Foresight}
+\subsubsection*{Foresight}
 Wenn man es schaffen könnte, nach dem nächsten Zug in die Zukunft zu sehen und erkennen könnte, ob
-der Zug als Konequenz hat, dass der König im Schach steht, könnte man diesen Zug verbieten. 
+der Zug als Konsequenz hat, dass der König im Schach steht, könnte man diesen Zug verbieten. 
 Genau das war der Gedanke hinter dieser Lösung. Ich lasse, bevor ich die möglichen Züge
 einer Figur exportiere, die Liste durch einen Filter laufen, der oben Erwähntes prüft.
 Der Filter sieht folgendermaßen aus:
@@ -480,9 +473,9 @@ Nachdem ich diesem Filter für jede Figur angewendet hatte, gab es keinerlei Pro
 illegalen Zügen. 
 
 \pagebreak
-\subsubsection{Stockfish}
-Zunächst glaubte ich noch an die Einfachheit der Implementierung von Stockfish in
-python, aber diese Vermutung erwies sich als falsch. Zunächst habe ich Stockfish wie in
+\subsubsection*{Stockfish}
+Vorerst glaubte ich noch an die Einfachheit der Implementierung von Stockfish in
+Python 3, aber diese Vermutung erwies sich als falsch. Zunächst habe ich Stockfish wie in
 der Dokumentation beschrieben installiert und importiert. Als ich dann ein Objekt der
 Klasse \glqq Stockfish\grqq{} erstellen wollte, bekam ich folgende Fehlermeldung:
 \begin{lstlisting}
@@ -504,7 +497,13 @@ Als ich nach Lösungen gesucht hatte, war ich in einem Forum auf User gestoßen,
 die das gleiche Problem hatten. Glücklicherweise gab es die Möglichkeit, eine extrene Konsole in Form einer .exe Datei
 herunterzuladen und den Bot von dort aus zu starten. \\
 Obwohl mit die Lösung nicht als sehr elegant erschien, wollte ich keine Änderungen vornehmen, da das Programm für jeden
-auszuführen sein soll. Deshalb wollte ich nichts bei mir lokal bei dem Paket \glqq Stockfish\grqq{} ändern. 
+ausführbar sein sollte. Deshalb wollte ich nichts bei mir lokal in dem Paket \glqq Stockfish\grqq{} ändern. 
+
+\subsubsection*{Rochade}
+Die Rochade~\cite{schachregeln} stellte sich anfangs als großes Problem heraus, da viele Bedingungen erfüllt sein müssen, um eine Rochade durchzuführen.
+Meine Lösung für das Problem war, dass ich für jede Bedingung welche erfüllt sein muss einen Boolean\footnote{Zustandsvariable} erstellte, welchen ich vorerst auf \glqq True\grqq{}
+setze. Danach ließ ich ein Skript jede Bedingung überprüfen und den Boolean auf \glqq False\grqq{} ändern, wenn die Bedingung nicht erfüllt war.
+Ob eine Rochade dann möglich war, entschied ein entgültiger Boolean, welcher eine Konjunktion aller \glqq Bedingungs-Boolean\grqq{} war.
 
 \section{Danke an\dots{}}
 Ich möchte zunächst dem  Kollegium des Luisengymnasium, insbesondere Frau
@@ -513,7 +512,7 @@ Ein besonderer Dank geht an zwei Mitschüler, Gero Beckmann und Vincent Piegsa, 
 bei Fragen immer die Möglichkeit hatte, mich an sie zu wenden.\\
 Außerdem möchte ich den Usern der Medien Youtube, Reddit, Stackoverflow und GitHub bedanken,
 da ich mir auch dort Hilfe holen konnte. 
-\pagebreak
+
 \section{Schlusswort und Fazit}
 Dieses Projekt war sehr anspruchsvoll, da ich das Schachprogramm \glqq from Scratch\grqq{}
 gestartet und auf jegliche Hilfen von API's verzichtet habe. Dennoch war dieses Projekt
@@ -522,22 +521,27 @@ trotz vieler Hürden, meinen Spaß daran hatte. \\
 Ich bin mit dem Endresultat sehr zufrieden, obwohl mir es bis Dato (\date{}) 
 nicht gelungen ist, die Regel \glqq en passant\grqq{} zu implementieren.
 Somit habe ich mein Ziel, welches ich mir am Anfang gesetzt hatte, nicht
-erreicht, dennoch bin ich stolz auf das Produkt, da ich viele Hürden überwinden musste um
-dieses Programm zu schreiben und es nun einwandfrei zu benutzen ist. 
+erreicht, dennoch bin ich stolz auf das Produkt, da ich viele Hürden überwinden musste, um
+dieses Programm zu schreiben und es nun funktioniert. 
 
 \subsection{Was habe ich gelernt?}
 Zum einen war dies eines meiner ersten, großen Projekte, welches
-ich alleine bewältigen musste.\\
-Zum anderen habe ich gelernt mit Git umzugehen, zu debuggen,
-meinen Code zu organisieren und zu strukturieren, mit GUI's zu arbeiten,
+ich alleine bewältigen musste. Dadurch erlernte ich nicht nur ein gutes Zeitmanagement, sondern auch
+Sorgfalt und Stuktur im Code zu haben und eine organisierte Ordnerstruktur zu pflegen.\\
+Zum anderen habe ich gelernt mit Git\footnote{https://git-scm.com} umzugehen, zu debuggen, mit GUI's zu arbeiten,
 und vieles mehr.
 
-
 \subsection{Zukünftige Aussichten}
-Wie bereits zuvor erwähnt habe ich vor, die mir fehlende Regel einzubauen. Ebenfalls hatte ich vor,
+Wie bereits zuvor erwähnt, habe ich vor, die fehlende Regel einzubauen. Ebenfalls habe ich vor,
 den Code nocheinmal aufzuräumen und zu kommentieren, um ihn für Interessierte nachvollziebarer
 zu gestallten. 
-Eine weitere Idee von mir war, dass ich eventuell das Programm auf meine eigene Website
-hochlade und somit ein Onlinespiel anbieten zu können.
+
+\pagebreak
+\section{Quellen}
+Nicolas Kielbasiewicz, UMA/POems, ENSTA - ParisTech, TikZ- UML - Package
+
+\href{https://perso.ensta-paris.fr/~kielbasi/tikzuml/}{perso.ensta-paris.fr}
+
+\printbibliography
 
 \end{document}

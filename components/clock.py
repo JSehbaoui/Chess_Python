@@ -18,22 +18,3 @@ class Clock:
     def refreshTime(self):
         self.time_now = datetime.datetime.now()
         self.count = self.time_now - self.starting_time
-
-
-# clock = Clock(time = 5)
-
-# time.sleep(4)
-
-# clock.refreshTime()
-
-# print(clock.getTime())
-
-# past = datetime.datetime.now()
-
-# # time.sleep(1)
-
-# now = datetime.datetime.now()
-
-# print(past-now)
-
-
