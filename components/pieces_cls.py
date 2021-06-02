@@ -165,6 +165,13 @@ class Pieces:
                     taken = 'x'
                     takeback_button.active = False
 
+            if taken == 'x':
+                sound_take = mixer.Sound("./assets/sounds/piece-capture.mp3")
+                sound_take.play()
+            else:
+                sound_draw = mixer.Sound("./assets/sounds/piece-slide.mp3")
+                sound_draw.play()
+
             if 'King' in self.name:
                 if old_pos[0] - self.x > tile_size or self.x - old_pos[0] > tile_size:
                     if self.touched == False:
