@@ -135,9 +135,21 @@ class Pieces:
                 break
         for piece in Pieces.all_pieces_list:
             if piece.x == move_start[0] and piece.y == move_start[1]:
+                if "King" in piece.name:
+                    if move_start[0] - move_end[0] > tile_size or move_end[0] - move_start[0] > tile_size:
+                    
+                        if move_end[0] > 4*tile_size:
+                            for rook in Pieces.all_pieces_list:
+                                if rook.farbe == piece.farbe and 'R-Rook' in rook.name:
+                                    rook.x = rook.x-2*tile_size
+
+                                    
+                        else:
+                            for rook in Pieces.all_pieces_list:
+                                if rook.farbe == piece.farbe and 'L-Rook' in rook.name:
+                                    rook.x = rook.x+3*tile_size
                 piece.x = move_end[0]
                 piece.y = move_end[1]
-                break
         
         
     def move_from_pos(self, move, board, screen, takeback_button, ignore_me = False):
@@ -726,6 +738,10 @@ class Pieces:
         return fen_output
         # for line in board_arr:
         #     print(line)
+
+    @classmethod
+    def crop_move_done(cls):
+        cls.moves_done = cls.moves_done[:cls.round_safe]
 
 
 if __name__ == "__main__":

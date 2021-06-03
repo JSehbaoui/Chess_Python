@@ -14,14 +14,13 @@ def getTurn(round_int):
     else:
         return 'Black'
 
-def decideWhoLost(round_int, board, screen):
+def decideWhoLost(round_int):
 
-    Board.resign = True
 
     if round_int % 2 == 0:
-        board.end_screen(winner = 'BLACK', screen_ = screen)
+        Board.resign_w = True
     else:
-        board.end_screen(winner = 'WHITE', screen_ = screen)
+        Board.resign_b = True
 
 
         

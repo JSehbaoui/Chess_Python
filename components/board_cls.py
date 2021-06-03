@@ -4,7 +4,8 @@ class Board:
 
     game_draws = []
     game_over = False
-    resign = False
+    resign_w = False
+    resign_b = False
     test_mode = False
 
     def __init__(self, master, width, height, tile_size, color_a, color_b, color_t1, color_t2, anchor_point, border_color = (152, 186, 0)):

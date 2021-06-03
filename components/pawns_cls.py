@@ -106,8 +106,7 @@ class WhitePawns(Pieces):
 
     def promotion(self):
         Pieces.all_pieces_list.remove(self)
-        Queens(master = self.master, name = self.name + 'Promoted to Queen', tile_x = self.x/tile_size, tile_y = self.y/tile_size, farbe = 'weiss', image = pygame.transform.scale(pygame.image.load(r'assets/white_queen.png'), (tile_size, tile_size)), value = 9)
-        
+        Queens(master = self.master, name = f'##Queen-Promoted from {self.name}', tile_x = self.x/tile_size, tile_y = self.y/tile_size, farbe = 'weiss', image = pygame.transform.scale(pygame.image.load(r'assets/white_queen.png'), (tile_size, tile_size)), value = 9)         
         
         
 

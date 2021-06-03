@@ -34,6 +34,9 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
 
     #initiating pygame#
     pygame.init()
+
+    player1 = "Spieler 1" if player1 == "" else player1
+    player2 = "Spieler 2" if player2 == "" else player2
     
     #Constants#
     BLACK = (0,0,0)
@@ -130,7 +133,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                              color_b=BLACK,
                              color_in = GREY,
                              color_t=WHITE,
-                             command = lambda:[decideWhoLost(round_int, board, s)],
+                             command = lambda:[decideWhoLost(round_int)],
                              icon = resign_icon,
                              imaginary_x=anchor_point_hud[0],
                              imaginary_y=anchor_point_hud[1]
@@ -145,7 +148,8 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                                 color_in = GREY,
                                 color_t=WHITE,
                                 command1 = lambda:[Board.change_testmode(),
-                                                   Pieces.change_ignore_me_standard(),
+                                                   #Pieces.change_ignore_me_standard(),
+                                                   Pieces.crop_move_done(),
                                                    Pieces.kill_board(),
                                                    build_board(mode, s, images),
                                                    Pieces.build_from_list(screen=s),
@@ -153,7 +157,7 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                                                    ], 
 
                                 command2 = lambda:[Board.change_testmode(),
-                                                   Pieces.change_ignore_me_standard(),
+                                                   #Pieces.change_ignore_me_standard(),
                                                    Pieces.safe_round()
                                                    ],
                                 icon = test_icon,
@@ -206,13 +210,16 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
             Board.game_over = Pieces.detectGameOver(round_int=round_int)
 
         #end the game if the game is over#
-        if Board.game_over and not Board.resign:
-            if Pieces.white_is_checked:
+        if Board.game_over or Board.resign_w or Board.resign_b:
+            if Pieces.white_is_checked or Board.resign_w:
                 board.end_screen('BLACK', s)
-            elif Pieces.black_is_checked:
+            elif Pieces.black_is_checked or Board.resign_b:
                 board.end_screen('WHITE', s)
             else:
                 board.end_screen('STALEMATE', s)
+            takeback_button.active = False
+            resign_button.active = False
+            test_zone_button.active = False
 
         #checking if a pawn is promotable#
         for pawn in Pieces.all_pieces_list:
@@ -374,7 +381,8 @@ def main(player1 = "Player 1", player2 = "Player 2", mode = "STANDARD", bot_bool
                     
                     #(TEMP) my information key (arrow down) to get certain information#
                     if event.key == pygame.K_DOWN:
-                        Pieces.give_FEN()
+                        print(Pieces.give_FEN())
+                        #print([x.name for x in Pieces.all_pieces_list])
                         # for king in Pieces.all_pieces_list:
                         #     if "King-W" in king.name:
                         #         print(list(king.is_castle_legal()))
